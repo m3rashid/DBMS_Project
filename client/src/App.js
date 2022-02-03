@@ -1,10 +1,7 @@
-
-const  App() {
-  return (
-    <div className="App">
-      Hello World
-    </div>
-  );
+function App() {
+  return <div className="App">Hello World</div>;
 }
+
+// Use the reactstrap pre-built components
 
 export default App;
