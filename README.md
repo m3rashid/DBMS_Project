@@ -1,9 +1,12 @@
-## Database Management systems Project
-### Social Media App
+<h2 align="center">Database Management systems Project</h2>
+<h3 align="center">Social Media App</h3>
 
 <br>
 
-### This project is made from the collective efforts of 
+### This project is made from the collective efforts of
+
+Students of FET-JMI, Batch 2020-24
+
 - 20BCS033 MD Rashid Hussain &nbsp; [m3rashid](https://github.com/m3rashid/)
 - 20BCS009 Anzal Husain Abidi &nbsp; [anzal1](https://github.com/anzal1/)
 - 20BCS059 Ijlal Ahmad &nbsp; [IjlalAhmad845](https://github.com/IjlalAhmad845)
