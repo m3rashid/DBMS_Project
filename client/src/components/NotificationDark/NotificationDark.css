@@ -1,0 +1,64 @@
+.notificationdark {
+  width: 100%;
+  background: #000000;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.2rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.notificationdark .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notificationdark .header .user {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.notificationdark .header .user img {
+  width: 4.2rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.notificationdark .header .user .userinfo {
+  cursor: pointer;
+}
+
+.notificationdark .header .user .userinfo h3 {
+  color: #ffffff;
+}
+
+.notificationdark .header .user .userinfo small {
+  color: gray;
+}
+
+.notificationdark .header .edit p {
+  display: inline-block;
+  padding: 0.6rem 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2rem;
+  transition: all 300ms ease;
+  font-size: 0.9rem;
+  color: #ffffff;
+  background: #6f53f3;
+}
+
+.notificationdark .header .edit p:hover {
+  opacity: 0.8;
+}
+
+.notificationdark .notificationtitle {
+  padding: 0.8rem;
+}
+
+.notificationdark .notificationtitle p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #737373;
+}

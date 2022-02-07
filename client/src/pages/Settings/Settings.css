@@ -1,0 +1,23 @@
+body {
+  background: #dae0e6;
+}
+
+main {
+  position: relative;
+  top: 5.4rem;
+}
+
+main .container {
+  display: grid;
+  grid-template-columns: 18vw auto 20vw;
+  column-gap: 2rem;
+  position: relative;
+}
+
+@media screen and (max-width: 992px) {
+  main .container {
+    grid-template-columns: 69vw 0 0;
+    gap: 0;
+    margin: 1rem;
+  }
+}

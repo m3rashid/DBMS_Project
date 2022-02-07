@@ -1,0 +1,60 @@
+.notification {
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.2rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.notification .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification .header .user {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.notification .header .user img {
+  width: 4.2rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.notification .header .user .userinfo {
+  cursor: pointer;
+}
+
+.notification .header .user .userinfo small {
+  color: gray;
+}
+
+.notification .header .edit p {
+  display: inline-block;
+  padding: 0.6rem 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2rem;
+  transition: all 300ms ease;
+  font-size: 0.9rem;
+  color: #ffffff;
+  background: #6f53f3;
+}
+
+.notification .header .edit p:hover {
+  opacity: 0.8;
+}
+
+.notification .notificationtitle {
+  padding: 0.8rem;
+}
+
+.notification .notificationtitle p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #737373;
+}

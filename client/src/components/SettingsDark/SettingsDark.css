@@ -1,0 +1,111 @@
+.settingsboidark {
+  width: 100%;
+  background: #000000;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.2rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.settingsboidark .abouttop {
+  width: 100%;
+  border-bottom: 0.12rem solid #737373;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.settingsboidark .abouttop .abouttext {
+  color: #51546e;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+
+.settingsboidark .abouttop .editboi {
+  display: flex;
+  color: #5aa5b9 !important;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+}
+
+.settingsboidark .abouttop .editboi:hover {
+  text-decoration: underline;
+}
+
+.settingsboidark .skillstop {
+  width: 100%;
+  border-bottom: 0.12rem solid #737373;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.settingsboidark .skillstop .skilltext {
+  color: #51546e;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+
+.settingsboidark .skillstop .editboi {
+  display: flex;
+  color: #5aa5b9 !important;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+}
+
+.settingsboidark .skillstop .editboi:hover {
+  text-decoration: underline;
+}
+
+.settingsboidark .darkthemestuff {
+  margin-top: 2rem;
+}
+
+.settingsboidark .darkthemestuff .top p {
+  color: #51546e;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+
+.settingsboidark .darkthemestuff .top {
+  border-bottom: 0.12rem solid #737373;
+  margin-bottom: 2rem;
+}
+
+.settingsboidark .dangerzone {
+  margin-top: 2rem;
+}
+
+.settingsboidark .dangerzone .top p {
+  color: #51546e;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+
+.settingsboidark .dangerzone .top {
+  border-bottom: 0.12rem solid #737373;
+}
+
+.settingsboidark .dangerzone .deletebutton {
+  display: inline-block;
+  padding: 0.6rem 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2rem;
+  transition: all 300ms ease;
+  font-size: 0.9rem;
+  color: #ffffff;
+  background: #fc4b0b;
+  margin-top: 1rem;
+}
+
+.settingsboidark .dangerzone .deletebutton:hover {
+  opacity: 0.8;
+}

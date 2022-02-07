@@ -1,0 +1,143 @@
+.topicsfollowdark {
+  background: #000000;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+}
+
+.topicsfollowdark .upper {
+  border-bottom: 0.1rem solid #737373;
+  width: 100%;
+}
+
+.topicsfollowdark .upper h2 {
+  color: #ffffff;
+  font-size: 1.4rem;
+}
+
+.topicsfollowdark .upper h3 {
+  color: #5aa5b9;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.topicsfollowdark .upper h3:hover {
+  text-decoration: underline;
+}
+
+.topicsfollowdark .tags-wrapper {
+  display: flex;
+  grid-gap: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.topicsfollowdark .tags-wrapper .tag {
+  cursor: pointer;
+  display: inline-block;
+  background-color: #3f4156;
+  height: fit-content;
+  width: fit-content;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.4rem;
+  color: #ffffff;
+}
+
+@media screen and (max-width: 992px) {
+  .topicsfollowdark {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .whotofollowdark {
+    display: none;
+  }
+}
+
+.leftsidebarfollowdark {
+  width: 100%;
+  position: sticky;
+  top: 5.4rem;
+  height: max-content;
+}
+
+.whotofollowdark {
+  background: #000000;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+}
+
+.whotofollowdark .upper h2 {
+  color: #737373;
+  font-size: 1.4rem;
+}
+
+.whotofollowdark .upper {
+  width: 100%;
+  border-bottom: 0.1rem solid #737373;
+}
+
+.whotofollowdark .upper h3 {
+  color: #5aa5b9;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.whotofollowdark .upper h3:hover {
+  text-decoration: underline;
+}
+
+/* .whotofollowdark .body { */
+/* padding: 2rem 2.5rem; */
+/* } */
+
+.whotofollowdark .body .LAMEOWs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.9rem;
+}
+
+.whotofollowdark .body .LAMEOWs .LAMEOWinfo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-top: 0.6rem;
+}
+.whotofollowdark .body .LAMEOWs .LAMEOWinfo img {
+  width: 3.6rem;
+  height: 2.8rem;
+  border-radius: 50%;
+}
+
+.whotofollowdark .body .LAMEOWs .LAMEOWinfo p {
+  margin-left: 0.3rem;
+  color: rgb(255, 255, 255);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.whotofollowdark .body .LAMEOWs .follow {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2rem;
+  transition: all 300ms ease;
+  font-size: 0.9rem;
+  color: #ffffff;
+  background: #6f53f3;
+  margin-top: 0.4rem;
+  margin-left: 1rem;
+}
+
+.whotofollowdark .body .LAMEOWs .follow:hover {
+  opacity: 0.8;
+}
