@@ -1,7 +1,7 @@
 .topicsfollowdark {
   background: #000000;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   padding: 1rem 2rem;
 }
 
@@ -68,7 +68,7 @@
 .whotofollowdark {
   background: #000000;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   padding: 1rem 2rem;
   margin-bottom: 1rem;
 }
