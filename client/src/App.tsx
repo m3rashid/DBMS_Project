@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import loginpage from "./components/LoginForm/loginform";
 import Loader from "./pages/Loader/Loader";
-import Loginpage from "./pages/Login/loginform";
+// import Loginpage from "./pages/Login/loginform";
 
 const App: React.FC = () => {
   const Home = lazy(() => import("./pages/Home/Home"));
@@ -22,8 +22,8 @@ const App: React.FC = () => {
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/bookmarks" element={<BookMarks />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path ="/login" element={<Loginpage />} />
-          <Route path ="/signup" element={<Loginpage />} />
+          {/* <Route path ="/login" element={<Loginpage />} /> */}
+          {/* <Route path ="/signup" element={<Loginpage />} /> */}
 
         </Routes>
       </Suspense>
