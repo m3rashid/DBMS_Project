@@ -22,7 +22,7 @@ const Notifications = () => {
     }
   }, []);
   useEffect(() => {
-    document.title = "Jmi-Nuts - Notifications";
+    document.title = "JMI Connect - Notifications";
   }, []);
   useEffect(() => {
     document.body.style.backgroundColor =

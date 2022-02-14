@@ -5,7 +5,7 @@ const NavbarDark: React.FC = () => {
   return (
     <nav className="navbarboidark">
       <div className="containerdark">
-        <h2 className="logodark">Jmi-Nuts</h2>
+        <h2 className="logodark">JMI Connect</h2>
         <div className="searchbar">
           <i className="uil uil-search"></i>
           <input type="text" placeholder="Search shit ..." />

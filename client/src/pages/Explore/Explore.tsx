@@ -22,7 +22,7 @@ const Explore = () => {
     }
   }, []);
   useEffect(() => {
-    document.title = "Jmi-Nuts - Explore";
+    document.title = "JMI Connect - Explore";
   }, []);
   useEffect(() => {
     document.body.style.backgroundColor =

@@ -5,7 +5,7 @@ const Navbar: React.FC = () => {
   return (
     <nav>
       <div className="container">
-        <h2 className="logo">Jmi-Nuts</h2>
+        <h2 className="logo">JMI Connect</h2>
         <div className="searchbar">
           <i className="uil uil-search"></i>
           <input type="text" placeholder="Search shit ..." />

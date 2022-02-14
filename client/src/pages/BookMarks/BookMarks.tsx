@@ -22,7 +22,7 @@ const BookMarks = () => {
     }
   }, []);
   useEffect(() => {
-    document.title = "Jmi-Nuts - BookMarks";
+    document.title = "JMI Connect - BookMarks";
   }, []);
   useEffect(() => {
     document.body.style.backgroundColor =

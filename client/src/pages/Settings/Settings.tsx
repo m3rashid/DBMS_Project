@@ -22,7 +22,7 @@ const Settings = () => {
     }
   }, []);
   useEffect(() => {
-    document.title = "Jmi-Nuts - Settings";
+    document.title = "JMI Connect - Settings";
   }, []);
   useEffect(() => {
     document.body.style.backgroundColor =

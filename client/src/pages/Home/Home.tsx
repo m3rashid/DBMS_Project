@@ -21,7 +21,7 @@ const Home = () => {
     }
   }, []);
   useEffect(() => {
-    document.title = "Jmi-Nuts - Home";
+    document.title = "JMI Connect - Home";
   }, []);
   useEffect(() => {
     document.body.style.backgroundColor =

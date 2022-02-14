@@ -48,7 +48,7 @@ const BokkMarksMiddleStuff = () => {
         </div>
         <div className="caption">
           <span>
-            <b>LAMEOW</b> Suck my nuts :)
+            <b>LAMEOW</b> Hello People
           </span>
         </div>
         <p className="viewcomments">View all comments</p>
