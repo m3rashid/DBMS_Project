@@ -21,7 +21,7 @@ const Nav = () => {
   const iconLabelStyles = "block font-semibold";
 
   return (
-    <div>
+    <div className="sticky top-0 h-min">
       <div className="hidden md:flex flex-col rounded-md bg-[white] m-2 p-2 shadow-md">
         {/* profile */}
         <img className="rounded-md" src={user.img} alt="" />
@@ -31,7 +31,7 @@ const Nav = () => {
         </div>
       </div>
       <div className="">
-        <div className="hidden sticky m-2 md:flex flex-col bg-[white] rounded-md p-2 h-fit shadow-md">
+        <div className="hidden sticky m-2 md:flex flex-col bg-[white] rounded-md p-2 h-fit shadow-md mt-4">
           <Link to="/home">
             <div className={iconContainerStyles}>
               <FontAwesomeIcon icon={faHome} size="xl" className={iconStyles} />

@@ -39,11 +39,21 @@ const PostDetail = () => {
   const [commentOpen, setCommentOpen] = React.useState(false);
   const [commentText, setCommentText] = React.useState("");
 
-  const handleLike = () => {};
+  const handleLikeSubmit = () => {};
+  const handleCommentSubmit = () => {};
+
   const handleOpenComment = () => {
     setCommentOpen(!commentOpen);
   };
   const handleBookmark = () => {};
+
+  const inputCharLength = () => {
+    return commentText.length > 0;
+  };
+
+  const handleCommentChange = (e) => {
+    setCommentText(e.target.value);
+  };
 
   return (
     <>
@@ -60,7 +70,7 @@ const PostDetail = () => {
             <div className="flex gap-3">
               <div
                 className="flex gap-2 items-center justify-center hover:bg-gray-200 rounded-md p-2 cursor-pointer"
-                onClick={handleLike}
+                onClick={handleLikeSubmit}
               >
                 <FontAwesomeIcon
                   className={liked ? "text-red-500" : "text-gray-500"}
@@ -90,17 +100,22 @@ const PostDetail = () => {
           </div>
           {commentOpen ? (
             <div className="bg-gray-100 max-h-[500px] overflow-auto p-2 rounded-md">
-              <div className="flex flex-col gap-2 items-end">
+              <div className="flex flex-col gap-2 items-end mb-2">
                 <textarea
                   rows="3"
                   placeholder="Add a comment"
                   className="outline-none rounded-md py-2 px-3 w-full resize-none"
                   value={commentText}
-                  onChange={(e) => setCommentText(e.target.value)}
+                  onChange={handleCommentChange}
                 />
-                <button className="bg-green-300 rounded-full px-3 py-1 text-lg font-semibold max-w-[200px] mb-3">
-                  Add Comment
-                </button>
+                {inputCharLength() ? (
+                  <button
+                    className={`bg-green-300 rounded-full px-4 py-2 text-lg font-semibold max-w-[200px] mb-3 $`}
+                    onClick={handleCommentSubmit}
+                  >
+                    Add Comment
+                  </button>
+                ) : null}
               </div>
               <div className="flex flex-col gap-2">
                 {comments.map((comment, index) => (

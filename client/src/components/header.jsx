@@ -3,10 +3,17 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
+const data =
+  "This package provides a single React component The component contains an input field with a drop down menu to pick a possible option based on the current input as a React component Have a look at w3schools.com to see how you can do something similar with pure html, css, and js. For more information about React and the ecosystem see this guide".split(
+    " "
+  );
+
 const Header = () => {
   const searchRef = React.useRef();
-
   const [searchOpen, setSearchOpen] = React.useState(false);
+  const [suggestions, setSuggestions] = React.useState([""]);
+  const [searchValue, setSearchValue] = React.useState("");
+
   window.addEventListener("click", (e) => {
     if (searchRef.current) {
       if (searchOpen && !searchRef.current.contains(e.target)) {
@@ -14,6 +21,22 @@ const Header = () => {
       }
     }
   });
+
+  const handleSearch = (word) => {
+    const regex = new RegExp(word, "gi");
+    const foundSuggestions = data.filter((item) => item.match(regex));
+    if (searchValue.length === 0) {
+      setSuggestions([]);
+    } else {
+      setSuggestions(foundSuggestions);
+    }
+  };
+
+  // debounce the searches
+  const handleChange = (e) => {
+    setSearchValue(e.target.value);
+    handleSearch(searchValue);
+  };
 
   return (
     <>
@@ -37,18 +60,26 @@ const Header = () => {
               }`}
             >
               {searchOpen ? (
-                <>
+                <form className="w-full mx-4">
                   <input
                     type="text"
+                    value={searchValue}
                     placeholder="Search"
+                    onChange={handleChange}
                     className="w-full md:w-auto pl-4 py-2 rounded-3xl outline-0 text-lg"
                   />
-                  <div className="placeholder">{/* search suggestions */}</div>
-                </>
+                  <div className="relative w-full max-h-[300px] bg-white">
+                    <ul>
+                      {suggestions.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </form>
               ) : null}
               <FontAwesomeIcon
                 className={`rounded-full ${
-                  searchOpen ? "mr-2" : "p-2 hover:bg-gray-300"
+                  searchOpen ? "mr-4" : "p-2 hover:bg-gray-300"
                 }`}
                 icon={faSearch}
                 onClick={() => setSearchOpen(true)}
