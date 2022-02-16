@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faBookmark } from "@fortawesome/free-solid-svg-icons";
@@ -7,6 +8,8 @@ import { faHeart, faBookmark } from "@fortawesome/free-solid-svg-icons";
 import UserTitle from "./atoms/userTitle";
 
 const Card = () => {
+  const theme = useSelector((state) => state.ui.theme);
+
   const postId = "demouserpost";
   const likes = 12;
   const title =
@@ -19,29 +22,31 @@ const Card = () => {
 
   return (
     <>
-      <div className="flex flex-col  bg-[white] rounded-md w-full shadow-md">
+      <div
+        className={`flex flex-col  bg-${theme.l3} rounded-md w-full shadow-md`}
+      >
         <UserTitle time="Monday 11:00 IST" />
         <Link to={`/post/${postId}`}>
-          <div className="w-full bg-gray-100 p-4">{title}</div>
+          <div className={`w-full bg-${theme.l2} p-4`}>{title}</div>
         </Link>
         <div
           className="p-3 flex items-center justify-between cursor-pointer"
           onClick={handleLike}
         >
-          <div className="flex gap-3 hover:bg-gray-200 p-2 rounded-md">
+          <div className={`flex gap-3 hover:bg-${theme.l2} p-2 rounded-md`}>
             <FontAwesomeIcon
-              className={liked ? "text-red-500" : "text-gray-500"}
+              className={liked ? "text-red-500" : `text-${theme.l1}`}
               icon={faHeart}
               size="xl"
             />
             <p className="">{likes}</p>
           </div>
           <div
-            className="cursor-pointer hover:bg-gray-200 p-2 rounded-md"
+            className={`cursor-pointer hover:bg-gray-200 p-2 rounded-md`}
             onClick={handleBookmark}
           >
             <FontAwesomeIcon
-              className={bookmarked ? "text-black" : "text-gray-500"}
+              className={bookmarked ? "text-black" : `text-${theme.l1}`}
               icon={faBookmark}
               size="xl"
             />

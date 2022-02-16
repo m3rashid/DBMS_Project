@@ -1,4 +1,7 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { darkMode, lightMode } from "../store/actions/ui.action";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -38,17 +41,36 @@ const Header = () => {
     handleSearch(searchValue);
   };
 
+  const dispatch = useDispatch();
+  const theme = useSelector((state) => state.ui.theme);
+
+  const handleThemeChange = () => {
+    if (theme.name === "dark") {
+      dispatch(lightMode());
+    } else if (theme.name === "light") {
+      dispatch(darkMode());
+    }
+  };
+
   return (
     <>
-      <header className="bg-[white] flex justify-center py-3 shadow-md mb-4 w-full fixed z-10 top-0">
+      <header
+        className={`bg-${theme.l3} flex justify-center py-3 shadow-md mb-4 w-full fixed z-10 top-0`}
+      >
         <div className="flex items-center justify-between px-2 w-full max-w-[1500px] relative">
           <div className="flex justify-center items-center gap-2">
             <img
               className="h-12 w-12 rounded-full"
-              src={process.env.REACT_APP_IMG}
+              src="/images/logo.png"
               alt=""
             />
             <h1 className="font-bold text-2xl md:text-3xl">JMI Connect</h1>
+            <button
+              onClick={handleThemeChange}
+              className="bg-green-500 p-3 rounded-full"
+            >
+              Change theme
+            </button>
           </div>
           <div className="flex items-center justify-center gap-4">
             {/* on the basis of current logged in user */}

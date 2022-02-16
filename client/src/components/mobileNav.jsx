@@ -7,13 +7,17 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const MobileNav = () => {
-  const iconStyles = "text-gray-500 p-4";
+  const theme = useSelector((state) => state.ui.theme);
+  const iconStyles = `text-${theme.l1} p-4`;
 
   return (
     <>
-      <div className="fixed bottom-0 bg-[white] w-full flex items-center justify-around rounded-t-md md:hidden">
+      <div
+        className={`fixed bottom-0 bg-${theme.l3} w-full flex items-center justify-around rounded-t-md md:hidden`}
+      >
         <Link to="/home">
           <FontAwesomeIcon icon={faHome} size="xl" className={iconStyles} />
         </Link>
