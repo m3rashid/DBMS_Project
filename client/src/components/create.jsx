@@ -4,10 +4,7 @@ import { toast } from "react-toastify";
 import UserTitle from "./atoms/userTitle";
 
 const CreatePost = () => {
-  const [text, setText] = React.useState({
-    title: "",
-    body: "",
-  });
+  const [text, setText] = React.useState({ title: "", body: "" });
 
   const maxTitleLength = 50;
   const maxBodyLength = 1000;
@@ -34,21 +31,21 @@ const CreatePost = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full bg-green-200 dark:bg-gray-400 rounded-md">
+      <div className="flex flex-col w-full bg-gray-50 dark:bg-gray-900 rounded-md shadow-md">
         <UserTitle />
-        <div className="flex flex-col bg-green-100 dark:bg-gray-400 items-end gap-2 p-4 rounded-b-md">
+        <div className="flex flex-col bg-gray-200 dark:bg-gray-800 items-end gap-2 p-4 rounded-b-md">
           <textarea
             rows="2"
             value={text.title}
             name="title"
             placeholder="Share something interesting"
             onChange={handleChange}
-            className="p-2 rounded-md outline-none w-full resize-none bg-green-50 dark:bg-gray-300"
+            className="p-2 rounded-md outline-none w-full resize-none bg-gray-50 dark:bg-gray-700 dark:text-gray-200"
           />
           {text.title.length > maxTitleLength ? (
             <textarea
               style={{ whiteSpace: "pre-wrap" }}
-              className="p-2 rounded-lg w-full outline-none min-h-[150px] bg-green-50 dark:bg-gray-300"
+              className="p-2 rounded-lg w-full outline-none min-h-[150px] bg-gray-50 dark:bg-gray-700 dark:text-gray-200"
               value={text.body}
               name="body"
               onChange={handleChange}
@@ -58,7 +55,7 @@ const CreatePost = () => {
           <div className="flex gap-4">
             {text.title.length > 5 ? (
               <button
-                className="bg-green-300 rounded-full p-2 px-4 text-lg font-semibold max-w-[200px]"
+                className="bg-blue-500 text-gray-200 rounded-full p-2 px-4 text-lg font-semibold max-w-[200px]"
                 onClick={handleSubmit}
               >
                 Post

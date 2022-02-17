@@ -11,17 +11,17 @@ const Card = () => {
   const title =
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia";
   const liked = false;
-  const bookmarked = false;
+  const bookmarked = true;
 
   const handleLike = () => {};
   const handleBookmark = () => {};
 
   return (
     <>
-      <div className="flex flex-col  bg-green-300 dark:bg-gray-500 rounded-md w-full shadow-md">
+      <div className="flex flex-col  bg-gray-50 dark:bg-gray-900 rounded-md w-full shadow-md">
         <UserTitle time="Monday 11:00 IST" />
         <Link to={`/post/${postId}`}>
-          <div className="w-full bg-green-100 dark:bg-gray-500 p-4">
+          <div className="w-full bg-gray-200 dark:bg-gray-800 p-4 dark:text-gray-200">
             {title}
           </div>
         </Link>
@@ -29,23 +29,25 @@ const Card = () => {
           className="p-3 flex items-center justify-between cursor-pointer"
           onClick={handleLike}
         >
-          <div className="flex gap-3 hover:bg-green-400 dark:hover:bg-gray-200 p-2 rounded-md">
+          <div className="flex gap-3 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md">
             <FontAwesomeIcon
               className={
-                liked ? "text-red-500" : `text-green-100 dark:text-gray-900`
+                liked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
               }
               icon={faHeart}
               size="xl"
             />
-            <p className="">{likes}</p>
+            <p className="dark:text-gray-200">{likes}</p>
           </div>
           <div
-            className="cursor-pointer hover:bg-gray-200 p-2 rounded-md"
+            className="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
             onClick={handleBookmark}
           >
             <FontAwesomeIcon
               className={
-                bookmarked ? "text-black" : `text-green-100 dark:text-gray-900`
+                bookmarked
+                  ? "text-blue-500"
+                  : "text-gray-700 dark:text-gray-300"
               }
               icon={faBookmark}
               size="xl"

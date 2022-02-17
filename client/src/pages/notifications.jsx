@@ -17,7 +17,7 @@ const Notifications = () => {
         {notifs.map(({ username, notif }, index) => (
           <div
             key={index}
-            className="bg-green-500 dark:bg-gray-300 p-2 md:px-4 rounded-md flex gap-4 w-full"
+            className="bg-gray-50 dark:bg-gray-900 dark:text-gray-200 p-2 py-3 md:px-4 rounded-md flex gap-4 w-full"
           >
             <div className="">
               <img
@@ -26,7 +26,7 @@ const Notifications = () => {
                 alt={username}
               />
             </div>
-            <div className="">
+            <div className="flex flex-col items-start justify-center">
               <div className="font-semibold">@{username}</div>
               <div className="">{notif}</div>
             </div>

@@ -6,7 +6,7 @@ const UserTitle = ({ time }) => {
         src={process.env.REACT_APP_IMG}
         alt=""
       />
-      <div className="ml-2">
+      <div className="ml-4 dark:text-gray-200">
         <p className="font-bold">Demo User name</p>
         <p className="">@username {time && `on ${time}`}</p>
       </div>

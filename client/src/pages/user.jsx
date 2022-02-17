@@ -43,13 +43,17 @@ const User = () => {
       dispatch(darkMode());
     }
   };
-  const commons = `bg-${theme.l2} p-2 rounded-md relative`;
+
+  const commons =
+    "bg-gray-50 dark:bg-gray-900 p-2 rounded-md relative dark:text-gray-200";
 
   return (
     <>
       <div className="flex flex-col gap-4 p-2">
         <div className={`${commons}`}>
-          <div className="w-full h-28 bg-green-900 dark:bg-gray-900 z-0 rounded-t-md flex items-start"></div>
+          <div
+            className={`w-full h-28 z-0 rounded-t-md flex items-start bg-[${avatarConfig.bgColor}]`}
+          ></div>
           <div className="flex items-center justify-center relative -top-16">
             <Avatar className="h-32 w-32 rounded-full" {...avatarSettings} />
           </div>
@@ -68,7 +72,7 @@ const User = () => {
         <div className={`${commons}`}>
           <button
             onClick={handleThemeChange}
-            className="bg-green-500 p-3 rounded-full"
+            className="bg-blue-500 text-gray-200 p-3 rounded-full"
           >
             Change theme
           </button>

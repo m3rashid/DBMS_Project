@@ -35,6 +35,7 @@ const NotificationContainer = () => (
 
 function App() {
   const userLoggedIn = true;
+
   if (!userLoggedIn) {
     return (
       <>
@@ -58,7 +59,7 @@ function App() {
     <>
       <NotificationContainer />
       <BrowserRouter>
-        <div className="bg-green-200 dark:bg-gray-500 min-h-[100vh] overflow-x-hidden pb-60px flex flex-col items-center pt-[90px] md:pt-[80px] pb-[60px] md:pb-4">
+        <div className="bg-gray-300 dark:bg-gray-700 min-h-[100vh] overflow-x-hidden pb-60px flex flex-col items-center pt-[90px] md:pt-[80px] pb-[60px] md:pb-4">
           <Header />
           {/* make t into grid */}
           <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] lg:grid-cols-[1fr_2fr_1fr] max-w-[1500px] w-full">

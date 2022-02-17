@@ -54,7 +54,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-green-200 dark:bg-gray-600 flex justify-center py-3 shadow-md mb-4 w-full fixed z-10 top-0">
+      <header className="bg-gray-50 dark:bg-gray-900 flex justify-center py-3 shadow-md mb-4 w-full fixed z-10 top-0">
         <div className="flex items-center justify-between px-2 w-full max-w-[1500px] relative">
           <div className="flex justify-center items-center gap-2">
             <img
@@ -62,10 +62,12 @@ const Header = () => {
               src="/images/logo.png"
               alt=""
             />
-            <h1 className="font-bold text-2xl md:text-3xl">JMI Connect</h1>
+            <h1 className="font-bold text-2xl md:text-3xl dark:text-gray-200">
+              JMI Connect
+            </h1>
             <button
               onClick={handleThemeChange}
-              className="bg-green-500 p-3 rounded-full"
+              className="bg-blue-500 text-gray-200 p-3 rounded-full"
             >
               Change theme
             </button>
@@ -74,9 +76,9 @@ const Header = () => {
             {/* on the basis of current logged in user */}
             <div
               ref={searchRef}
-              className={`flex items-center justify-center rounded-3xl shadow-md ${
+              className={`flex items-start rounded-3xl shadow-md ${
                 searchOpen &&
-                "absolute md:static top-0 left-0 w-[calc(100%-1rem)] mx-2 md:w-auto z-10 bg-white border-2"
+                "absolute md:static top-0 left-0 w-[calc(100%-1rem)] mx-2 md:w-auto z-10 bg-gray-50 dark:bg-gray-700 border-2 dark:border-gray-700"
               }`}
             >
               {searchOpen ? (
@@ -86,10 +88,10 @@ const Header = () => {
                     value={searchValue}
                     placeholder="Search"
                     onChange={handleChange}
-                    className="w-full md:w-auto pl-4 py-2 rounded-3xl outline-0 text-lg"
+                    className="w-full md:w-auto pl-4 py-2 rounded-3xl outline-0 text-lg bg-gray-50 dark:bg-gray-700 outline-none dark:text-gray-200 font-semibold"
                   />
-                  <div className="relative w-full max-h-[300px] bg-white">
-                    <ul>
+                  <div className="relative w-full max-h-[300px] bg-gray-50 dark:bg-gray-700 dark:text-gray-200">
+                    <ul className={suggestions.length > 0 && "mt-4"}>
                       {suggestions.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
@@ -98,8 +100,10 @@ const Header = () => {
                 </form>
               ) : null}
               <FontAwesomeIcon
-                className={`rounded-full ${
-                  searchOpen ? "mr-4" : "p-2 hover:bg-gray-300"
+                className={`rounded-full bg-gray-50 dark:bg-gray-700 dark:text-gray-200 ${
+                  searchOpen
+                    ? "mr-4 mt-3"
+                    : "p-2 hover:bg-gray-200 dark:hover:bg-gray-500"
                 }`}
                 icon={faSearch}
                 onClick={() => setSearchOpen(true)}

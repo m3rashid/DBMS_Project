@@ -5,7 +5,7 @@ const DropDown = ({ label, data = [] }) => {
   return (
     <>
       <button
-        className="font-semibold bg-gray-300 p-2 rounded-full"
+        className="font-semibold bg-blue-500 text-gray-200 p-2 rounded-full"
         onClick={() => setOpen(!open)}
       >
         {label}

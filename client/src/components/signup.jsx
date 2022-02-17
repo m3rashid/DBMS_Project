@@ -56,14 +56,14 @@ const Signup = () => {
         setValue={handleChange}
       />
       <button
-        className="bg-green-300 p-2 rounded-md text-xl font-semibold"
+        className="bg-blue-300 text-gray-200 p-2 rounded-md text-xl font-semibold"
         onClick={handleSubmit}
       >
         Signup
       </button>
       <div className="flex items-center justify-end">
         <Link to="/login">
-          <p className="text-lg hover:bg-green-300 p-2 px-6 rounded-md">
+          <p className="text-lg hover:bg-blue-500 p-2 px-6 rounded-md">
             Login here
           </p>
         </Link>
