@@ -4,10 +4,7 @@ const cors = require("cors");
 
 const app = (module.exports = express());
 const database = require("./src/utils/database");
-const {
-  authRateLimiter,
-  regularRateLimiter,
-} = require("./src/utils/rateLimit");
+const { regularRateLimiter } = require("./src/utils/rateLimit");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -17,7 +14,7 @@ const port = process.env.PORT || 5000;
 app.listen(port, async () => {
   await database(app);
 
-  app.all("*", (req, res) => {
+  app.all("*", regularRateLimiter, (req, res) => {
     return res.status(200).json({
       message: "Hello from server",
     });
