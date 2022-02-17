@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 
 const notifs = [
   { username: "username", notif: "thisia kasdflkas dflkasdjf ladf" },
@@ -11,7 +10,6 @@ const Notifications = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const theme = useSelector((state) => state.ui.theme);
 
   return (
     <>
@@ -19,7 +17,7 @@ const Notifications = () => {
         {notifs.map(({ username, notif }, index) => (
           <div
             key={index}
-            className={`bg-${theme.l3} p-2 md:px-4 rounded-md flex gap-4 w-full`}
+            className="bg-green-500 dark:bg-gray-300 p-2 md:px-4 rounded-md flex gap-4 w-full"
           >
             <div className="">
               <img

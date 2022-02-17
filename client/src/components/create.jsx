@@ -1,11 +1,9 @@
 import React from "react";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
 
 import UserTitle from "./atoms/userTitle";
 
 const CreatePost = () => {
-  const theme = useSelector((state) => state.ui.theme);
   const [text, setText] = React.useState({
     title: "",
     body: "",
@@ -36,23 +34,21 @@ const CreatePost = () => {
 
   return (
     <>
-      <div className={`flex flex-col w-full bg-${theme.l3} rounded-md`}>
+      <div className="flex flex-col w-full bg-green-200 dark:bg-gray-400 rounded-md">
         <UserTitle />
-        <div
-          className={`flex flex-col bg-${theme.l2} items-end gap-2 p-4 rounded-b-md`}
-        >
+        <div className="flex flex-col bg-green-100 dark:bg-gray-400 items-end gap-2 p-4 rounded-b-md">
           <textarea
             rows="2"
             value={text.title}
             name="title"
             placeholder="Share something interesting"
             onChange={handleChange}
-            className={`p-2 rounded-md outline-none w-full resize-none bg-${theme.l1}`}
+            className="p-2 rounded-md outline-none w-full resize-none bg-green-50 dark:bg-gray-300"
           />
           {text.title.length > maxTitleLength ? (
             <textarea
               style={{ whiteSpace: "pre-wrap" }}
-              className={`p-2 rounded-lg w-full outline-none min-h-[150px] bg-${theme.l1}`}
+              className="p-2 rounded-lg w-full outline-none min-h-[150px] bg-green-50 dark:bg-gray-300"
               value={text.body}
               name="body"
               onChange={handleChange}

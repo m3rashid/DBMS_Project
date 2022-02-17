@@ -35,7 +35,7 @@ const Header = () => {
     }
   };
 
-  // debounce the searches
+  // TODO debounce the searches
   const handleChange = (e) => {
     setSearchValue(e.target.value);
     handleSearch(searchValue);
@@ -45,18 +45,16 @@ const Header = () => {
   const theme = useSelector((state) => state.ui.theme);
 
   const handleThemeChange = () => {
-    if (theme.name === "dark") {
+    if (theme === "dark") {
       dispatch(lightMode());
-    } else if (theme.name === "light") {
+    } else if (theme === "light") {
       dispatch(darkMode());
     }
   };
 
   return (
     <>
-      <header
-        className={`bg-${theme.l3} flex justify-center py-3 shadow-md mb-4 w-full fixed z-10 top-0`}
-      >
+      <header className="bg-green-200 dark:bg-gray-600 flex justify-center py-3 shadow-md mb-4 w-full fixed z-10 top-0">
         <div className="flex items-center justify-between px-2 w-full max-w-[1500px] relative">
           <div className="flex justify-center items-center gap-2">
             <img

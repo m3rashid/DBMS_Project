@@ -7,11 +7,8 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const Nav = () => {
-  const theme = useSelector((state) => state.ui.theme);
-
   const user = {
     name: "John Doe",
     username: "johndoe",
@@ -19,25 +16,21 @@ const Nav = () => {
   };
 
   const iconStyles = "text-gray-500 p-4";
-  const iconContainerStyles = `flex flex-row items-center px-2 rounded-md hover:bg-${theme.l2} w-full`;
+  const iconContainerStyles = `flex flex-row items-center px-2 rounded-md hover:bg-gray-200 dark:hover:bg-green200 w-full`;
   const iconLabelStyles = "block font-semibold";
 
   return (
     <div className="sticky top-0 h-min">
-      <div
-        className={`hidden md:flex flex-col rounded-md bg-${theme.l3} m-2 p-2 shadow-md`}
-      >
+      <div className="hidden md:flex flex-col rounded-md bg-green-500 dark:bg-gray-900 m-2 p-2 shadow-md">
         {/* profile */}
         <img className="rounded-md" src={user.img} alt="" />
-        <div className={`mt-2 p-2 hover:bg-${theme.l2} rounded-md`}>
+        <div className="mt-2 p-2 hover:bg-green-300 dark:hover:bg-dark-900 rounded-md">
           <p className="font-bold">{user.name}</p>
           <p className="">@{user.username}</p>
         </div>
       </div>
       <div className="">
-        <div
-          className={`hidden sticky m-2 md:flex flex-col bg-${theme.l3} rounded-md p-2 h-fit shadow-md mt-4`}
-        >
+        <div className="hidden sticky m-2 md:flex flex-col bg-green-200 dark:bg-gray-400 rounded-md p-2 h-fit shadow-md mt-4">
           <Link to="/home">
             <div className={iconContainerStyles}>
               <FontAwesomeIcon icon={faHome} size="xl" className={iconStyles} />

@@ -5,28 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 // to be stored in the database
 import DropDown from "../components/atoms/dropDown";
 import { darkMode, lightMode } from "../store/actions/ui.action";
+import { changeAvatar } from "../store/actions/avatar.acion";
 
 const User = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const [config, setConfig] = React.useState({
-    sex: "man",
-    faceColor: "#1ff456",
-    earSize: "small", // small or big
-    hairColor: "#123fff",
-    hairStyle: "thick", // normal, thick, mohawk, womanLong, womanShort
-    hatColor: "red",
-    hatStyle: "none", // none, beanie, turban
-    glassesStyle: "round", // none, round, square
-    noseStyle: "round", // short, long, round
-    mouthStyle: "laugh", // laugh, smile, peace
-    shirtStyle: "hoody", // 	hoody, short, polo
-    shirtColor: "black",
-    bgColor: "blue",
-    isGradient: false,
-  });
+  const avatarConfig = useSelector((state) => state.avatar);
+  const [config, setConfig] = React.useState(avatarConfig);
   const avatarSettings = genConfig(config);
 
   // const [open, setOpen] = React.useState({
@@ -50,9 +37,9 @@ const User = () => {
   const theme = useSelector((state) => state.ui.theme);
 
   const handleThemeChange = () => {
-    if (theme.name === "dark") {
+    if (theme === "dark") {
       dispatch(lightMode());
-    } else if (theme.name === "light") {
+    } else if (theme === "light") {
       dispatch(darkMode());
     }
   };
@@ -62,9 +49,7 @@ const User = () => {
     <>
       <div className="flex flex-col gap-4 p-2">
         <div className={`${commons}`}>
-          <div
-            className={`w-full h-28 bg-${theme.l4} z-0 rounded-t-md flex items-start`}
-          ></div>
+          <div className="w-full h-28 bg-green-900 dark:bg-gray-900 z-0 rounded-t-md flex items-start"></div>
           <div className="flex items-center justify-center relative -top-16">
             <Avatar className="h-32 w-32 rounded-full" {...avatarSettings} />
           </div>

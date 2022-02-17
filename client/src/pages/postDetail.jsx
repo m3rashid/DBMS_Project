@@ -61,7 +61,7 @@ const PostDetail = () => {
         <div className="flex flex-col  bg-[white] rounded-md w-full shadow-md">
           <UserTitle time="Monday 11:00 IST" />
           <div className="">
-            <div className={`w-full bg-gray-100 p-4 `}>
+            <div className="w-full bg-gray-100 p-4">
               <div className={`${body && "font-semibold"}`}>{title}</div>
               <div className="">{body}</div>
             </div>
@@ -110,7 +110,7 @@ const PostDetail = () => {
                 />
                 {inputCharLength() ? (
                   <button
-                    className={`bg-green-300 rounded-full px-4 py-2 text-lg font-semibold max-w-[200px] mb-3 $`}
+                    className="bg-green-300 rounded-full px-4 py-2 text-lg font-semibold max-w-[200px] mb-3"
                     onClick={handleCommentSubmit}
                   >
                     Add Comment
