@@ -7,12 +7,16 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Avatar, { genConfig } from "react-nice-avatar";
 
 const Nav = () => {
+  const avatarConfig = useSelector((state) => state.avatar);
+  const avatarSettings = genConfig(avatarConfig);
+
   const user = {
     name: "John Doe",
     username: "johndoe",
-    img: process.env.REACT_APP_IMG,
   };
 
   const iconStyles = "dark:text-gray-300 p-4";
@@ -23,8 +27,11 @@ const Nav = () => {
   return (
     <div className="sticky top-0 h-min">
       <div className="hidden md:flex flex-col rounded-md bg-gray-50 dark:bg-gray-900 m-2 p-2 shadow-md">
-        {/* profile */}
-        <img className="rounded-md" src={user.img} alt="" />
+        <Avatar
+          className="rounded-md h-44 lg:h-56"
+          shape="rounded"
+          {...avatarSettings}
+        />
         <div className="mt-2 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
           <p className="font-bold text-2xl dark:text-gray-200">{user.name}</p>
           <p className="dark:text-gray-200 text-lg">@{user.username}</p>

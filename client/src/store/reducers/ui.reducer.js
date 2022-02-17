@@ -6,8 +6,10 @@ const checkTheme = () => {
     (!("theme" in window.localStorage) &&
       window.matchMedia("(prefers-color-scheme: dark)").matches)
   ) {
+    document.documentElement.classList.add("dark");
     return "dark";
   } else {
+    document.documentElement.classList.remove("dark");
     return "light";
   }
 };

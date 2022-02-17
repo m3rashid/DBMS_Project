@@ -129,7 +129,7 @@ const PostDetail = () => {
                   </button>
                 ) : null}
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 mt-4 mb-1">
                 {comments.map((comment, index) => (
                   <div
                     key={index}

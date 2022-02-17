@@ -3,9 +3,8 @@ import Avatar, { genConfig } from "react-nice-avatar";
 import { useDispatch, useSelector } from "react-redux";
 
 // to be stored in the database
-import DropDown from "../components/atoms/dropDown";
 import { darkMode, lightMode } from "../store/actions/ui.action";
-import { changeAvatar } from "../store/actions/avatar.acion";
+import UserAvatarSettings from "../components/userAvatarSettings";
 
 const User = () => {
   React.useEffect(() => {
@@ -13,25 +12,7 @@ const User = () => {
   }, []);
 
   const avatarConfig = useSelector((state) => state.avatar);
-  const [config, setConfig] = React.useState(avatarConfig);
-  const avatarSettings = genConfig(config);
-
-  // const [open, setOpen] = React.useState({
-  //   sex: false,
-  //   faceColor: false,
-  //   earSize: false,
-  //   hairColor: false,
-  //   hairStyle: false,
-  //   hatColor: false,
-  //   hatStyle: false,
-  //   glassesStyle: false,
-  //   noseStyle: false,
-  //   mouthStyle: false,
-  //   shirtStyle: false,
-  //   shirtColor: false,
-  //   bgColor: false,
-  //   isGradient: false,
-  // });
+  const avatarSettings = genConfig(avatarConfig);
 
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.ui.theme);
@@ -51,28 +32,22 @@ const User = () => {
     <>
       <div className="flex flex-col gap-4 p-2">
         <div className={`${commons}`}>
-          <div
-            className={`w-full h-28 z-0 rounded-t-md flex items-start bg-[${avatarConfig.bgColor}]`}
-          ></div>
+          <div className="w-full h-28 z-0 rounded-t-md flex items-start bg-gray-300 dark:bg-gray-800"></div>
           <div className="flex items-center justify-center relative -top-16">
             <Avatar className="h-32 w-32 rounded-full" {...avatarSettings} />
           </div>
-          {/* <div className="details">
-            <p className="">@Username</p>
-          </div> */}
+          <div className="flex flex-col items-center justify-center w-full">
+            <p className="font-bold text-2xl">Demo UserName</p>
+            <p className="text-xl">@Username</p>
+          </div>
         </div>
         <div className={`${commons}`}>
-          <div className="">
-            <h3 className="">Customize your avatar</h3>
-            <div className="customizations">
-              <DropDown label="Gender" data={["man", "woman"]} />
-            </div>
-          </div>
+          <UserAvatarSettings />
         </div>
         <div className={`${commons}`}>
           <button
             onClick={handleThemeChange}
-            className="bg-blue-500 text-gray-200 p-3 rounded-full"
+            className="bg-blue-500 text-gray-200 p-2 px-4 rounded-full font-semibold"
           >
             Change theme
           </button>

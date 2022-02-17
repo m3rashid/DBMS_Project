@@ -1,10 +1,8 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { darkMode, lightMode } from "../store/actions/ui.action";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import Avatar, { genConfig } from "react-nice-avatar";
 
 const data =
   "This package provides a single React component The component contains an input field with a drop down menu to pick a possible option based on the current input as a React component Have a look at w3schools.com to see how you can do something similar with pure html, css, and js. For more information about React and the ecosystem see this guide".split(
@@ -16,6 +14,9 @@ const Header = () => {
   const [searchOpen, setSearchOpen] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState([""]);
   const [searchValue, setSearchValue] = React.useState("");
+
+  const avatarConfig = useSelector((state) => state.avatar);
+  const avatarSettings = genConfig(avatarConfig);
 
   window.addEventListener("click", (e) => {
     if (searchRef.current) {
@@ -41,17 +42,6 @@ const Header = () => {
     handleSearch(searchValue);
   };
 
-  const dispatch = useDispatch();
-  const theme = useSelector((state) => state.ui.theme);
-
-  const handleThemeChange = () => {
-    if (theme === "dark") {
-      dispatch(lightMode());
-    } else if (theme === "light") {
-      dispatch(darkMode());
-    }
-  };
-
   return (
     <>
       <header className="bg-gray-50 dark:bg-gray-900 flex justify-center py-3 shadow-md mb-4 w-full fixed z-10 top-0">
@@ -62,15 +52,9 @@ const Header = () => {
               src="/images/logo.png"
               alt=""
             />
-            <h1 className="font-bold text-2xl md:text-3xl dark:text-gray-200">
+            <h1 className="font-bold text-xl sm:text-2xl md:text-3xl dark:text-gray-200">
               JMI Connect
             </h1>
-            <button
-              onClick={handleThemeChange}
-              className="bg-blue-500 text-gray-200 p-3 rounded-full"
-            >
-              Change theme
-            </button>
           </div>
           <div className="flex items-center justify-center gap-4">
             {/* on the basis of current logged in user */}
@@ -91,7 +75,7 @@ const Header = () => {
                     className="w-full md:w-auto pl-4 py-2 rounded-3xl outline-0 text-lg bg-gray-50 dark:bg-gray-700 outline-none dark:text-gray-200 font-semibold"
                   />
                   <div className="relative w-full max-h-[300px] bg-gray-50 dark:bg-gray-700 dark:text-gray-200">
-                    <ul className={suggestions.length > 0 && "mt-4"}>
+                    <ul className="">
                       {suggestions.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
@@ -103,7 +87,7 @@ const Header = () => {
                 className={`rounded-full bg-gray-50 dark:bg-gray-700 dark:text-gray-200 ${
                   searchOpen
                     ? "mr-4 mt-3"
-                    : "p-2 hover:bg-gray-200 dark:hover:bg-gray-500"
+                    : "p-3 hover:bg-gray-200 dark:hover:bg-gray-500"
                 }`}
                 icon={faSearch}
                 onClick={() => setSearchOpen(true)}
@@ -111,11 +95,7 @@ const Header = () => {
               />
             </div>
             <div className="">
-              <img
-                className="h-12 w-12 rounded-full"
-                src={process.env.REACT_APP_IMG}
-                alt="name"
-              />
+              <Avatar className="h-12 w-12" {...avatarSettings} />
             </div>
           </div>
         </div>

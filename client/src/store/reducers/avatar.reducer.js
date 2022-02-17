@@ -6,7 +6,7 @@ const initialState = {
   faceColor: "#1ff456",
   earSize: "small", // small or big
   hairColor: "#123fff",
-  hairStyle: "thick", // normal, thick, mohawk, womanLong, womanShort
+  hairStyle: "womanShort", // normal, thick, mohawk, womanLong, womanShort
   hatColor: "red",
   hatStyle: "none", // none, beanie, turban
   glassesStyle: "round", // none, round, square
@@ -14,7 +14,7 @@ const initialState = {
   mouthStyle: "laugh", // laugh, smile, peace
   shirtStyle: "hoody", // 	hoody, short, polo
   shirtColor: "black",
-  bgColor: "blue",
+  bgColor: "gray",
   isGradient: false,
 };
 
