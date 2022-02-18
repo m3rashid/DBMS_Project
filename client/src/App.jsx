@@ -18,6 +18,7 @@ import Bookmarks from "./pages/bookmarks";
 import User from "./pages/user";
 import PostDetail from "./pages/postDetail";
 import Test from "./pages/test";
+import Chat from "./pages/chat";
 
 const NotificationContainer = () => (
   <ToastContainer
@@ -70,8 +71,9 @@ function App() {
                 <Route path="/explore" element={<Explore />} />
                 <Route path="/notifications" element={<Notifications />} />
                 <Route path="/bookmarks" element={<Bookmarks />} />
-                <Route path="/user" element={<User />} />
+                <Route path="/user/:userId" element={<User />} />
                 <Route path="/post/:postId" element={<PostDetail />} />
+                <Route path="/chat" element={<Chat />} />
                 <Route path="/test" element={<Test />} />
                 <Route path="/" element={<Navigate to="/home" />} />
                 <Route path="/login" element={<Navigate to="/home" />} />

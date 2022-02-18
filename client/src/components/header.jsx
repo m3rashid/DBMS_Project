@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import Avatar, { genConfig } from "react-nice-avatar";
+import { Link } from "react-router-dom";
 
 const data =
   "This package provides a single React component The component contains an input field with a drop down menu to pick a possible option based on the current input as a React component Have a look at w3schools.com to see how you can do something similar with pure html, css, and js. For more information about React and the ecosystem see this guide".split(
@@ -94,9 +95,11 @@ const Header = () => {
                 size="xl"
               />
             </div>
-            <div className="">
-              <Avatar className="h-12 w-12" {...avatarSettings} />
-            </div>
+            <Link to="/user/me">
+              <div className="">
+                <Avatar className="h-12 w-12" {...avatarSettings} />
+              </div>
+            </Link>
           </div>
         </div>
       </header>
