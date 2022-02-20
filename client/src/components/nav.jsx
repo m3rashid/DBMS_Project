@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
-  faCompass,
   faBell,
   faBookmark,
   faUser,
@@ -46,16 +45,6 @@ const Nav = () => {
             <div className={iconContainerStyles}>
               <FontAwesomeIcon icon={faHome} size="xl" className={iconStyles} />
               <p className={iconLabelStyles}>Home</p>
-            </div>
-          </Link>
-          <Link to="/explore">
-            <div className={iconContainerStyles}>
-              <FontAwesomeIcon
-                icon={faCompass}
-                size="xl"
-                className={iconStyles}
-              />
-              <p className={iconLabelStyles}>Explore</p>
             </div>
           </Link>
           <Link to="/notifications">

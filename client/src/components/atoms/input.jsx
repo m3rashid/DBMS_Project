@@ -7,9 +7,9 @@ const Input = ({ Icon, type, name, placeholder, value, setValue }) => {
 
   return (
     <>
-      <div className="flex items-center gap-2 bg-gray-200 rounded-md p-2">
+      <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-md p-2">
         <FontAwesomeIcon icon={Icon} size="2x" />
-        <div className="flex items-center gap-2 rounded-md">
+        <div className="flex items-center gap-2 rounded-md w-full">
           <input
             type={
               type === "password" ? (showPassword ? "text" : "password") : type
@@ -18,7 +18,7 @@ const Input = ({ Icon, type, name, placeholder, value, setValue }) => {
             value={value}
             placeholder={placeholder}
             onChange={setValue}
-            className="rounded-md px-2 py-1 w-full text-lg bg-inherit outline-none"
+            className="rounded-md px-2 py-1 w-full text-lg bg-inherit outline-none dark:text-gray-50 grow"
           />
           {type === "password" && (
             <div className="cursor-pointer p-2 rounded-md hover:bg-gray-300">

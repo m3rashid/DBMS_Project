@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
-  faCompass,
   faBell,
   faBookmark,
   faUser,
@@ -17,48 +16,39 @@ const MobileNav = () => {
   return (
     <>
       <div className="fixed bottom-0 bg-gray-50 dark:bg-gray-900 w-full flex items-center justify-around rounded-t-md md:hidden">
-        <div className={divStyles}>
-          <Link to="/home">
+        <Link to="/home">
+          <div className={divStyles}>
             <FontAwesomeIcon icon={faHome} size="xl" className={iconStyles} />
-          </Link>
-        </div>
-        <div className={divStyles}>
-          <Link to="/explore">
-            <FontAwesomeIcon
-              icon={faCompass}
-              size="xl"
-              className={iconStyles}
-            />
-          </Link>
-        </div>
-        <div className={divStyles}>
-          <Link to="/notifications">
+          </div>
+        </Link>
+        <Link to="/notifications">
+          <div className={divStyles}>
             <FontAwesomeIcon icon={faBell} size="xl" className={iconStyles} />
-          </Link>
-        </div>
-        <div className={divStyles}>
-          <Link to="/bookmarks">
+          </div>
+        </Link>
+        <Link to="/bookmarks">
+          <div className={divStyles}>
             <FontAwesomeIcon
               icon={faBookmark}
               size="xl"
               className={iconStyles}
             />
-          </Link>
-        </div>
-        <div className={divStyles}>
-          <Link to="/chat">
+          </div>
+        </Link>
+        <Link to="/chat">
+          <div className={divStyles}>
             <FontAwesomeIcon
               icon={faMessage}
               size="xl"
               className={iconStyles}
             />
-          </Link>
-        </div>
-        <div className={divStyles}>
-          <Link to="/user/me">
+          </div>
+        </Link>
+        <Link to="/user/me">
+          <div className={divStyles}>
             <FontAwesomeIcon icon={faUser} size="xl" className={iconStyles} />
-          </Link>
-        </div>
+          </div>
+        </Link>
       </div>
     </>
   );

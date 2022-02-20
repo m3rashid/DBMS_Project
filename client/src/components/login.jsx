@@ -40,11 +40,10 @@ const Login = () => {
       >
         Login
       </button>
-      <div className="flex items-center justify-end">
+      <div className="text-center dark:text-gray-200 mt-3">
+        Don't have an account?{" "}
         <Link to="/signup">
-          <p className="text-lg hover:bg-blue-500 p-2 px-6 rounded-md">
-            Signup here
-          </p>
+          <b>Signup</b>
         </Link>
       </div>
     </>
