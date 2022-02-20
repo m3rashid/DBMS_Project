@@ -7,32 +7,33 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import UserTitle from "../components/atoms/userTitle";
+import Notif from "../components/notif";
+
+const no_likes = 12;
+const no_comments = 1;
+const title =
+  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia";
+const comments = [
+  {
+    name: "something",
+    comment:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia",
+  },
+  {
+    name: "something",
+    comment:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia",
+  },
+  {
+    name: "something",
+    comment:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia",
+  },
+];
+const body =
+  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia";
 
 const PostDetail = () => {
-  const no_likes = 12;
-  const no_comments = 1;
-  const title =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia";
-  const body =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia";
-  const comments = [
-    {
-      name: "something",
-      comment:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia",
-    },
-    {
-      name: "something",
-      comment:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia",
-    },
-    {
-      name: "something",
-      comment:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia",
-    },
-  ];
-
   const liked = false;
   const bookmarked = false;
 
@@ -55,6 +56,9 @@ const PostDetail = () => {
     setCommentText(e.target.value);
   };
 
+  const iconContainerStyles =
+    "flex gap-2 items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2 cursor-pointer";
+
   return (
     <>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
@@ -70,10 +74,7 @@ const PostDetail = () => {
           </div>
           <div className="p-4 flex items-center justify-between">
             <div className="flex gap-3">
-              <div
-                className="flex gap-2 items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2 cursor-pointer"
-                onClick={handleLikeSubmit}
-              >
+              <div className={iconContainerStyles} onClick={handleLikeSubmit}>
                 <FontAwesomeIcon
                   className={
                     liked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
@@ -83,10 +84,7 @@ const PostDetail = () => {
                 />
                 <p className="dark:text-gray-200">{no_likes}</p>
               </div>
-              <div
-                className="flex gap-2 items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2 cursor-pointer"
-                onClick={handleOpenComment}
-              >
+              <div className={iconContainerStyles} onClick={handleOpenComment}>
                 <FontAwesomeIcon
                   className="text-gray-700 dark:text-gray-300"
                   icon={faComment}
@@ -95,10 +93,7 @@ const PostDetail = () => {
                 <p className="dark:text-gray-200">{no_comments}</p>
               </div>
             </div>
-            <div
-              className=" hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md cursor-pointer"
-              onClick={handleBookmark}
-            >
+            <div className={iconContainerStyles} onClick={handleBookmark}>
               <FontAwesomeIcon
                 className={
                   bookmarked
@@ -114,6 +109,7 @@ const PostDetail = () => {
             <div className="bg-gray-300 dark:bg-gray-900 max-h-[500px] overflow-auto p-2 rounded-md">
               <div className="flex flex-col gap-2 items-end mb-2">
                 <textarea
+                  style={{ whiteSpace: "pre-wrap" }}
                   rows="3"
                   placeholder="Add a comment"
                   className="outline-none rounded-md py-2 px-3 w-full resize-none bg-gray-50 dark:bg-gray-700 dark:text-gray-200"
@@ -130,21 +126,8 @@ const PostDetail = () => {
                 ) : null}
               </div>
               <div className="flex flex-col gap-2 mt-4 mb-1">
-                {comments.map((comment, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 rounded-md p-1 px-2 bg-gray-50 dark:bg-gray-700"
-                  >
-                    <img
-                      className="h-14 w-14 rounded-full"
-                      src={process.env.REACT_APP_IMG}
-                      alt=""
-                    />
-                    <div className="ml-2 dark:text-gray-200">
-                      <p className="font-bold">{comment.name}</p>
-                      <p className="">{comment.comment}</p>
-                    </div>
-                  </div>
+                {comments.map(({ name, comment }, index) => (
+                  <Notif key={index} username={name} text={comment} />
                 ))}
               </div>
             </div>

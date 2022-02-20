@@ -27,6 +27,10 @@ const User = () => {
 
   const commons =
     "bg-gray-50 dark:bg-gray-900 p-2 rounded-md relative dark:text-gray-200";
+  const buttonStyles =
+    "bg-blue-500 text-gray-200 p-2 px-4 rounded-full font-semibold";
+
+  const h3Styles = "font-bold text-xl ml-1 my-3 text-center sm:text-left";
 
   return (
     <>
@@ -42,17 +46,21 @@ const User = () => {
           </div>
         </div>
         <div className={`${commons}`}>
+          <h3 className={h3Styles}>User Details</h3>
+        </div>
+        <div className={`${commons}`}>name</div>
+        <div className={`${commons}`}>
+          <h3 className={h3Styles}>Customize your avatar</h3>
           <UserAvatarSettings />
         </div>
         <div className={`${commons}`}>
-          <button
-            onClick={handleThemeChange}
-            className="bg-blue-500 text-gray-200 p-2 px-4 rounded-full font-semibold"
-          >
+          <button onClick={handleThemeChange} className={buttonStyles}>
             Change theme
           </button>
         </div>
-        <div className={`${commons}`}>name</div>
+        <div className={`${commons}`}>
+          <button className={buttonStyles}>Logout</button>
+        </div>
         <div className={`${commons}`}>name</div>
       </div>
     </>

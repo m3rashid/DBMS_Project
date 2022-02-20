@@ -1,46 +1,89 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Select from "react-select";
 
 import { changeAvatar } from "../store/actions/avatar.acion";
 
 const data = [
-  { id: "d1", name: "sex", label: "Avatar Gender", data: ["man", "woman"] },
-  { id: "d2", name: "earSize", label: "Ear Size", data: ["small", "big"] },
+  {
+    id: "d1",
+    name: "sex",
+    label: "Gender",
+    data: [
+      { value: "man", label: "man" },
+      { value: "woman", label: "woman" },
+    ],
+  },
+  {
+    id: "d2",
+    name: "earSize",
+    label: "Ear Size",
+    data: [
+      { value: "small", label: "small" },
+      { value: "big", label: "big" },
+    ],
+  },
   {
     id: "d3",
     name: "hairStyle",
     label: "Hair Style",
-    data: ["normal", "thick", "mohawk", "womanLong", "womanShort"],
+    data: [
+      { value: "normal", label: "normal" },
+      { value: "thick", label: "thick" },
+      { value: "mohawk", label: "mohawk" },
+      { value: "womanLong", label: "womanLong" },
+      { value: "womanShort", label: "womanShort" },
+    ],
   },
   {
     id: "d4",
     name: "hatStyle",
     label: "Hat Style",
-    data: ["none", "beanie", "turban"],
+    data: [
+      { value: "none", label: "none" },
+      { value: "beanie", label: "beanie" },
+      { value: "turban", label: "turban" },
+    ],
   },
   {
     id: "d5",
     name: "glassesStyle",
     label: "Glass Style",
-    data: ["none", "round", "square"],
+    data: [
+      { value: "none", label: "none" },
+      { value: "round", label: "round" },
+      { value: "square", label: "square" },
+    ],
   },
   {
     id: "d6",
     name: "noseStyle",
     label: "Nose Style",
-    data: ["short", "long", "round"],
+    data: [
+      { value: "short", label: "short" },
+      { value: "long", label: "long" },
+      { value: "round", label: "round" },
+    ],
   },
   {
     id: "d7",
     name: "mouthStyle",
     label: "Mouth Style",
-    data: ["laugh", "smile", "peace"],
+    data: [
+      { value: "laugh", label: "laugh" },
+      { value: "smile", label: "smile" },
+      { value: "peace", label: "peace" },
+    ],
   },
   {
     id: "d8",
     name: "shirtStyle",
     label: "Shirt Style",
-    data: ["hoody", "short", "polo"],
+    data: [
+      { value: "hoody", label: "hoody" },
+      { value: "short", label: "short" },
+      { value: "polo", label: "polo" },
+    ],
   },
 ];
 
@@ -56,40 +99,56 @@ const UserAvatarSettings = () => {
   const avatarConfig = useSelector((state) => state.avatar);
   const dispatch = useDispatch();
 
-  const handleConfigChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    dispatch(changeAvatar({ [name]: value }));
+  const handleConfigChange = (label, container) => {
+    dispatch(changeAvatar({ [container.name]: label.value }));
+  };
+
+  const delay = 500;
+  const handleColorChange = (e) => {
+    // TODO fix the debounce, this shit isnt working properly
+    // maybe use a local state for colors, and sync the store at regular intervals
+    let timer;
+    return (() => {
+      clearTimeout(timer);
+      timer = setTimeout(
+        dispatch(
+          changeAvatar({
+            [e.target.name]: e.target.value,
+          })
+        ),
+        delay
+      );
+    })();
   };
 
   const saveToDatabase = () => {};
   return (
     <>
-      <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-2 gap-4">
         {data.map((item) => (
           <div key={item.id} className="flex flex-col w-full gap-2 my-2">
             <label className="pl-2 text-lg font-medium">{item.label}</label>
-            <select
+            <Select
+              className=""
+              classNamePrefix="bg-gray-200 dark:bg-gray-800 outline-none"
               onChange={handleConfigChange}
-              className="bg-gray-200 dark:bg-gray-800 outline-none p-2 px-3 rounded-md"
-              name="sex"
-              id=""
-              value={avatarConfig[item.name]}
-            >
-              {item.data.map((singleItem, index) => (
-                <option
-                  key={index}
-                  className="bg-gray-200 dark:bg-gray-800 outline-none"
-                  value={singleItem}
-                >
-                  {singleItem}
-                </option>
-              ))}
-            </select>
+              options={item.data}
+              name={item.name}
+              value={item.label}
+              plaveholder="Select"
+              defaultValue={avatarConfig[item.name]}
+              label="Single Select"
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  border: "none",
+                }),
+              }}
+            />
           </div>
         ))}
       </div>
-      <h3 className="font-semibold text-xl mt-8 pl-2 py-2">
+      <h3 className="font-semibold text-center sm:text-left text-xl mt-8 pl-2 py-2">
         Configure Avatar Colors
       </h3>
       <div className="flex gap-1 items-center justify-center sm:justify-start pb-2 flex-wrap">
@@ -100,10 +159,11 @@ const UserAvatarSettings = () => {
           >
             <label className="pl-2 text-lg font-medium">{item.label}</label>
             <input
-              onChange={handleConfigChange}
+              onChange={handleColorChange}
               className=""
               type="color"
               name={item.name}
+              value={avatarConfig[item.name]}
             />
           </div>
         ))}

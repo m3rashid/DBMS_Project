@@ -56,16 +56,15 @@ const Signup = () => {
         setValue={handleChange}
       />
       <button
-        className="bg-blue-300 text-gray-200 p-2 rounded-md text-xl font-semibold"
+        className="bg-blue-500 text-gray-200 p-2 rounded-md text-xl font-semibold"
         onClick={handleSubmit}
       >
         Signup
       </button>
-      <div className="flex items-center justify-end">
+      <div className="text-center dark:text-gray-200 mt-3">
+        Already have an account?
         <Link to="/login">
-          <p className="text-lg hover:bg-blue-500 p-2 px-6 rounded-md">
-            Login here
-          </p>
+          <b> Login</b>
         </Link>
       </div>
     </>
