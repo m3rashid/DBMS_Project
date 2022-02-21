@@ -1,4 +1,4 @@
-import { verifyJWT } from "./jwt";
+import { verifyJWT } from "../utils/jwt";
 
 const checkAuth = (req, res, next) => {
   const token = req.headers["authorization"];
@@ -9,7 +9,7 @@ const checkAuth = (req, res, next) => {
   if (!valid || expired) {
     // TODO return unauthorizedResponse(res);
   }
-  req.user = payload?.sub;
+  req.user = payload.sub;
   next();
 };
 

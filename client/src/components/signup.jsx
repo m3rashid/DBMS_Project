@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faKey, faLock } from "@fortawesome/free-solid-svg-icons";
 
 import Input from "./atoms/input";
+import Button from "./atoms/Button";
 
 const Signup = () => {
   const [credentials, setCredentials] = React.useState({
@@ -55,12 +56,7 @@ const Signup = () => {
         value={credentials.confirmPassword}
         setValue={handleChange}
       />
-      <button
-        className="bg-blue-500 text-gray-200 p-2 rounded-md text-xl font-semibold"
-        onClick={handleSubmit}
-      >
-        Signup
-      </button>
+      <Button Icon={faLock} label="Signup" onClick={handleSubmit} />
       <div className="text-center dark:text-gray-200 mt-3">
         Already have an account?
         <Link to="/login">

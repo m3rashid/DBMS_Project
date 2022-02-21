@@ -1,16 +1,27 @@
 const express = require("express");
+const { INT24 } = require("mysql/lib/protocol/constants/types");
 const router = express.Router();
 
-const Joi = require("joi");
+import { issueJWT } from "../utils/jwt";
+const { validateLogin, validateSignup } = require("../middlewares/auth");
 
-router.post("/signup", (req, res) => {
+router.post("/signup", validateSignup, (req, res) => {
   const { name, userame, password, confirmPassword } = req.body;
-  res.json({ name, userame, password, confirmPassword });
+  try {
+  } catch (err) {
+    res.send(500);
+  }
+  res.json({ name, userame, email, password, confirmPassword });
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", validateLogin, (req, res) => {
   const { username, password } = req.body;
-  res.json({ username, password });
+  try {
+    // authenticate from db here
+  } catch (err) {
+    res.send(500);
+  }
+  res.send(401);
 });
 
 module.exports = router;

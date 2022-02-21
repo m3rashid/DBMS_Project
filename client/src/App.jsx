@@ -19,6 +19,8 @@ import PostDetail from "./pages/postDetail";
 import Test from "./pages/test";
 import Chat from "./pages/chat";
 
+import Admin from "./pages/Admin";
+
 const NotificationContainer = () => (
   <ToastContainer
     position="top-right"
@@ -35,8 +37,9 @@ const NotificationContainer = () => (
 
 function App() {
   const userLoggedIn = false;
+  const adminLoggedIn = true;
 
-  if (!userLoggedIn) {
+  if (!userLoggedIn && !adminLoggedIn) {
     return (
       <>
         <NotificationContainer />
@@ -53,7 +56,7 @@ function App() {
               </p>
             </div>
             <div className="h-screen w-screen flex flex-col items-center justify-end md:translate-y-0 z-10 shadow-2xl">
-              <div className="flex flex-col gap-2 justify-center bg-gray-50 dark:bg-gray-900 rounded-t-2xl md:rounded-xl shadow-md md:max-w-[450px]  md:m-0 md:mb-32 px-4 py-8 md:px-8 md:py-20 w-screen">
+              <div className="flex flex-col gap-3 justify-center bg-gray-50 dark:bg-gray-900 rounded-t-2xl md:rounded-xl shadow-md md:max-w-[450px]  md:m-0 md:mb-32 px-6 py-8 pt-12 md:px-8 md:py-20 w-screen">
                 <Routes>
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
@@ -61,6 +64,20 @@ function App() {
                 </Routes>
               </div>
             </div>
+          </div>
+        </BrowserRouter>
+      </>
+    );
+  } else if (adminLoggedIn) {
+    return (
+      <>
+        <NotificationContainer />
+        <BrowserRouter>
+          <div className="bg-gray-50 min-h-[100vh] overflow-x-hidden flex flex-col items-center">
+            <Routes>
+              <Route path="/admin" element={<Admin />} />
+              <Route path="*" element={<Navigate to="/admin" />} />
+            </Routes>
           </div>
         </BrowserRouter>
       </>
