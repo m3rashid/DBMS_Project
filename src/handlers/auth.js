@@ -5,11 +5,7 @@ const router = express.Router();
 const { issueJWT } = require("../utils/jwt");
 const { validateLogin, validateSignup } = require("../middlewares/auth");
 const { hashPassword, comparePassword } = require("../utils/auth");
-const {
-  getCircularReplacer,
-  manAvatarDefault,
-  womanAvatarDefault,
-} = require("./helpers");
+const { manAvatarDefault, womanAvatarDefault } = require("./helpers");
 const app = require("../../index");
 
 router.post("/signup", validateSignup, async (req, res) => {
@@ -20,12 +16,16 @@ router.post("/signup", validateSignup, async (req, res) => {
   } else {
     avatatConfig = manAvatarDefault;
   }
+
   try {
     const hashedPassword = await hashPassword(password);
     const avatarId = uuidv4();
-    const connection = app.locals.db;
-    await connection.connect();
-    await connection.query(`
+    const userId = uuidv4();
+    const database = app.locals.db;
+    const query = app.locals.query;
+    await database.connect();
+
+    await query(`
       insert into jmi_connect.avatar (
         avatarID, 
         sex,
@@ -61,8 +61,7 @@ router.post("/signup", validateSignup, async (req, res) => {
         '${avatatConfig.isGradient}'
       );
     `);
-    const userId = uuidv4();
-    await connection.query(`
+    await query(`
       insert into jmi_connect.user (
         userID,
         userName,
@@ -84,24 +83,22 @@ router.post("/signup", validateSignup, async (req, res) => {
         '${hashedPassword}'
       );
     `);
-    const user = await connection.query(`
-      select * from jmi_connect.user 
+    const user = await query(`
+      select * from jmi_connect.user
       where userID = '${userId}';
     `);
-    const avatar = await connection.query(`
-      select * from jmi_connect.avatar 
+    const avatar = await query(`
+      select * from jmi_connect.avatar
       where avatarID = '${avatarId}';
     `);
-
-    await connection.end();
-    console.log(avatar, user);
-
+    await database.end();
     const { token, expires } = issueJWT(user);
+
     res.status(200).json({
       token,
       expires,
-      user: JSON.stringify(user, getCircularReplacer()),
-      avatar: JSON.stringify(avatar, getCircularReplacer()),
+      user: user[0],
+      avatar: avatar[0],
     });
   } catch (err) {
     console.log(err);
@@ -113,13 +110,32 @@ router.post("/login", validateLogin, async (req, res) => {
   const { username, password } = req.body;
   try {
     const hashedPassword = await hashPassword(password);
-    const data = await connection.query(`
-      select * from jmi_connect.user, jmi_connect.avatar
-        where jmi_connect.user.userName = '${username}'
-        AND jmi_connect.user.password = '${hashedPassword}';
+    console.log(hashedPassword);
+    const database = app.locals.db;
+    const query = app.locals.query;
+    await database.connect();
+
+    const user = await query(`
+      select * from jmi_connect.user
+        where jmi_connect.user.userName = '${username}';
     `);
+    const matched = await comparePassword(password, user[0].password);
+    if (!matched) {
+      await database.end();
+      res.sendStatus(401);
+    }
+    const avatar = await query(`
+      select * from jmi_connect.avatar
+        where jmi_connect.avatar.avatarID = '${user[0].avatarID}';
+    `);
+    await database.end();
+
+    const { token, expires } = issueJWT(user);
     res.status(200).json({
-      data,
+      token,
+      expires,
+      user: user[0],
+      avatar: avatar[0],
     });
   } catch (err) {
     console.log(err);
