@@ -13,15 +13,14 @@ var config = {
   },
 };
 
-const database = async (app) => {
-  const conn = new mysql.createConnection(config);
+const connection = async (app) => {
   try {
-    await conn.connect();
+    const conn = await new mysql.createConnection(config);
     app.locals.db = conn;
-    console.log("Connection established.");
+    console.log("Got connection to database");
   } catch (err) {
     console.log("!!! Cannot connect !!! Error:");
   }
 };
 
-module.exports = database;
+module.exports = connection;

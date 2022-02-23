@@ -13,7 +13,7 @@ const publicKey = fs.readFileSync(
 
 const issueJWT = (user) => {
   const expiresIn = "1d";
-  const payload = { sub: user._id, iat: Date.now() };
+  const payload = { sub: user.userID, iat: Date.now() };
   const signedToken = JWT.sign(payload, privateKey, {
     expiresIn: expiresIn,
     algorithm: "RS256",

@@ -17,7 +17,7 @@ app.use(cors());
 
 const port = process.env.PORT || 5000;
 app.listen(port, async () => {
-  // await database(app);
+  await database(app);
   app.use("/auth", authRateLimiter, auth);
 
   app.all("*", regularRateLimiter, (req, res) => {

@@ -1,9 +1,11 @@
 const Joi = require("joi");
 
 const signupSchema = Joi.object({
-  name: Joi.string().required(),
+  firstName: Joi.string().required(),
+  lastName: Joi.string(),
   username: Joi.string().required(),
   email: Joi.string().email().required(),
+  gender: Joi.string().min(1).max(6).required(),
   password: Joi.string().required(),
   confirmPassword: Joi.ref("password"),
 }).with("password", "confirmPassword");
@@ -18,7 +20,7 @@ const validateLogin = async (req, res, next) => {
     await loginSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
-    return res.send(400);
+    return res.sendStatus(400);
   }
 };
 
@@ -27,7 +29,7 @@ const validateSignup = async (req, res, next) => {
     await signupSchema.validateAsync({ ...req.body });
     next();
   } catch (err) {
-    return res.send(400);
+    return res.sendStatus(400);
   }
 };
 

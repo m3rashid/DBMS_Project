@@ -36,8 +36,8 @@ const NotificationContainer = () => (
 );
 
 function App() {
-  const userLoggedIn = false;
-  const adminLoggedIn = true;
+  const userLoggedIn = true;
+  const adminLoggedIn = false;
 
   if (!userLoggedIn && !adminLoggedIn) {
     return (
