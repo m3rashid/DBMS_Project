@@ -21,9 +21,6 @@ router.post("/signup", validateSignup, async (req, res) => {
     const hashedPassword = await hashPassword(password);
     const avatarId = uuidv4();
     const userId = uuidv4();
-    const database = app.locals.db;
-    const query = app.locals.query;
-    await database.connect();
 
     await query(`
       insert into jmi_connect.avatar (
@@ -91,7 +88,6 @@ router.post("/signup", validateSignup, async (req, res) => {
       select * from jmi_connect.avatar
       where avatarID = '${avatarId}';
     `);
-    await database.end();
     const { token, expires } = issueJWT(user);
 
     res.status(200).json({
@@ -111,32 +107,35 @@ router.post("/login", validateLogin, async (req, res) => {
   try {
     const hashedPassword = await hashPassword(password);
     console.log(hashedPassword);
-    const database = app.locals.db;
+    const conn = app.locals.conn;
     const query = app.locals.query;
-    await database.connect();
 
     const user = await query(`
       select * from jmi_connect.user
         where jmi_connect.user.userName = '${username}';
     `);
-    const matched = await comparePassword(password, user[0].password);
-    if (!matched) {
-      await database.end();
-      res.sendStatus(401);
-    }
-    const avatar = await query(`
-      select * from jmi_connect.avatar
-        where jmi_connect.avatar.avatarID = '${user[0].avatarID}';
-    `);
-    await database.end();
 
-    const { token, expires } = issueJWT(user);
-    res.status(200).json({
-      token,
-      expires,
-      user: user[0],
-      avatar: avatar[0],
-    });
+    if (!user[0]) {
+      res.sendStatus(400);
+    } else {
+      const matched = await comparePassword(password, user[0].password);
+      if (!matched) {
+        res.sendStatus(401);
+      } else {
+        const avatar = await query(`
+          select * from jmi_connect.avatar
+            where jmi_connect.avatar.avatarID = '${user[0].avatarID}';
+        `);
+
+        const { token, expires } = issueJWT(user);
+        res.status(200).json({
+          token,
+          expires,
+          user: user[0],
+          avatar: avatar[0],
+        });
+      }
+    }
   } catch (err) {
     console.log(err);
     res.sendStatus(500);

@@ -1,23 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { faUser, faKey, faLock } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
 
 import Input from "./atoms/input";
 import Button from "./atoms/Button";
+import { login } from "../store/actions/auth.action";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [credentials, setCredentials] = React.useState({
     username: "",
     password: "",
     admin: false,
   });
-  const handleLogin = () => {};
+
+  const handleLogin = () => {
+    dispatch(login(credentials));
+  };
+
   const handleChange = (e) => {
     setCredentials((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
+
   const toggleAdmin = () => {
     setCredentials((prev) => ({
       ...prev,

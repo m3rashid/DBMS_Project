@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 // to be stored in the database
 import { darkMode, lightMode } from "../store/actions/ui.action";
 import UserAvatarSettings from "../components/userAvatarSettings";
+import { logout } from "../store/actions/auth.action";
 
 const User = () => {
   React.useEffect(() => {
@@ -23,6 +24,10 @@ const User = () => {
     } else if (theme === "light") {
       dispatch(darkMode());
     }
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   const commons =
@@ -59,7 +64,9 @@ const User = () => {
           </button>
         </div>
         <div className={`${commons}`}>
-          <button className={buttonStyles}>Logout</button>
+          <button className={buttonStyles} onClick={handleLogout}>
+            Logout
+          </button>
         </div>
         <div className={`${commons}`}>name</div>
       </div>

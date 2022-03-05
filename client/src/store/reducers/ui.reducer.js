@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { LIGHT_MODE, DARK_MODE } from "../constants/ui";
 
 const checkTheme = () => {
@@ -23,6 +24,7 @@ const UiReducer = (state = initialState, action) => {
     case DARK_MODE:
       window.localStorage.theme = "dark";
       document.documentElement.classList.add("dark");
+      toast.success("Dark mode set");
       return {
         ...state,
         theme: "dark",
@@ -30,6 +32,7 @@ const UiReducer = (state = initialState, action) => {
     case LIGHT_MODE:
       window.localStorage.theme = "light";
       document.documentElement.classList.remove("dark");
+      toast.success("Light mode set");
       return {
         ...state,
         theme: "light",

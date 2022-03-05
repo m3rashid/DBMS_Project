@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import {
   LOGIN_SUCCESS,
@@ -23,9 +24,12 @@ import {
 } from "../constants/config";
 import { clearErrors, returnErrors } from "./error.action";
 
-export const logout = () => ({
-  type: LOGOUT_SUCCESS,
-});
+export const logout = () => {
+  toast.success("Successfully logout");
+  return {
+    type: LOGOUT_SUCCESS,
+  };
+};
 
 export const userLoading = () => ({
   type: USER_LOADING,
@@ -45,11 +49,13 @@ export const loadUser = () => (dispatch, getState) => {
         type: USER_LOADED,
         payload: res.data,
       });
+      toast.success("Hello User");
     })
     .catch((err) => {
       dispatch({
         type: AUTH_ERROR,
       });
+      toast.error("Error in loading user");
     });
 };
 
@@ -59,13 +65,15 @@ export const login =
     dispatch(userLoading());
     const body = JSON.stringify({ username, password });
     axios
-      .post(`${SERVER_ROOT_URL}/user/login`, body, configContentType)
+      .post(`${SERVER_ROOT_URL}/auth/login`, body, configContentType)
       .then((res) => {
+        console.log(res.data);
         dispatch({
           type: LOGIN_SUCCESS,
           payload: res.data,
         });
         dispatch(clearErrors);
+        toast.success("Successfully logged in");
       })
       .catch((err) => {
         dispatch(
@@ -74,5 +82,7 @@ export const login =
         dispatch({
           type: LOGIN_FAIL,
         });
+        // make it to show errors
+        toast.error("Error in logging in");
       });
   };

@@ -7,7 +7,7 @@ const checkAuth = (req, res, next) => {
   }
   const { valid, expired, payload } = verifyJWT(token);
   if (!valid || expired) {
-    // TODO return unauthorizedResponse(res);
+    return unauthorizedResponse(res);
   }
   req.user = payload.sub;
   next();

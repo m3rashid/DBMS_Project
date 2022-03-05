@@ -2,6 +2,7 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Header from "./components/header";
 import Nav from "./components/nav";
@@ -36,8 +37,8 @@ const NotificationContainer = () => (
 );
 
 function App() {
-  const userLoggedIn = true;
-  const adminLoggedIn = false;
+  const userLoggedIn = useSelector((state) => state.auth.isAuthUser);
+  const adminLoggedIn = useSelector((state) => state.auth.isAuthAdmin);
 
   if (!userLoggedIn && !adminLoggedIn) {
     return (
