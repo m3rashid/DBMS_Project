@@ -1,6 +1,6 @@
 -- Update User Details
 -- get() fields are input text fields from update details page
-UPDATE jmi_connect.user
+UPDATE jmiconnect.user
 set firstName = 'getModifiedFirstName()',
   lastName = 'getModifiedLastName()',
   phNumber = 'getModifiedPhNo()',
@@ -10,7 +10,7 @@ where userID = 'User UUID';
 -- 
 -- Update Avatar
 -- 
-UPDATE jmi_connect.avatar
+UPDATE jmiconnect.avatar
 set sex = 'getGender()',
   faceColor = 'getFaceColor()',
   earSize = 'getEarSize()',

@@ -1,21 +1,21 @@
 -- SIGNIN
 -- get user and avatar details
 select *
-from jmi_connect.user,
-      jmi_connect.avatar
-where jmi_connect.user.userName = 'getUserName()'
-      AND jmi_connect.user.password = 'getUserPassword()';
+from jmiconnect.user,
+      jmiconnect.avatar
+where jmiconnect.user.userName = 'getUserName()'
+      AND jmiconnect.user.password = 'getUserPassword()';
 -- 
 -- get all friends of this user
 -- 
 select *
-from jmi_connect.friendship
+from jmiconnect.friendship
 where `to` = (
             select userID
-            from jmi_connect.user
+            from jmiconnect.user
       )
       OR `from` = (
             select userID
-            from jmi_connect.user
+            from jmiconnect.user
       );
 -- 'from' and 'to' are a reserved keywords in sql that's why backticks are necessary

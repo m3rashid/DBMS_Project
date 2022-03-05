@@ -22,71 +22,33 @@ router.post("/signup", validateSignup, async (req, res) => {
     const avatarId = uuidv4();
     const userId = uuidv4();
 
-    await query(`
-      insert into jmi_connect.avatar (
-        avatarID, 
-        sex,
-        faceColor,
-        earSize, 
-        hairColor,
-        hairStyle,
-        hatColor,
-        hatStyle, 
-        glassesStyle, 
-        noseStyle, 
-        mouthStyle, 
-        shirtStyle,
-        shirtColor, 
-        bgColor,
-        isGradient
-      ) 
-      values (
-        '${avatarId}',
-        '${avatatConfig.sex}',
-        '${avatatConfig.faceColor}',
-        '${avatatConfig.earSize}',
-        '${avatatConfig.hairColor}',
-        '${avatatConfig.hairStyle}',
-        '${avatatConfig.hatColor}',
-        '${avatatConfig.hatStyle}',
-        '${avatatConfig.glassesStyle}',
-        '${avatatConfig.noseStyle}',
-        '${avatatConfig.mouthStyle}',
-        '${avatatConfig.shirtStyle}',
-        '${avatatConfig.shirtColor}',
-        '${avatatConfig.bgColor}',
-        '${avatatConfig.isGradient}'
+    await query(`insert into jmiconnect.avatar (
+        avatarID, sex, faceColor, earSize, hairColor, 
+        hairStyle, hatColor, hatStyle, glassesStyle, noseStyle, 
+        mouthStyle, shirtStyle, shirtColor, bgColor, isGradient
+      ) values (
+        '${avatarId}', '${avatatConfig.sex}', '${avatatConfig.faceColor}', 
+        '${avatatConfig.earSize}', '${avatatConfig.hairColor}', 
+        '${avatatConfig.hairStyle}', '${avatatConfig.hatColor}',
+        '${avatatConfig.hatStyle}', '${avatatConfig.glassesStyle}',
+        '${avatatConfig.noseStyle}', '${avatatConfig.mouthStyle}',
+        '${avatatConfig.shirtStyle}', '${avatatConfig.shirtColor}',
+        '${avatatConfig.bgColor}', '${avatatConfig.isGradient}'
       );
     `);
-    await query(`
-      insert into jmi_connect.user (
-        userID,
-        userName,
-        firstName,
-        lastName,
-        email,
-        gender,
-        avatarID,
-        password
-      )
-      values (
-        '${userId}',
-        '${username}',
-        '${firstName}',
-        '${lastName}',
-        '${email}',
-        '${gender}',
-        '${avatarId}',
-        '${hashedPassword}'
+    await query(`insert into jmiconnect.user (
+        userID, userName, firstName, lastName,
+        email, gender, avatarID, password
+      ) values (
+        '${userId}', '${username}', '${firstName}', '${lastName}', 
+        '${email}', '${gender}', '${avatarId}', '${hashedPassword}'
       );
     `);
-    const user = await query(`
-      select * from jmi_connect.user
-      where userID = '${userId}';
-    `);
+    const user = await query(
+      `select * from jmiconnect.user where userID = '${userId}';`
+    );
     const avatar = await query(`
-      select * from jmi_connect.avatar
-      where avatarID = '${avatarId}';
+      select * from jmiconnect.avatar where avatarID = '${avatarId}';
     `);
     const { token, expires } = issueJWT(user);
 
@@ -107,12 +69,9 @@ router.post("/login", validateLogin, async (req, res) => {
   try {
     const hashedPassword = await hashPassword(password);
     console.log(hashedPassword);
-    const conn = app.locals.conn;
-    const query = app.locals.query;
 
     const user = await query(`
-      select * from jmi_connect.user
-        where jmi_connect.user.userName = '${username}';
+      select * from jmiconnect.user where jmiconnect.user.userName = '${username}';
     `);
 
     if (!user[0]) {
@@ -123,8 +82,7 @@ router.post("/login", validateLogin, async (req, res) => {
         res.sendStatus(401);
       } else {
         const avatar = await query(`
-          select * from jmi_connect.avatar
-            where jmi_connect.avatar.avatarID = '${user[0].avatarID}';
+          select * from jmiconnect.avatar where jmiconnect.avatar.avatarID = '${user[0].avatarID}';
         `);
 
         const { token, expires } = issueJWT(user);

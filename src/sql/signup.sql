@@ -1,14 +1,14 @@
 -- SIGNUP
 -- get() fields are input text fields from server
 -- assumimg filtered data is passed into query after determining gender
-insert into jmi_connect.avatar (avatarID, sex, hairStyle)
+insert into jmiconnect.avatar (avatarID, sex, hairStyle)
 values (
                 'Avatar UUID',
                 'getGender()',
                 'getHairStyle()'
         );
 -- all other entries are inserted as default and can be modified by user
-insert into jmi_connect.user (
+insert into jmiconnect.user (
                 userID,
                 userName,
                 firstName,
