@@ -1,4 +1,4 @@
-import { verifyJWT } from "../utils/jwt";
+const { verifyJWT } = require("../utils/jwt");
 
 const checkAuth = (req, res, next) => {
   const token = req.headers["authorization"];
@@ -13,4 +13,4 @@ const checkAuth = (req, res, next) => {
   next();
 };
 
-export default checkAuth;
+module.exports = checkAuth;

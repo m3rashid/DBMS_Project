@@ -39,7 +39,7 @@ router.post("/avatar", checkAuth, async (req, res) => {
   }
 });
 
-router.post("/profile", checkAuth, (req, res) => {
+router.post("/profile", checkAuth, async (req, res) => {
   const { user } = req.body;
   try {
     const newUser = await pool.query(
