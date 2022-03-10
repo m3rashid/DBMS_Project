@@ -1,5 +1,5 @@
-import { comparePassword } from "../utils/auth";
-import pool from "../utils/database";
+const { comparePassword } = require("../utils/auth");
+const pool = require("../utils/database");
 
 const login = async (username, password) => {
   const client = pool.connect();
@@ -26,4 +26,4 @@ const login = async (username, password) => {
   return { user: foundUser, avatar: foundAvatar };
 };
 
-export default login;
+module.exports = login;

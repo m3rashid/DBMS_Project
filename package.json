@@ -4,8 +4,9 @@
   "description": "DBMS Project, Batch 2020-24, FET, JMI",
   "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "NODE_ENV='DEV' nodemon index.js",
+    "start": "NODE_ENV='DEV'  node index.js",
+    "prod": "NODE_ENV='PROD' node index.js"
   },
   "repository": "https://github.com/m3rashid/DBMS_Project.git",
   "license": "MIT",

@@ -67,4 +67,4 @@ const signup = async (
   }
 };
 
-export default signup;
+module.exports = signup;
