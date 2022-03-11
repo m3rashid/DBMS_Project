@@ -18,8 +18,7 @@
     "express-rate-limit": "^6.2.1",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
-    "pg": "^8.7.3",
-    "pg-promise": "^10.11.1",
+    "mysql": "^2.18.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

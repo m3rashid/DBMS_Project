@@ -4,8 +4,7 @@ const router = express.Router();
 
 const { issueJWT } = require("../utils/jwt");
 const { validateLogin, validateSignup } = require("../middlewares/auth");
-const { hashPassword, comparePassword } = require("../utils/auth");
-const pool = require("../utils/database");
+const { hashPassword } = require("../utils/auth");
 const signup = require("../sql/signup");
 const login = require("../sql/login");
 
@@ -15,7 +14,7 @@ router.post("/signup", validateSignup, async (req, res) => {
     const hashedPassword = await hashPassword(password);
     const avatarId = uuidv4();
     const userId = uuidv4();
-    const { user, avatar } = await signup(
+    signup(
       userId,
       username,
       firstName,
@@ -25,12 +24,8 @@ router.post("/signup", validateSignup, async (req, res) => {
       avatarId,
       hashedPassword
     );
-    const { token, expires } = issueJWT(user);
     return res.status(200).json({
-      token,
-      expires,
-      user: user,
-      avatar: avatar,
+      message: "User created successfullly",
     });
   } catch (err) {
     console.log(err);

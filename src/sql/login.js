@@ -2,28 +2,34 @@ const { comparePassword } = require("../utils/auth");
 const pool = require("../utils/database");
 
 const login = async (username, password) => {
-  const client = pool.connect();
-  const user = await pool.query(
-    "select * from jmiconnect.user where jmiconnect.user.userName = $username",
-    [username]
-  );
-  const foundUser = user.rows[0];
-  if (!foundUser) {
-    throw new Error("User not found");
-  }
+  pool.getConnection((error, connection) => {
+    if (error) throw new Error(error);
 
-  const matched = await comparePassword(password, foundUser.password);
-  if (!matched) {
-    throw new Error("Wrong credentials");
-  }
+    // make a join here instead of 2 queries
+    connection.query(
+      `select * from User where username = "${username}"`,
+      (err, result) => {
+        if (err) throw new Error(err);
 
-  const avatar = await pool.query(
-    "select * from jmiconnect.avatar where jmiconnect.avatar.avatarID = $avatarID",
-    [foundUser.avatarID]
-  );
-  const foundAvatar = avatar.rows[0];
+        const user = result[0];
+        if (!user) throw new Error("User not found");
 
-  return { user: foundUser, avatar: foundAvatar };
+        const isValid = comparePassword(password, user.password);
+        if (!isValid) throw new Error("Invalid Credentials");
+
+        connection.query(
+          `select * from Avatar where avatarID = "${user.avatarID}"`,
+          (err2, result2) => {
+            if (err2) throw new Error(err2);
+
+            connection.release();
+            const avatar = result2[0];
+            return { user, avatar };
+          }
+        );
+      }
+    );
+  });
 };
 
 module.exports = login;

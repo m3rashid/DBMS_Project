@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
+/* 
+  TODO refactor this to use the mysql things
+  
+  this file is not seen
+*/
+
 const pool = require("../utils/database");
 const checkAuth = require("../middlewares/jwt.auth");
 const { hashPassword } = require("../utils/auth");
