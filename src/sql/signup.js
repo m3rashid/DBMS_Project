@@ -1,7 +1,7 @@
 const pool = require("../utils/database");
 const { manAvatarDefault, womanAvatarDefault } = require("../handlers/helpers");
 
-const signup = async (
+const signup = (
   userId,
   username,
   firstName,
