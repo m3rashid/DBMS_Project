@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  // REGISTER_SUCCESS,
-  // REGISTER_FAIL,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
   // DELETE_USER_SUCCESS,
   // DELETE_USER_FAIL,
   LOGOUT_SUCCESS,
@@ -15,6 +15,7 @@ import {
   // RESET_PASSWORD_SUCCESS,
   USER_LOADED,
   USER_LOADING,
+  AVATAR_CHANGE,
 } from "../constants/auth";
 
 import {
@@ -35,6 +36,13 @@ export const userLoading = () => ({
   type: USER_LOADING,
 });
 
+export const changeAvatar = (config) => {
+  return {
+    type: AVATAR_CHANGE,
+    payload: config,
+  };
+};
+
 export const forgotPassword = ({ username, email }) => ({
   type: FORGOT_PASSWORD,
   payload: { username, email },
@@ -43,12 +51,13 @@ export const forgotPassword = ({ username, email }) => ({
 export const loadUser = () => (dispatch, getState) => {
   dispatch(userLoading());
   axios
-    .get(`${SERVER_ROOT_URL}/user`, tokenConfig(getState))
+    .get(`${SERVER_ROOT_URL}/auth`, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: USER_LOADED,
         payload: res.data,
       });
+      console.log(res.data);
       toast.success("Hello User");
     })
     .catch((err) => {
@@ -67,7 +76,6 @@ export const login =
     axios
       .post(`${SERVER_ROOT_URL}/auth/login`, body, configContentType)
       .then((res) => {
-        console.log(res.data);
         dispatch({
           type: LOGIN_SUCCESS,
           payload: res.data,
@@ -82,7 +90,49 @@ export const login =
         dispatch({
           type: LOGIN_FAIL,
         });
-        // make it to show errors
         toast.error("Error in logging in");
+      });
+  };
+
+export const register =
+  ({
+    firstName,
+    lastName,
+    username,
+    email,
+    gender,
+    password,
+    confirmPassword,
+  }) =>
+  (dispatch) => {
+    dispatch(userLoading());
+    const body = JSON.stringify({
+      firstName,
+      lastName,
+      username,
+      email,
+      gender,
+      password,
+      confirmPassword,
+    });
+    axios
+      .post(`${SERVER_ROOT_URL}/auth/signup`, body, configContentType)
+      .then((res) => {
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: res.data,
+        });
+        dispatch(clearErrors);
+        toast.success("Successfully registered");
+        toast.info("Please login to continue");
+      })
+      .catch((err) => {
+        dispatch(
+          returnErrors(err.response.data, err.response.status, REGISTER_FAIL)
+        );
+        dispatch({
+          type: REGISTER_FAIL,
+        });
+        toast.error("Error in registering");
       });
   };

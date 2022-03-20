@@ -4,7 +4,7 @@ import {
   faBell,
   faBookmark,
   faUser,
-  faMessage,
+  // faMessage,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
@@ -35,7 +35,7 @@ const MobileNav = () => {
             />
           </div>
         </Link>
-        <Link to="/chat">
+        {/* <Link to="/chat">
           <div className={divStyles}>
             <FontAwesomeIcon
               icon={faMessage}
@@ -43,7 +43,7 @@ const MobileNav = () => {
               className={iconStyles}
             />
           </div>
-        </Link>
+        </Link> */}
         <Link to="/user/me">
           <div className={divStyles}>
             <FontAwesomeIcon icon={faUser} size="xl" className={iconStyles} />

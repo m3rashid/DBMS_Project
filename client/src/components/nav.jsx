@@ -11,13 +11,9 @@ import { useSelector } from "react-redux";
 import Avatar, { genConfig } from "react-nice-avatar";
 
 const Nav = () => {
-  const avatarConfig = useSelector((state) => state.avatar);
-  const avatarSettings = genConfig(avatarConfig);
-
-  const user = {
-    name: "John Doe",
-    username: "johndoe",
-  };
+  const auth = useSelector((state) => state.auth);
+  const avatarSettings = genConfig(auth.avatar);
+  const user = auth.user;
 
   const iconStyles = "dark:text-gray-300 p-4";
   const iconContainerStyles =
@@ -34,8 +30,10 @@ const Nav = () => {
         />
         <Link to="/user/me">
           <div className="mt-2 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
-            <p className="font-bold text-2xl dark:text-gray-200">{user.name}</p>
-            <p className="dark:text-gray-200 text-lg">@{user.username}</p>
+            <p className="font-bold text-2xl dark:text-gray-200">
+              {user.firstName + " " + user.lastName}
+            </p>
+            <p className="dark:text-gray-200 text-lg">@{user.userName}</p>
           </div>
         </Link>
       </div>
@@ -63,7 +61,7 @@ const Nav = () => {
               <p className={iconLabelStyles}>Bookmarks</p>
             </div>
           </Link>
-          <Link to="/chat">
+          {/* <Link to="/chat">
             <div className={iconContainerStyles}>
               <FontAwesomeIcon
                 icon={faMessage}
@@ -72,7 +70,7 @@ const Nav = () => {
               />
               <p className={iconLabelStyles}>Chat</p>
             </div>
-          </Link>
+          </Link> */}
           <Link to="/user/me">
             <div className={iconContainerStyles}>
               <FontAwesomeIcon icon={faUser} size="xl" className={iconStyles} />

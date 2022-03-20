@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Select from "react-select";
 
-import { changeAvatar } from "../store/actions/avatar.acion";
+import { changeAvatar } from "../store/actions/auth.action";
 
 const data = [
   {
@@ -96,7 +96,7 @@ const colorConfig = [
 ];
 
 const UserAvatarSettings = () => {
-  const avatarConfig = useSelector((state) => state.avatar);
+  const avatarConfig = useSelector((state) => state.auth.avatar);
   const dispatch = useDispatch();
 
   const handleConfigChange = (label, container) => {
@@ -135,7 +135,7 @@ const UserAvatarSettings = () => {
               options={item.data}
               name={item.name}
               value={item.label}
-              plaveholder="Select"
+              placeholder="Select"
               defaultValue={avatarConfig[item.name]}
               label="Single Select"
               styles={{
