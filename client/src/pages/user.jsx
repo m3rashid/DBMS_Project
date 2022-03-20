@@ -1,6 +1,7 @@
 import React from "react";
 import Avatar, { genConfig } from "react-nice-avatar";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 
 // to be stored in the database
 import { darkMode, lightMode } from "../store/actions/ui.action";
@@ -12,9 +13,9 @@ const User = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const avatarConfig = useSelector((state) => state.avatar);
-  const avatarSettings = genConfig(avatarConfig);
-
+  const auth = useSelector((state) => state.auth);
+  const avatarSettings = genConfig(auth.avatar);
+  const user = auth.user;
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.ui.theme);
 
@@ -46,29 +47,42 @@ const User = () => {
             <Avatar className="h-32 w-32 rounded-full" {...avatarSettings} />
           </div>
           <div className="flex flex-col items-center justify-center w-full">
-            <p className="font-bold text-2xl">Demo UserName</p>
-            <p className="text-xl">@Username</p>
+            <p className="font-bold text-2xl">
+              {user.firstName + " " + user.lastName}
+            </p>
+            <p className="text-xl">{`@${user.userName}`}</p>
           </div>
         </div>
         <div className={`${commons}`}>
           <h3 className={h3Styles}>User Details</h3>
+          <p>Member Since: {moment(user.createdAt).format("MMMM Do YYYY")}</p>
+          <p>Last Changed: {moment(user.updatedAt).format("MMMM Do YYYY")}</p>
+          {user.dob && <p>{user.dob}</p>}
+          <p>Email: {user.email}</p>
+          {user.phNumber && <p>Phone: {user.phNumber}</p>}
+          {user.reputation && <p>Reputation: {user.reputation}</p>}
         </div>
-        <div className={`${commons}`}>name</div>
         <div className={`${commons}`}>
           <h3 className={h3Styles}>Customize your avatar</h3>
           <UserAvatarSettings />
         </div>
-        <div className={`${commons}`}>
-          <button onClick={handleThemeChange} className={buttonStyles}>
+        <div className="flex gap-4">
+          <button
+            onClick={handleThemeChange}
+            className={`${buttonStyles} w-[150px]`}
+          >
             Change theme
           </button>
-        </div>
-        <div className={`${commons}`}>
-          <button className={buttonStyles} onClick={handleLogout}>
+          <button
+            className={`${buttonStyles} w-[100px]`}
+            onClick={handleLogout}
+          >
             Logout
           </button>
         </div>
-        <div className={`${commons}`}>name</div>
+        <div className={`${commons}`}>
+          JMI Connect &copy; {moment(new Date()).format("YYYY")}
+        </div>
       </div>
     </>
   );

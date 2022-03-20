@@ -1,5 +1,11 @@
 const { verifyJWT } = require("../utils/jwt");
 
+const unauthorizedResponse = (res) => {
+  res.status(401).json({
+    message: "Unauthorized",
+  });
+};
+
 const checkAuth = (req, res, next) => {
   const token = req.headers["authorization"];
   if (!token) {
@@ -9,7 +15,7 @@ const checkAuth = (req, res, next) => {
   if (!valid || expired) {
     return unauthorizedResponse(res);
   }
-  req.user = payload.sub;
+  req.userId = payload.sub;
   next();
 };
 

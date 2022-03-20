@@ -2,14 +2,13 @@ import { combineReducers, createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
 import UiReducer from "./ui.reducer";
-import AvatarReducer from "./avatar.reducer";
 import authReducer from "./auth.reducer";
 
 const reducers = combineReducers({
   auth: authReducer,
   // error: errorReducer,
   // post: postReducer,
-  avatar: AvatarReducer,
+  // avatar: AvatarReducer,
   ui: UiReducer,
 });
 

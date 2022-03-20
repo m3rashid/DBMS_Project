@@ -2,7 +2,7 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Header from "./components/header";
 import Nav from "./components/nav";
@@ -18,11 +18,12 @@ import Bookmarks from "./pages/bookmarks";
 import User from "./pages/user";
 import PostDetail from "./pages/postDetail";
 import Test from "./pages/test";
-import Chat from "./pages/chat";
+// import Chat from "./pages/chat";
 
 import Admin from "./pages/Admin";
+import { loadUser } from "./store/actions/auth.action";
 
-const NotificationContainer = () => (
+const NotificationContainer = ({ theme }) => (
   <ToastContainer
     position="top-right"
     autoClose={5000}
@@ -33,17 +34,25 @@ const NotificationContainer = () => (
     pauseOnFocusLoss
     draggable
     pauseOnHover
+    theme={theme}
   />
 );
 
 function App() {
+  const theme = useSelector((state) => state.ui.theme);
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
+
   const userLoggedIn = useSelector((state) => state.auth.isAuthUser);
   const adminLoggedIn = useSelector((state) => state.auth.isAuthAdmin);
 
   if (!userLoggedIn && !adminLoggedIn) {
     return (
       <>
-        <NotificationContainer />
+        <NotificationContainer theme={theme} />
+        {console.log(theme)}
         <BrowserRouter>
           <div className="flex flex-col md:flex-row h-screen w-screen bg-gray-200 dark:bg-gray-700 relative">
             <div className="h-screen w-screen md:w-[50vw] bg-blue-500 md:rounded-br-[100px] px-10 py-20 absolute top-0 left-0 flex flex-col items-center shadow-2xl">
@@ -72,7 +81,7 @@ function App() {
   } else if (adminLoggedIn) {
     return (
       <>
-        <NotificationContainer />
+        <NotificationContainer theme={theme} />
         <BrowserRouter>
           <div className="bg-gray-50 min-h-[100vh] overflow-x-hidden flex flex-col items-center">
             <Routes>
@@ -87,7 +96,7 @@ function App() {
 
   return (
     <>
-      <NotificationContainer />
+      <NotificationContainer theme={theme} />
       <BrowserRouter>
         <div className="bg-gray-300 dark:bg-gray-700 min-h-[100vh] overflow-x-hidden pb-60px flex flex-col items-center pt-[90px] md:pt-[80px] pb-[60px] md:pb-4">
           <Header />
@@ -101,7 +110,7 @@ function App() {
                 <Route path="/bookmarks" element={<Bookmarks />} />
                 <Route path="/user/:userId" element={<User />} />
                 <Route path="/post/:postId" element={<PostDetail />} />
-                <Route path="/chat" element={<Chat />} />
+                {/* <Route path="/chat" element={<Chat />} /> */}
                 <Route path="/test" element={<Test />} />
                 <Route path="/" element={<Navigate to="/home" />} />
                 <Route path="/login" element={<Navigate to="/home" />} />

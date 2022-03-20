@@ -19,6 +19,7 @@ const initialState = {
   token: localStorage.getItem("connect-token"),
   isLoading: false,
   user: null,
+  avatar: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -32,6 +33,7 @@ const authReducer = (state = initialState, action) => {
     case USER_LOADED:
       return {
         ...state,
+        ...action.payload,
         isAuthUser: true,
         isLoading: false,
       };
@@ -48,13 +50,17 @@ const authReducer = (state = initialState, action) => {
       };
 
     case LOGIN_SUCCESS:
-    case REGISTER_SUCCESS:
       localStorage.setItem("connect-token", action.payload.token);
       return {
         ...state,
         ...action.payload,
         isAuthUser: true,
         isLoading: false,
+      };
+
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
       };
 
     default:

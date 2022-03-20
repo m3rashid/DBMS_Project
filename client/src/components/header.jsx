@@ -16,7 +16,7 @@ const Header = () => {
   const [suggestions, setSuggestions] = React.useState([""]);
   const [searchValue, setSearchValue] = React.useState("");
 
-  const avatarConfig = useSelector((state) => state.avatar);
+  const avatarConfig = useSelector((state) => state.auth.avatar);
   const avatarSettings = genConfig(avatarConfig);
 
   window.addEventListener("click", (e) => {
