@@ -7,7 +7,7 @@ const pool = require("../utils/database");
 
 router.post("/getUsers", checkAuth, checkAdmin, (req, res) => {
   pool.getConnection((error, connection) => {
-    if (error) res.sendStatus(500);
+    if (error) return res.sendStatus(500);
     try {
       connection.query(`select * from User`, (err, result) => {
         if (err || result.length == 0) throw new Error(err);
@@ -27,7 +27,7 @@ router.post("/getUsers", checkAuth, checkAdmin, (req, res) => {
 router.post("/getUser", checkAuth, checkAdmin, (req, res) => {
   const { userID } = req.body;
   pool.getConnection((error, connection) => {
-    if (error) res.sendStatus(500);
+    if (error) return res.sendStatus(500);
     try {
       connection.query(
         `select * from User where userID = '${userID}'`,
@@ -50,7 +50,7 @@ router.post("/getUser", checkAuth, checkAdmin, (req, res) => {
 router.post("/deleteUser", checkAuth, checkAdmin, (req, res) => {
   const { userID } = req.body;
   pool.getConnection((error, connection) => {
-    if (error) res.sendStatus(500);
+    if (error) return res.sendStatus(500);
     try {
       connection.query(
         `delete from User where userID = '${userID}'`,
@@ -69,7 +69,7 @@ router.post("/deleteUser", checkAuth, checkAdmin, (req, res) => {
 
 router.get("/topics", checkAuth, (req, res) => {
   pool.getConnection((error, connection) => {
-    if (error) res.sendStatus(500);
+    if (error) return res.sendStatus(500);
     try {
       connection.query(`select * from Topic`, (err, result) => {
         if (err || result.length == 0) throw new Error(err);
@@ -90,7 +90,7 @@ router.post("/createTopic", checkAuth, checkAdmin, (req, res) => {
   const { topicName } = req.body;
   const topicId = uuidv4();
   pool.getConnection((error, connection) => {
-    if (error) res.sendStatus(500);
+    if (error) return res.sendStatus(500);
     try {
       connection.query(
         `insert into Topic (topicID, name) values ('${topicId}', '${topicName}')`,
