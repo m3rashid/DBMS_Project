@@ -11,11 +11,10 @@ router.post("/add", checkAuth, (req, res) => {
     body: { title, body, topicId },
   } = req;
   const postId = uuidv4();
-  try {
-    if (!title || !body || !topicId)
-      throw new Error("title, body and topicId are required");
+  if (!title || !body || !topicId) res.sendStatus(500);
 
-    pool.getConnection((error, connection) => {
+  pool.getConnection((error, connection) => {
+    try {
       if (error) throw new Error(error);
       connection.query(
         `insert into Post (postID, title, description, topicID, userID) values (
@@ -35,19 +34,12 @@ router.post("/add", checkAuth, (req, res) => {
           });
         }
       );
-    });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(500);
-  }
+    } catch (err) {
+      console.log(err);
+      connection.release();
+      return res.sendStatus(500);
+    }
+  });
 });
-
-// router.post("/update", checkAuth, (req, res) => {});
-
-// router.post("/delete", checkAuth, (req, res) => {});
-
-// router.get("/all", checkAuth, (req, res) => {});
-
-// router.get("/:postId", checkAuth, (req, res) => {});
 
 module.exports = router;

@@ -6,9 +6,9 @@ const { checkAuth, checkAdmin } = require("../middlewares/jwt.auth");
 const pool = require("../utils/database");
 
 router.post("/getUsers", checkAuth, checkAdmin, (req, res) => {
-  try {
-    pool.getConnection((error, connection) => {
-      if (error) throw new Error(error);
+  pool.getConnection((error, connection) => {
+    if (error) res.sendStatus(500);
+    try {
       connection.query(`select * from User`, (err, result) => {
         if (err || result.length == 0) throw new Error(err);
         connection.release();
@@ -16,18 +16,19 @@ router.post("/getUsers", checkAuth, checkAdmin, (req, res) => {
           users: result,
         });
       });
-    });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(500);
-  }
+    } catch (err) {
+      console.log(err);
+      connection.release();
+      return res.sendStatus(500);
+    }
+  });
 });
 
 router.post("/getUser", checkAuth, checkAdmin, (req, res) => {
   const { userID } = req.body;
-  try {
-    pool.getConnection((error, connection) => {
-      if (error) throw new Error(error);
+  pool.getConnection((error, connection) => {
+    if (error) res.sendStatus(500);
+    try {
       connection.query(
         `select * from User where userID = '${userID}'`,
         (err, result) => {
@@ -38,18 +39,19 @@ router.post("/getUser", checkAuth, checkAdmin, (req, res) => {
           });
         }
       );
-    });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(500);
-  }
+    } catch (err) {
+      console.log(err);
+      connection.release();
+      return res.sendStatus(500);
+    }
+  });
 });
 
 router.post("/deleteUser", checkAuth, checkAdmin, (req, res) => {
   const { userID } = req.body;
-  try {
-    pool.getConnection((error, connection) => {
-      if (error) throw new Error(error);
+  pool.getConnection((error, connection) => {
+    if (error) res.sendStatus(500);
+    try {
       connection.query(
         `delete from User where userID = '${userID}'`,
         (err, result) => {
@@ -57,17 +59,18 @@ router.post("/deleteUser", checkAuth, checkAdmin, (req, res) => {
           connection.release();
         }
       );
-    });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(500);
-  }
+    } catch (err) {
+      console.log(err);
+      connection.release();
+      return res.sendStatus(500);
+    }
+  });
 });
 
 router.get("/topics", checkAuth, (req, res) => {
-  try {
-    pool.getConnection((error, connection) => {
-      if (error) throw new Error(error);
+  pool.getConnection((error, connection) => {
+    if (error) res.sendStatus(500);
+    try {
       connection.query(`select * from Topic`, (err, result) => {
         if (err || result.length == 0) throw new Error(err);
         connection.release();
@@ -75,19 +78,20 @@ router.get("/topics", checkAuth, (req, res) => {
           topics: result,
         });
       });
-    });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(500);
-  }
+    } catch (err) {
+      console.log(err);
+      connection.release();
+      return res.sendStatus(500);
+    }
+  });
 });
 
 router.post("/createTopic", checkAuth, checkAdmin, (req, res) => {
   const { topicName } = req.body;
   const topicId = uuidv4();
-  try {
-    pool.getConnection((error, connection) => {
-      if (error) throw new Error(error);
+  pool.getConnection((error, connection) => {
+    if (error) res.sendStatus(500);
+    try {
       connection.query(
         `insert into Topic (topicID, name) values ('${topicId}', '${topicName}')`,
         (err, result) => {
@@ -98,11 +102,12 @@ router.post("/createTopic", checkAuth, checkAdmin, (req, res) => {
           });
         }
       );
-    });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(500);
-  }
+    } catch (err) {
+      console.log(err);
+      connection.release();
+      return res.sendStatus(500);
+    }
+  });
 });
 
 module.exports = router;
