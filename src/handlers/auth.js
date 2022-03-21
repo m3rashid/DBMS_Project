@@ -12,7 +12,7 @@ const { checkAuth } = require("../middlewares/jwt.auth");
 router.get("/", checkAuth, async (req, res) => {
   const { userId } = req;
   pool.getConnection((error, connection) => {
-    if (error) res.sendStatus(500);
+    if (error) return res.sendStatus(500);
     try {
       connection.query(
         `select * from User where userID = '${userId}'`,
@@ -75,7 +75,7 @@ router.post("/login", validateLogin, async (req, res) => {
   if (isAdmin) return res.sendStatus(500);
 
   pool.getConnection((error, connection) => {
-    if (error) res.sendStatus(500);
+    if (error) return res.sendStatus(500);
 
     connection.query(
       `select * from User where username = '${username}'`,
@@ -117,7 +117,7 @@ router.post("/login", validateLogin, async (req, res) => {
 
 router.post("/adminLogin", async (req, res) => {
   const { username, password, isAdmin } = req.body;
-  if (!isAdmin) res.sendStatus(500);
+  if (!isAdmin) return res.sendStatus(500);
 
   pool.getConnection((error, connection) => {
     if (error) res.sendStatus(500);

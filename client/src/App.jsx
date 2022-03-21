@@ -22,6 +22,7 @@ import Test from "./pages/test";
 
 import Admin from "./pages/Admin";
 import { getTopics, loadUser } from "./store/actions/auth.action";
+import { getPosts } from "./store/actions/post.action";
 
 const NotificationContainer = ({ theme }) => (
   <ToastContainer
@@ -41,10 +42,12 @@ const NotificationContainer = ({ theme }) => (
 function App() {
   const theme = useSelector((state) => state.ui.theme);
   const dispatch = useDispatch();
+
   React.useEffect(() => {
     dispatch(loadUser());
     dispatch(getTopics());
-  }, [dispatch]);
+    dispatch(getPosts());
+  }, []);
 
   const userLoggedIn = useSelector((state) => state.auth.isAuthUser);
   const adminLoggedIn = useSelector((state) => state.auth.isAuthAdmin);
@@ -53,7 +56,6 @@ function App() {
     return (
       <>
         <NotificationContainer theme={theme} />
-        {console.log(theme)}
         <BrowserRouter>
           <div className="flex flex-col md:flex-row h-screen w-screen bg-gray-200 dark:bg-gray-700 relative">
             <div className="h-screen w-screen md:w-[50vw] bg-blue-500 md:rounded-br-[100px] px-10 py-20 absolute top-0 left-0 flex flex-col items-center shadow-2xl">

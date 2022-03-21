@@ -8,32 +8,64 @@ import {
 
 import UserTitle from "../components/atoms/userTitle";
 import Notif from "../components/notif";
-
-const no_likes = 12;
-const no_comments = 1;
-const title =
-  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia";
-const comments = [
-  {
-    name: "something",
-    comment:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia",
-  },
-  {
-    name: "something",
-    comment:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia",
-  },
-  {
-    name: "something",
-    comment:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia",
-  },
-];
-const body =
-  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getSinglePost } from "../store/actions/post.action";
 
 const PostDetail = () => {
+  const postId = useParams().postId;
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(getSinglePost({ postId }));
+  }, [dispatch, postId]);
+
+  const singlePost = useSelector((state) => state.posts.post);
+  const user = {
+    userName: singlePost.userName,
+    userId: singlePost.userID,
+    phNumber: singlePost.phNumber,
+    dob: singlePost.dob,
+    email: singlePost.email,
+    firstName: singlePost.firstName,
+    lastName: singlePost.lastName,
+    gender: singlePost.gender,
+  };
+
+  const avatar = {
+    avatarID: singlePost.avatarID,
+    sex: singlePost.sex,
+    faceColor: singlePost.faceColor,
+    earSize: singlePost.earSize,
+    hairColor: singlePost.hairColor,
+    hairStyle: singlePost.hairStyle,
+    hatColor: singlePost.hatColor,
+    hatStyle: singlePost.hatStyle,
+    glassesStyle: singlePost.glassesStyle,
+    noseStyle: singlePost.noseStyle,
+    mouthStyle: singlePost.mouthStyle,
+    shirtStyle: singlePost.shirtStyle,
+    shirtColor: singlePost.shirtColor,
+    bgColor: singlePost.bgColor,
+    isGradient: singlePost.isGradient,
+  };
+
+  const topic = {
+    name: singlePost.name,
+    topicID: singlePost.topicID,
+  };
+
+  const postDetail = {
+    postID: singlePost.postID,
+    title: singlePost.title,
+    description: singlePost.description,
+    likes: singlePost.likes,
+    commentsCount: singlePost.commentsCount,
+    createdAt: singlePost.createdAt,
+    updatedAt: singlePost.updatedAt,
+    comments: [],
+  };
+
   const liked = false;
   const bookmarked = false;
 
@@ -63,13 +95,17 @@ const PostDetail = () => {
     <>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         <div className="flex flex-col  bg-gray-50 dark:bg-gray-900 rounded-md w-full shadow-md">
-          <UserTitle time="Monday 11:00 IST" />
+          <UserTitle post={postDetail} user={user} avatar={avatar} />
           <div className="">
             <div className="w-full bg-gray-200 dark:bg-gray-800  dark:text-gray-200 p-4">
-              <div className={`dark:text-gray-20 ${body && "font-semibold"}`}>
-                {title}
+              <div
+                className={`dark:text-gray-20 ${
+                  postDetail.body && "font-semibold"
+                }`}
+              >
+                {postDetail.title}
               </div>
-              <div className="dark:text-gray-20">{body}</div>
+              <div className="dark:text-gray-20">{postDetail.description}</div>
             </div>
           </div>
           <div className="p-4 flex items-center justify-between">
@@ -82,7 +118,7 @@ const PostDetail = () => {
                   icon={faHeart}
                   size="xl"
                 />
-                <p className="dark:text-gray-200">{no_likes}</p>
+                <p className="dark:text-gray-200">{postDetail.likes}</p>
               </div>
               <div className={iconContainerStyles} onClick={handleOpenComment}>
                 <FontAwesomeIcon
@@ -90,7 +126,7 @@ const PostDetail = () => {
                   icon={faComment}
                   size="xl"
                 />
-                <p className="dark:text-gray-200">{no_comments}</p>
+                <p className="dark:text-gray-200">{postDetail.commentsCount}</p>
               </div>
             </div>
             <div className={iconContainerStyles} onClick={handleBookmark}>
@@ -126,7 +162,7 @@ const PostDetail = () => {
                 ) : null}
               </div>
               <div className="flex flex-col gap-2 mt-4 mb-1">
-                {comments.map(({ name, comment }, index) => (
+                {postDetail.comments.map(({ name, comment }, index) => (
                   <Notif key={index} username={name} text={comment} />
                 ))}
               </div>

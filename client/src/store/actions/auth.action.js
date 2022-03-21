@@ -174,7 +174,6 @@ export const getTopics = () => (dispatch, getState) => {
         type: TOPIC_GOT,
         payload: res.data,
       });
-      console.log(res.data);
     })
     .catch((err) => {
       dispatch({

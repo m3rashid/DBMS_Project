@@ -8,7 +8,7 @@ import errorReducer from "./error.reducer";
 
 const reducers = combineReducers({
   auth: authReducer,
-  post: postReducer,
+  posts: postReducer,
   ui: UiReducer,
   error: errorReducer,
   // avatar: AvatarReducer,

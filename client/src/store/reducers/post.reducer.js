@@ -5,10 +5,12 @@ import {
   // DELETE_POST_FAIL,
   // POSTS_LOADING,
   POSTS_LOADED,
+  POST_LOADED,
 } from "../constants/post";
 
 const initialState = {
-  posts: [],
+  posts: {},
+  post: {},
 };
 
 const postReducer = (state = initialState, action) => {
@@ -16,7 +18,17 @@ const postReducer = (state = initialState, action) => {
     case POSTS_LOADED:
       return {
         ...state,
-        ...action.payload,
+        posts: {
+          ...action.payload.posts,
+        },
+      };
+
+    case POST_LOADED:
+      return {
+        ...state,
+        post: {
+          ...action.payload.post,
+        },
       };
 
     default:

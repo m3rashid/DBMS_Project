@@ -9,7 +9,8 @@ import { addPost } from "../store/actions/post.action";
 const CreatePost = () => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.ui.theme);
-  const topics = useSelector((state) => state.auth.topics);
+  const auth = useSelector((state) => state.auth);
+  const { topics, avatar, user } = auth;
   const [text, setText] = React.useState({
     title: "",
     body: "",
@@ -45,7 +46,7 @@ const CreatePost = () => {
       toast.error(`Title cannot be more than ${maxTitleLength} characters`);
       return;
     }
-    if (text.body.length > maxBodyLength + 10) {
+    if (text.body.length > maxBodyLength - 50) {
       toast.error(`Body cannot be more than ${maxBodyLength} characters`);
       return;
     }
@@ -55,12 +56,17 @@ const CreatePost = () => {
       return;
     }
     dispatch(addPost(text));
+    setText({
+      title: "",
+      body: "",
+      topicId: "",
+    });
   };
 
   return (
     <>
       <div className="flex flex-col w-full bg-gray-50 dark:bg-gray-900 rounded-md shadow-md">
-        <UserTitle />
+        <UserTitle user={user} avatar={avatar} />
         <div className="flex flex-col bg-gray-200 dark:bg-gray-800 items-end gap-2 p-4 rounded-b-md">
           <textarea
             rows="2"

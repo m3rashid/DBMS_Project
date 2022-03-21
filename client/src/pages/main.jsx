@@ -1,19 +1,20 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import CreatePost from "../components/create";
 import PostCard from "../components/postCard";
 
 const Main = () => {
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const posts = useSelector((state) =>
+    Object.values(state.posts.posts).sort((a, b) => b.updatedAt - a.updatedAt)
+  );
 
   return (
     <>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         <CreatePost />
-        <PostCard />
-        <PostCard />
+        {posts &&
+          posts.map((post) => <PostCard key={post.postID} post={post} />)}
       </div>
     </>
   );
