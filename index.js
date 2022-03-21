@@ -7,9 +7,8 @@ const {
   authRateLimiter,
 } = require("./src/utils/rateLimit");
 
-const auth = require("./src/handlers/auth");
-const updateUser = require("./src/handlers/updateUser");
-const post = require("./src/handlers/post");
+// const updateUser = require("./src/handlers/updateUser");
+// const post = require("./src/handlers/post");
 
 const app = express();
 
@@ -20,18 +19,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   "/auth",
   // authRateLimiter,
-  auth
+  require("./src/handlers/auth")
 );
 app.use(
-  "/update",
-  // authRateLimiter,
-  updateUser
-);
-app.use(
-  "/post",
+  "/admin",
   // regularRateLimiter,
-  post
+  require("./src/handlers/admin")
 );
+// app.use(
+//   "/update",
+//   // authRateLimiter,
+//   updateUser
+// );
+// app.use(
+//   "/post",
+//   // regularRateLimiter,
+//   post
+// );
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

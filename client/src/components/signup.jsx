@@ -5,17 +5,18 @@ import Select from "react-select";
 
 import Input from "./atoms/input";
 import Button from "./atoms/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../store/actions/auth.action";
 
 const Signup = () => {
+  const theme = useSelector((state) => state.ui.theme);
   const dispatch = useDispatch();
   const [credentials, setCredentials] = React.useState({
     firstName: "",
     lastName: "",
     username: "",
     email: "",
-    gender: "male",
+    gender: "",
     password: "",
     confirmPassword: "",
   });
@@ -83,11 +84,23 @@ const Signup = () => {
         setValue={handleChange}
       />
       <Select
+        styles={{
+          control: (base) => ({
+            ...base,
+            border: "none",
+            color: theme === "dark" ? "white" : "black",
+          }),
+          container: (base) => ({
+            ...base,
+            color: theme === "dark" ? "white" : "black",
+          }),
+        }}
+        classNamePrefix="bg-gray-200 dark:bg-gray-800 outline-none"
         options={data.data}
         name={data.name}
         value={credentials.gender}
         onChange={changeGender}
-        placeholder={credentials.gender}
+        placeholder={credentials.gender ? credentials.gender : "Select gender"}
         defaultValue={credentials.gender}
         label="Single Select"
       />

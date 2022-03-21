@@ -1,6 +1,8 @@
 import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  ADMIN_LOGIN_SUCCESS,
+  ADMIN_LOGIN_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   // DELETE_USER_SUCCESS,
@@ -20,6 +22,8 @@ const initialState = {
   isLoading: false,
   user: null,
   avatar: null,
+  users: null,
+  topics: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -35,17 +39,20 @@ const authReducer = (state = initialState, action) => {
         ...state,
         ...action.payload,
         isAuthUser: true,
+        isAuthAdmin: false,
         isLoading: false,
       };
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case REGISTER_FAIL:
+    case ADMIN_LOGIN_FAIL:
       localStorage.removeItem("connect-token");
       return {
         ...state,
         token: null,
         isAuthUser: false,
+        isAuthAdmin: false,
         isLoading: false,
       };
 
@@ -55,6 +62,17 @@ const authReducer = (state = initialState, action) => {
         ...state,
         ...action.payload,
         isAuthUser: true,
+        isAuthAdmin: false,
+        isLoading: false,
+      };
+
+    case ADMIN_LOGIN_SUCCESS:
+      localStorage.setItem("connect-token", action.payload.token);
+      return {
+        ...state,
+        ...action.payload,
+        isAuthAdmin: true,
+        isAuthUser: false,
         isLoading: false,
       };
 

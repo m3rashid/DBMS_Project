@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  ADMIN_LOGIN_SUCCESS,
+  ADMIN_LOGIN_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   // DELETE_USER_SUCCESS,
@@ -69,10 +71,10 @@ export const loadUser = () => (dispatch, getState) => {
 };
 
 export const login =
-  ({ username, password }) =>
+  ({ username, password, isAdmin }) =>
   (dispatch) => {
     dispatch(userLoading());
-    const body = JSON.stringify({ username, password });
+    const body = JSON.stringify({ username, password, isAdmin });
     axios
       .post(`${SERVER_ROOT_URL}/auth/login`, body, configContentType)
       .then((res) => {
@@ -134,5 +136,31 @@ export const register =
           type: REGISTER_FAIL,
         });
         toast.error("Error in registering");
+      });
+  };
+
+export const adminLogin =
+  ({ username, password, isAdmin }) =>
+  (dispatch) => {
+    dispatch(userLoading());
+    const body = JSON.stringify({ username, password, isAdmin });
+    axios
+      .post(`${SERVER_ROOT_URL}/auth/adminLogin`, body, configContentType)
+      .then((res) => {
+        dispatch({
+          type: ADMIN_LOGIN_SUCCESS,
+          payload: res.data,
+        });
+        dispatch(clearErrors);
+        toast.success("Successfully logged in");
+      })
+      .catch((err) => {
+        dispatch(
+          returnErrors(err.response.data, err.response.status, LOGIN_FAIL)
+        );
+        dispatch({
+          type: ADMIN_LOGIN_FAIL,
+        });
+        toast.error("Error in logging in");
       });
   };

@@ -7,7 +7,7 @@ const { validateLogin, validateSignup } = require("../middlewares/auth");
 const { hashPassword, comparePassword } = require("../utils/auth");
 const signup = require("../sql/signup");
 const pool = require("../utils/database");
-const checkAuth = require("../middlewares/jwt.auth");
+const { checkAuth } = require("../middlewares/jwt.auth");
 
 router.get("/", checkAuth, async (req, res) => {
   const { userId } = req;
@@ -17,7 +17,7 @@ router.get("/", checkAuth, async (req, res) => {
       connection.query(
         `select * from User where userID = '${userId}'`,
         async (err, result) => {
-          if (err) throw new Error(err);
+          if (err || result.length == 0) throw new Error(err);
 
           const user = result[0];
           if (!user) throw new Error("User not found");
@@ -25,7 +25,7 @@ router.get("/", checkAuth, async (req, res) => {
           connection.query(
             `select * from Avatar where avatarID = '${user.avatarID}'`,
             (err2, result2) => {
-              if (err2) throw new Error(err2);
+              if (err2 || result2.length == 0) throw new Error(err2);
 
               const avatar = result2[0];
               connection.release();
@@ -46,10 +46,10 @@ router.get("/", checkAuth, async (req, res) => {
 
 router.post("/signup", validateSignup, async (req, res) => {
   const { firstName, lastName, username, email, gender, password } = req.body;
+  const avatarId = uuidv4();
+  const userId = uuidv4();
   try {
     const hashedPassword = await hashPassword(password);
-    const avatarId = uuidv4();
-    const userId = uuidv4();
     signup(
       userId,
       username,
@@ -70,14 +70,17 @@ router.post("/signup", validateSignup, async (req, res) => {
 });
 
 router.post("/login", validateLogin, async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, isAdmin } = req.body;
+
   try {
+    if (isAdmin) throw new Error("Not an admin");
     pool.getConnection((error, connection) => {
       if (error) throw new Error(error);
+
       connection.query(
         `select * from User where username = '${username}'`,
         async (err, result) => {
-          if (err) throw new Error(err);
+          if (err || result.length == 0) throw new Error(err);
 
           const user = result[0];
           if (!user) throw new Error("User not found");
@@ -88,7 +91,7 @@ router.post("/login", validateLogin, async (req, res) => {
           connection.query(
             `select * from Avatar where avatarID = '${user.avatarID}'`,
             (err2, result2) => {
-              if (err2) throw new Error(err2);
+              if (err2 || result2.length == 0) throw new Error(err2);
 
               const avatar = result2[0];
               connection.release();
@@ -101,6 +104,48 @@ router.post("/login", validateLogin, async (req, res) => {
               });
             }
           );
+        }
+      );
+    });
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
+});
+
+router.post("/adminLogin", async (req, res) => {
+  const { username, password, isAdmin } = req.body;
+  try {
+    if (!isAdmin) throw new Error("Not an admin");
+    pool.getConnection((error, connection) => {
+      if (error) throw new Error(error);
+      connection.query(
+        `select * from Admin where username = '${username}'`,
+        (err, result) => {
+          if (err || result.length == 0) throw new Error(err);
+          const admin = result[0];
+          if (admin.password !== password)
+            throw new Error("Invalid Credentials");
+
+          connection.query(`select * from User`, (err2, results) => {
+            if (err2) throw new Error(err2);
+            const users = results;
+
+            connection.query(`select * from Topic`, (err3, results3) => {
+              if (err3) throw new Error(err3);
+              const topics = results3;
+              connection.release();
+
+              const { token, expires } = issueJWT(admin);
+              return res.status(200).json({
+                token,
+                expires,
+                user: admin,
+                topics,
+                users,
+              });
+            });
+          });
         }
       );
     });

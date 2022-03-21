@@ -5,18 +5,18 @@ import { useDispatch } from "react-redux";
 
 import Input from "./atoms/input";
 import Button from "./atoms/Button";
-import { login } from "../store/actions/auth.action";
+import { adminLogin } from "../store/actions/auth.action";
 
 const Login = () => {
   const dispatch = useDispatch();
   const [credentials, setCredentials] = React.useState({
     username: "",
     password: "",
-    admin: false,
+    isAdmin: false,
   });
 
   const handleLogin = () => {
-    dispatch(login(credentials));
+    dispatch(adminLogin(credentials));
   };
 
   const handleChange = (e) => {
@@ -29,7 +29,7 @@ const Login = () => {
   const toggleAdmin = () => {
     setCredentials((prev) => ({
       ...prev,
-      admin: !credentials.admin,
+      isAdmin: !credentials.isAdmin,
     }));
   };
 
@@ -52,15 +52,15 @@ const Login = () => {
         setValue={handleChange}
       />
       <div className="flex items-center justify-center gap-2 p-2 rounded-lg dark:text-gray-200">
-        <label className="text-lg" htmlFor="admin">
+        <label className="text-lg" htmlFor="isAdmin">
           Are you an Admin ?
         </label>
         <input
           type="checkbox"
-          name="admin"
-          id="admin"
+          name="isAdmin"
+          id="isAdmin"
           className="w-6 h-6 rounded-3xl"
-          checked={credentials.admin}
+          checked={credentials.isAdmin}
           onChange={toggleAdmin}
         />
       </div>
