@@ -14,6 +14,8 @@ import {
   // RESET_PASSWORD_SUCCESS,
   USER_LOADED,
   USER_LOADING,
+  TOPIC_GOT,
+  TOPIC_GOT_FAIL,
 } from "../constants/auth";
 const initialState = {
   isAuthUser: false,
@@ -77,6 +79,17 @@ const authReducer = (state = initialState, action) => {
       };
 
     case REGISTER_SUCCESS:
+      return {
+        ...state,
+      };
+
+    case TOPIC_GOT:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
+    case TOPIC_GOT_FAIL:
       return {
         ...state,
       };

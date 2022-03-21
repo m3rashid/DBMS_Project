@@ -30,11 +30,13 @@ const columns = [
   {
     title: "Created",
     field: "",
+    sorting: false,
     render: ({ createdAt }) => moment(createdAt).format("MMMM Do YYYY"),
   },
   {
     title: "Updated",
     field: "",
+    sorting: false,
     render: ({ updatedAt }) => moment(updatedAt).format("MMMM Do YYYY"),
   },
   {

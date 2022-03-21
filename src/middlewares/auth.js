@@ -13,6 +13,7 @@ const signupSchema = Joi.object({
 const loginSchema = Joi.object({
   username: Joi.string().required(),
   password: Joi.string().required(),
+  isAdmin: Joi.boolean().required(),
 });
 
 const validateLogin = async (req, res, next) => {

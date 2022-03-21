@@ -64,7 +64,7 @@ router.post("/deleteUser", checkAuth, checkAdmin, (req, res) => {
   }
 });
 
-router.post("/getTopics", checkAuth, checkAdmin, (req, res) => {
+router.get("/topics", checkAuth, (req, res) => {
   try {
     pool.getConnection((error, connection) => {
       if (error) throw new Error(error);

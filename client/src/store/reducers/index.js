@@ -3,13 +3,15 @@ import thunk from "redux-thunk";
 
 import UiReducer from "./ui.reducer";
 import authReducer from "./auth.reducer";
+import postReducer from "./post.reducer";
+import errorReducer from "./error.reducer";
 
 const reducers = combineReducers({
   auth: authReducer,
-  // error: errorReducer,
-  // post: postReducer,
-  // avatar: AvatarReducer,
+  post: postReducer,
   ui: UiReducer,
+  error: errorReducer,
+  // avatar: AvatarReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

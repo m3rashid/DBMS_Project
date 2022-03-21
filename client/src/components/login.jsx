@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 
 import Input from "./atoms/input";
 import Button from "./atoms/Button";
-import { adminLogin } from "../store/actions/auth.action";
+import { adminLogin, login } from "../store/actions/auth.action";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,16 @@ const Login = () => {
   });
 
   const handleLogin = () => {
-    dispatch(adminLogin(credentials));
+    if (credentials.isAdmin) {
+      dispatch(adminLogin(credentials));
+    } else {
+      dispatch(login(credentials));
+    }
+    setCredentials({
+      username: "",
+      password: "",
+      isAdmin: false,
+    });
   };
 
   const handleChange = (e) => {

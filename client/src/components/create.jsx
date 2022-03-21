@@ -1,10 +1,25 @@
 import React from "react";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
 import UserTitle from "./atoms/userTitle";
+import { useSelector } from "react-redux";
 
 const CreatePost = () => {
-  const [text, setText] = React.useState({ title: "", body: "" });
+  const theme = useSelector((state) => state.ui.theme);
+  const topics = useSelector((state) => state.auth.topics);
+  const [text, setText] = React.useState({
+    title: "",
+    body: "",
+    topicId: "",
+  });
+
+  const handleTopicChange = ({ value }) => {
+    setText((prev) => ({
+      ...prev,
+      topicId: value,
+    }));
+  };
 
   const maxTitleLength = 50;
   const maxBodyLength = 1000;
@@ -16,6 +31,12 @@ const CreatePost = () => {
     }));
   };
 
+  const options = React.useMemo(() => {
+    return topics.reduce((acc, curr) => {
+      return [...acc, { value: curr.topicID, label: curr.name }];
+    }, []);
+  }, [topics]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text.title.length > maxTitleLength) {
@@ -26,7 +47,6 @@ const CreatePost = () => {
       toast.error(`Body cannot be more than ${maxBodyLength} characters`);
       return;
     }
-    toast.success("Post created successfully");
   };
 
   return (
@@ -54,12 +74,33 @@ const CreatePost = () => {
           ) : null}
           <div className="flex gap-4">
             {text.title.length > 5 ? (
-              <button
-                className="bg-blue-500 text-gray-200 rounded-full p-2 px-4 text-lg font-semibold max-w-[200px]"
-                onClick={handleSubmit}
-              >
-                Post
-              </button>
+              <>
+                <Select
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      border: "none",
+                      color: theme === "dark" ? "white" : "black",
+                    }),
+                    container: (base) => ({
+                      ...base,
+                      color: theme === "dark" ? "white" : "black",
+                    }),
+                  }}
+                  className=""
+                  placeholder="Select Topic"
+                  options={options}
+                  name="topicId"
+                  onChange={handleTopicChange}
+                  value={text.topicId}
+                />
+                <button
+                  className="bg-blue-500 text-gray-200 rounded-full p-2 px-4 text-lg font-semibold max-w-[200px]"
+                  onClick={handleSubmit}
+                >
+                  Post
+                </button>
+              </>
             ) : null}
           </div>
         </div>

@@ -18,6 +18,8 @@ import {
   USER_LOADED,
   USER_LOADING,
   AVATAR_CHANGE,
+  TOPIC_GOT,
+  TOPIC_GOT_FAIL,
 } from "../constants/auth";
 
 import {
@@ -59,7 +61,6 @@ export const loadUser = () => (dispatch, getState) => {
         type: USER_LOADED,
         payload: res.data,
       });
-      console.log(res.data);
       toast.success("Hello User");
     })
     .catch((err) => {
@@ -164,3 +165,20 @@ export const adminLogin =
         toast.error("Error in logging in");
       });
   };
+
+export const getTopics = () => (dispatch, getState) => {
+  axios
+    .get(`${SERVER_ROOT_URL}/admin/topics`, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: TOPIC_GOT,
+        payload: res.data,
+      });
+      console.log(res.data);
+    })
+    .catch((err) => {
+      dispatch({
+        type: TOPIC_GOT_FAIL,
+      });
+    });
+};
