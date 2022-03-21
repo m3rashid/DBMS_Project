@@ -3,13 +3,14 @@ import axios from "axios";
 import {
   ADD_POST_SUCCESS,
   ADD_POST_FAIL,
-  DELETE_POST_SUCCESS,
-  DELETE_POST_FAIL,
+  // DELETE_POST_SUCCESS,
+  // DELETE_POST_FAIL,
   POSTS_LOADING,
-  SERVER_ROOT_URL,
   POSTS_LOADED,
 } from "../constants/post";
-import { clearErrors, returnErrors } from "./error.action";
+import { SERVER_ROOT_URL } from "../constants/config";
+
+import { /* clearErrors, */ returnErrors } from "./error.action";
 import { tokenConfig } from "../constants/config";
 import { toast } from "react-toastify";
 
@@ -35,16 +36,17 @@ export const getPosts = () => (dispatch, getState) => {
 };
 
 export const addPost =
-  ({ title, content }) =>
+  ({ title, body, topicId }) =>
   (dispatch, getState) => {
     dispatch(postsLoading());
     axios
       .post(
-        `${SERVER_ROOT_URL}/posts`,
-        { title, content },
+        `${SERVER_ROOT_URL}/post/add`,
+        { title, body, topicId },
         tokenConfig(getState)
       )
       .then((res) => {
+        console.log(res.data);
         dispatch({
           type: ADD_POST_SUCCESS,
           payload: res.data,

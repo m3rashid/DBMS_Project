@@ -48,7 +48,7 @@ const TopicTable = () => {
   const topics = useSelector((state) => state.auth.topics);
   return (
     <>
-      <Table columns={columns} data={topics} Title="Current Topics" />
+      <Table columns={columns} data={topics} Title="Topics" />
     </>
   );
 };

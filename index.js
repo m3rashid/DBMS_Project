@@ -16,25 +16,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  "/auth",
-  // authRateLimiter,
-  require("./src/handlers/auth")
-);
-app.use(
-  "/admin",
-  // regularRateLimiter,
-  require("./src/handlers/admin")
-);
+app.use("/auth", /* authRateLimiter, */ require("./src/handlers/auth"));
+app.use("/admin", /* regularRateLimiter, */ require("./src/handlers/admin"));
+app.use("/post", /* regularRateLimiter, */ require("./src/handlers/post"));
 // app.use(
 //   "/update",
 //   // authRateLimiter,
 //   updateUser
-// );
-// app.use(
-//   "/post",
-//   // regularRateLimiter,
-//   post
 // );
 
 const port = process.env.PORT || 5000;

@@ -3,9 +3,11 @@ import { toast } from "react-toastify";
 import Select from "react-select";
 
 import UserTitle from "./atoms/userTitle";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addPost } from "../store/actions/post.action";
 
 const CreatePost = () => {
+  const dispatch = useDispatch();
   const theme = useSelector((state) => state.ui.theme);
   const topics = useSelector((state) => state.auth.topics);
   const [text, setText] = React.useState({
@@ -22,7 +24,7 @@ const CreatePost = () => {
   };
 
   const maxTitleLength = 50;
-  const maxBodyLength = 1000;
+  const maxBodyLength = 10000;
 
   const handleChange = (e) => {
     setText((prev) => ({
@@ -39,14 +41,20 @@ const CreatePost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (text.title.length > maxTitleLength) {
+    if (text.title.length > maxTitleLength + 10) {
       toast.error(`Title cannot be more than ${maxTitleLength} characters`);
       return;
     }
-    if (text.body.length > maxBodyLength) {
+    if (text.body.length > maxBodyLength + 10) {
       toast.error(`Body cannot be more than ${maxBodyLength} characters`);
       return;
     }
+    if (!text.topicId) {
+      toast.error("Please select a topic");
+      toast.info("If you cant find your topic, ask an admin to create one");
+      return;
+    }
+    dispatch(addPost(text));
   };
 
   return (

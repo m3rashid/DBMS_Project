@@ -4,7 +4,6 @@ import {
   // DELETE_POST_SUCCESS,
   // DELETE_POST_FAIL,
   // POSTS_LOADING,
-  // SERVER_ROOT_URL,
   POSTS_LOADED,
 } from "../constants/post";
 

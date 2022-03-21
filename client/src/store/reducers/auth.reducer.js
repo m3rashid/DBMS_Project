@@ -17,6 +17,7 @@ import {
   TOPIC_GOT,
   TOPIC_GOT_FAIL,
 } from "../constants/auth";
+
 const initialState = {
   isAuthUser: false,
   isAuthAdmin: false,
@@ -26,6 +27,7 @@ const initialState = {
   avatar: null,
   users: null,
   topics: null,
+  posts: [],
 };
 
 const authReducer = (state = initialState, action) => {
