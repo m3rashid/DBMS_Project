@@ -14,29 +14,34 @@ router.get("/", checkAuth, async (req, res) => {
   try {
     pool.getConnection((error, connection) => {
       if (error) throw new Error(error);
-      connection.query(
-        `select * from User where userID = '${userId}'`,
-        async (err, result) => {
-          if (err || result.length == 0) throw new Error(err);
+      try {
+        connection.query(
+          `select * from User where userID = '${userId}'`,
+          async (err, result) => {
+            if (err || result.length == 0) throw new Error(err);
 
-          const user = result[0];
-          if (!user) throw new Error("User not found");
+            const user = result[0];
+            if (!user) throw new Error("User not found");
 
-          connection.query(
-            `select * from Avatar where avatarID = '${user.avatarID}'`,
-            (err2, result2) => {
-              if (err2 || result2.length == 0) throw new Error(err2);
+            connection.query(
+              `select * from Avatar where avatarID = '${user.avatarID}'`,
+              (err2, result2) => {
+                if (err2 || result2.length == 0) throw new Error(err2);
 
-              const avatar = result2[0];
-              connection.release();
-              return res.status(200).json({
-                user,
-                avatar,
-              });
-            }
-          );
-        }
-      );
+                const avatar = result2[0];
+                connection.release();
+                return res.status(200).json({
+                  user,
+                  avatar,
+                });
+              }
+            );
+          }
+        );
+      } catch (err) {
+        console.log(err);
+        return res.sendStatus(500);
+      }
     });
   } catch (err) {
     console.log(err);
@@ -138,15 +143,21 @@ router.post("/adminLogin", async (req, res) => {
             connection.query(`select * from Topic`, (err3, results3) => {
               if (err3) throw new Error(err3);
               const topics = results3;
-              connection.release();
 
-              const { token, expires } = issueJWT(admin);
-              return res.status(200).json({
-                token,
-                expires,
-                user: admin,
-                topics,
-                users,
+              connection.query(`select * from Post`, (err4, results4) => {
+                if (err4) throw new Error(err4);
+                const posts = results4;
+
+                connection.release();
+                const { token, expires } = issueJWT(admin);
+                return res.status(200).json({
+                  token,
+                  expires,
+                  user: admin,
+                  topics,
+                  users,
+                  posts,
+                });
               });
             });
           });

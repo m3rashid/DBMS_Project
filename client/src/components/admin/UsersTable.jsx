@@ -61,7 +61,7 @@ const UsersTable = () => {
   const users = useSelector((state) => state.auth.users);
   return (
     <>
-      <Table columns={columns} data={users} Title="Current Users" />
+      <Table columns={columns} data={users} Title="Users" />
     </>
   );
 };
