@@ -70,9 +70,8 @@ router.post("/signup", validateSignup, async (req, res) => {
 });
 
 router.post("/login", validateLogin, async (req, res) => {
-  const { username, password, isAdmin } = req.body;
-
   try {
+    const { username, password, isAdmin } = req.body;
     if (isAdmin) throw new Error("Not an admin");
     pool.getConnection((error, connection) => {
       if (error) throw new Error(error);
@@ -80,30 +79,35 @@ router.post("/login", validateLogin, async (req, res) => {
       connection.query(
         `select * from User where username = '${username}'`,
         async (err, result) => {
-          if (err || result.length == 0) throw new Error(err);
+          try {
+            if (err || result.length == 0) throw new Error(err);
 
-          const user = result[0];
-          if (!user) throw new Error("User not found");
+            const user = result[0];
+            if (!user) throw new Error("User not found");
 
-          const isValid = await comparePassword(password, user.password);
-          if (!isValid) throw new Error("Invalid Credentials");
+            const isValid = await comparePassword(password, user.password);
+            if (!isValid) throw new Error("Invalid Credentials");
 
-          connection.query(
-            `select * from Avatar where avatarID = '${user.avatarID}'`,
-            (err2, result2) => {
-              if (err2 || result2.length == 0) throw new Error(err2);
+            connection.query(
+              `select * from Avatar where avatarID = '${user.avatarID}'`,
+              (err2, result2) => {
+                if (err2 || result2.length == 0) throw new Error(err2);
 
-              const avatar = result2[0];
-              connection.release();
-              const { token, expires } = issueJWT(user);
-              return res.status(200).json({
-                token,
-                expires,
-                user,
-                avatar,
-              });
-            }
-          );
+                const avatar = result2[0];
+                connection.release();
+                const { token, expires } = issueJWT(user);
+                return res.status(200).json({
+                  token,
+                  expires,
+                  user,
+                  avatar,
+                });
+              }
+            );
+          } catch (err) {
+            console.log(err);
+            return res.sendStatus(500);
+          }
         }
       );
     });

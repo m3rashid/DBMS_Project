@@ -16,13 +16,24 @@ const Admin = () => {
   };
 
   return (
-    <>
+    <div
+      className="no-scrollbar"
+      style={{
+        height: "100vh",
+        overflow: "auto",
+        paddingBottom: "50px",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <CreateTopic />
       <TopicTable />
       <UserTable />
       <PostTable />
       <Button label="Logout from Admin" onClick={handleLogout} />
-    </>
+    </div>
   );
 };
 

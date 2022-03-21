@@ -6,7 +6,7 @@ import { tokenConfig, SERVER_ROOT_URL } from "../constants/config";
 import { userLoading } from "./auth.action";
 import { clearErrors, returnErrors } from "./error.action";
 
-export const createPost =
+export const createTopic =
   ({ topicName }) =>
   (dispatch, getState) => {
     dispatch(userLoading());

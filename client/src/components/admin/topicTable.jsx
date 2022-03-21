@@ -15,7 +15,7 @@ const columns = [
     render: ({ createdAt }) => moment(createdAt).format("MMMM Do YYYY"),
   },
   {
-    title: "Created",
+    title: "Updated",
     field: "",
     sorting: false,
     render: ({ updatedAt }) => moment(updatedAt).format("MMMM Do YYYY"),
