@@ -7,41 +7,24 @@ import Table from "./MaterialTable";
 import Button from "../atoms/Button";
 
 const columns = [
-  { title: "Username", field: "userName", sorting: false },
+  { title: "Topic", field: "name", sorting: false },
   {
-    title: "Name",
+    title: "Created",
     field: "",
     sorting: false,
-    render: ({ firstName, lastName }) => firstName + " " + lastName,
-  },
-  { title: "Email", field: "email", sorting: false },
-  {
-    title: "Phone",
-    field: "",
-    sorting: false,
-    render: ({ phNumber }) => phNumber || "-",
-  },
-  {
-    title: "Reputation",
-    field: "",
-    sorting: false,
-    render: ({ reputation }) => <div>{reputation || "-"}</div>,
+    render: ({ createdAt }) => moment(createdAt).format("MMMM Do YYYY"),
   },
   {
     title: "Created",
     field: "",
-    render: ({ createdAt }) => moment(createdAt).format("MMMM Do YYYY"),
-  },
-  {
-    title: "Updated",
-    field: "",
+    sorting: false,
     render: ({ updatedAt }) => moment(updatedAt).format("MMMM Do YYYY"),
   },
   {
     title: "Actions",
     field: "",
     sorting: false,
-    render: ({ userID }) => (
+    render: ({ topicID }) => (
       <div className="flex gap-2 items-center">
         <Button
           Icon={faTrash}
@@ -49,19 +32,25 @@ const columns = [
           classes="bg-red-500"
           onClick={() => {}}
         />
+        <Button
+          Icon={faTrash}
+          label="Edit"
+          classes="bg-blue-500"
+          onClick={() => {}}
+        />
       </div>
     ),
   },
 ];
 
-const UsersTable = () => {
+const TopicTable = () => {
   // TODO make it autorefreshable
-  const users = useSelector((state) => state.auth.users);
+  const topics = useSelector((state) => state.auth.topics);
   return (
     <>
-      <Table columns={columns} data={users} Title="Current Users" />
+      <Table columns={columns} data={topics} Title="Current Topics" />
     </>
   );
 };
 
-export default UsersTable;
+export default TopicTable;

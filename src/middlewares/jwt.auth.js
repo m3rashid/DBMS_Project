@@ -1,3 +1,4 @@
+const pool = require("../utils/database");
 const { verifyJWT } = require("../utils/jwt");
 
 const unauthorizedResponse = (res) => {
@@ -19,4 +20,25 @@ const checkAuth = (req, res, next) => {
   next();
 };
 
-module.exports = checkAuth;
+const checkAdmin = (req, res, next) => {
+  const { userId } = req;
+  if (!userId) return unauthorizedResponse(res);
+  try {
+    pool.getConnection((error, connection) => {
+      if (error) throw new Error(error);
+
+      connection.query(
+        `select * from Admin where userID = '${userId}'`,
+        (err, result) => {
+          if (err || result.length == 0) throw new Error(err);
+          next();
+        }
+      );
+    });
+  } catch (err) {
+    console.log(error);
+    return unauthorizedResponse(res);
+  }
+};
+
+module.exports = { checkAuth, checkAdmin };
