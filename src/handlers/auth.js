@@ -11,42 +11,38 @@ const { checkAuth } = require("../middlewares/jwt.auth");
 
 router.get("/", checkAuth, async (req, res) => {
   const { userId } = req;
-  try {
-    pool.getConnection((error, connection) => {
-      if (error) throw new Error(error);
-      try {
-        connection.query(
-          `select * from User where userID = '${userId}'`,
-          async (err, result) => {
-            if (err || result.length == 0) throw new Error(err);
+  pool.getConnection((error, connection) => {
+    if (error) res.sendStatus(500);
+    try {
+      connection.query(
+        `select * from User where userID = '${userId}'`,
+        async (err, result) => {
+          if (err || result.length == 0) throw new Error(err);
 
-            const user = result[0];
-            if (!user) throw new Error("User not found");
+          const user = result[0];
+          if (!user) throw new Error("User not found");
 
-            connection.query(
-              `select * from Avatar where avatarID = '${user.avatarID}'`,
-              (err2, result2) => {
-                if (err2 || result2.length == 0) throw new Error(err2);
+          connection.query(
+            `select * from Avatar where avatarID = '${user.avatarID}'`,
+            (err2, result2) => {
+              if (err2 || result2.length == 0) throw new Error(err2);
 
-                const avatar = result2[0];
-                connection.release();
-                return res.status(200).json({
-                  user,
-                  avatar,
-                });
-              }
-            );
-          }
-        );
-      } catch (err) {
-        console.log(err);
-        return res.sendStatus(500);
-      }
-    });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(500);
-  }
+              const avatar = result2[0];
+              connection.release();
+              return res.status(200).json({
+                user,
+                avatar,
+              });
+            }
+          );
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      connection.release();
+      return res.sendStatus(500);
+    }
+  });
 });
 
 router.post("/signup", validateSignup, async (req, res) => {
@@ -75,62 +71,60 @@ router.post("/signup", validateSignup, async (req, res) => {
 });
 
 router.post("/login", validateLogin, async (req, res) => {
-  try {
-    const { username, password, isAdmin } = req.body;
-    if (isAdmin) throw new Error("Not an admin");
-    pool.getConnection((error, connection) => {
-      if (error) throw new Error(error);
+  const { username, password, isAdmin } = req.body;
+  if (isAdmin) return res.sendStatus(500);
 
-      connection.query(
-        `select * from User where username = '${username}'`,
-        async (err, result) => {
-          try {
-            if (err || result.length == 0) throw new Error(err);
+  pool.getConnection((error, connection) => {
+    if (error) res.sendStatus(500);
 
-            const user = result[0];
-            if (!user) throw new Error("User not found");
+    connection.query(
+      `select * from User where username = '${username}'`,
+      async (err, result) => {
+        try {
+          if (err || result.length == 0) throw new Error(err);
 
-            const isValid = await comparePassword(password, user.password);
-            if (!isValid) throw new Error("Invalid Credentials");
+          const user = result[0];
+          if (!user) throw new Error("User not found");
 
-            connection.query(
-              `select * from Avatar where avatarID = '${user.avatarID}'`,
-              (err2, result2) => {
-                if (err2 || result2.length == 0) throw new Error(err2);
+          const isValid = await comparePassword(password, user.password);
+          if (!isValid) throw new Error("Invalid Credentials");
 
-                const avatar = result2[0];
-                connection.release();
-                const { token, expires } = issueJWT(user);
-                return res.status(200).json({
-                  token,
-                  expires,
-                  user,
-                  avatar,
-                });
-              }
-            );
-          } catch (err) {
-            console.log(err);
-            return res.sendStatus(500);
-          }
+          connection.query(
+            `select * from Avatar where avatarID = '${user.avatarID}'`,
+            (err2, result2) => {
+              if (err2 || result2.length == 0) throw new Error(err2);
+
+              const avatar = result2[0];
+              connection.release();
+              const { token, expires } = issueJWT(user);
+              return res.status(200).json({
+                token,
+                expires,
+                user,
+                avatar,
+              });
+            }
+          );
+        } catch (err) {
+          console.log(err);
+          connection.release();
+          return res.sendStatus(500);
         }
-      );
-    });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(500);
-  }
+      }
+    );
+  });
 });
 
 router.post("/adminLogin", async (req, res) => {
   const { username, password, isAdmin } = req.body;
-  try {
-    if (!isAdmin) throw new Error("Not an admin");
-    pool.getConnection((error, connection) => {
-      if (error) throw new Error(error);
-      connection.query(
-        `select * from Admin where username = '${username}'`,
-        (err, result) => {
+  if (!isAdmin) res.sendStatus(500);
+
+  pool.getConnection((error, connection) => {
+    if (error) res.sendStatus(500);
+    connection.query(
+      `select * from Admin where username = '${username}'`,
+      (err, result) => {
+        try {
           if (err || result.length == 0) throw new Error(err);
           const admin = result[0];
           if (admin.password !== password)
@@ -161,13 +155,14 @@ router.post("/adminLogin", async (req, res) => {
               });
             });
           });
+        } catch (err) {
+          console.log(err);
+          connection.release();
+          return res.sendStatus(500);
         }
-      );
-    });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(500);
-  }
+      }
+    );
+  });
 });
 
 module.exports = router;
