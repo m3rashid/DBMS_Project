@@ -21,7 +21,8 @@ import {
 const initialState = {
   isAuthUser: false,
   isAuthAdmin: false,
-  token: localStorage.getItem("connect-token"),
+  token: "",
+  // token: localStorage.getItem("connect-token"),
   isLoading: false,
   user: null,
   avatar: null,
@@ -53,11 +54,7 @@ const authReducer = (state = initialState, action) => {
     case ADMIN_LOGIN_FAIL:
       localStorage.removeItem("connect-token");
       return {
-        ...state,
-        token: null,
-        isAuthUser: false,
-        isAuthAdmin: false,
-        isLoading: false,
+        ...initialState,
       };
 
     case LOGIN_SUCCESS:
@@ -65,6 +62,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.payload,
+        token: "",
         isAuthUser: true,
         isAuthAdmin: false,
         isLoading: false,
@@ -75,6 +73,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.payload,
+        token: "",
         isAuthAdmin: true,
         isAuthUser: false,
         isLoading: false,
@@ -88,7 +87,7 @@ const authReducer = (state = initialState, action) => {
     case TOPIC_GOT:
       return {
         ...state,
-        ...action.payload,
+        topics: action.payload,
       };
 
     case TOPIC_GOT_FAIL:

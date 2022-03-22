@@ -21,8 +21,7 @@ import Test from "./pages/test";
 // import Chat from "./pages/chat";
 
 import Admin from "./pages/Admin";
-import { getTopics, loadUser } from "./store/actions/auth.action";
-import { getPosts } from "./store/actions/post.action";
+import { loadUser } from "./store/actions/auth.action";
 
 const NotificationContainer = ({ theme }) => (
   <ToastContainer
@@ -45,9 +44,7 @@ function App() {
 
   React.useEffect(() => {
     dispatch(loadUser());
-    dispatch(getTopics());
-    dispatch(getPosts());
-  }, []);
+  }, [dispatch]);
 
   const userLoggedIn = useSelector((state) => state.auth.isAuthUser);
   const adminLoggedIn = useSelector((state) => state.auth.isAuthAdmin);

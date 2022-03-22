@@ -4,8 +4,8 @@ export const configContentType = {
   },
 };
 
-export const tokenConfig = (getState) => {
-  const token = getState().auth.token;
+export const tokenConfig = () => {
+  const token = localStorage.getItem("connect-token");
   if (token) {
     configContentType.headers["authorization"] = token;
   }

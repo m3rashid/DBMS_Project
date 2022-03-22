@@ -52,10 +52,10 @@ export const forgotPassword = ({ username, email }) => ({
   payload: { username, email },
 });
 
-export const loadUser = () => (dispatch, getState) => {
+export const loadUser = () => (dispatch) => {
   dispatch(userLoading());
   axios
-    .get(`${SERVER_ROOT_URL}/auth`, tokenConfig(getState))
+    .get(`${SERVER_ROOT_URL}/auth`, tokenConfig())
     .then((res) => {
       dispatch({
         type: USER_LOADED,
@@ -166,13 +166,13 @@ export const adminLogin =
       });
   };
 
-export const getTopics = () => (dispatch, getState) => {
+export const getTopics = () => (dispatch) => {
   axios
-    .get(`${SERVER_ROOT_URL}/admin/topics`, tokenConfig(getState))
+    .get(`${SERVER_ROOT_URL}/admin/topics`, tokenConfig())
     .then((res) => {
       dispatch({
         type: TOPIC_GOT,
-        payload: res.data,
+        payload: res.data.topics,
       });
     })
     .catch((err) => {
