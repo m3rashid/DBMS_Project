@@ -7,8 +7,11 @@ import {
   // faMessage,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const MobileNav = () => {
+  const user = useSelector((state) => state.auth.user);
+
   const iconStyles = "text-gray-600 dark:text-gray-300";
   const divStyles =
     "rounded-md px-4 py-3 my-1 hover:bg-gray-200 dark:hover:bg-gray-700";
@@ -44,7 +47,7 @@ const MobileNav = () => {
             />
           </div>
         </Link> */}
-        <Link to="/user/me">
+        <Link to={`/user/${user.userID}`}>
           <div className={divStyles}>
             <FontAwesomeIcon icon={faUser} size="xl" className={iconStyles} />
           </div>

@@ -1,4 +1,9 @@
 import React from "react";
+// import axios from "axios";
+// import { toast } from "react-toastify";
+
+// import { SERVER_ROOT_URL } from "../store/constants/config";
+// import { headers } from "../hooks/globals";
 
 const usePostDetail = (singlePost) => {
   const user = {

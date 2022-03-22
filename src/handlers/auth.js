@@ -13,10 +13,10 @@ router.get("/", checkAuth, async (req, res) => {
   const { userId } = req;
   pool.getConnection((error, connection) => {
     if (error) return res.sendStatus(500);
-    try {
-      connection.query(
-        `select * from User where userID = '${userId}'`,
-        async (err, result) => {
+    connection.query(
+      `select * from User where userID = '${userId}'`,
+      async (err, result) => {
+        try {
           if (err || result.length == 0) throw new Error(err);
 
           const user = result[0];
@@ -35,13 +35,13 @@ router.get("/", checkAuth, async (req, res) => {
               });
             }
           );
+        } catch (err) {
+          console.log(err);
+          connection.release();
+          return res.sendStatus(500);
         }
-      );
-    } catch (err) {
-      console.log(err);
-      connection.release();
-      return res.sendStatus(500);
-    }
+      }
+    );
   });
 });
 

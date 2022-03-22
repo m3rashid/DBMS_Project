@@ -5,19 +5,22 @@ import {
   faHeart,
   faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
-import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-import { SERVER_ROOT_URL } from "../store/constants/config";
-import { headers } from "../hooks/globals";
 import UserTitle from "../components/atoms/userTitle";
 import Notif from "../components/notif";
 import usePostDetail from "../hooks/usePostDetail";
 
+import axios from "axios";
+import { toast } from "react-toastify";
+
+import { SERVER_ROOT_URL } from "../store/constants/config";
+import { headers } from "../hooks/globals";
+
 const PostDetail = () => {
   const { postId } = useParams();
-  const [singlePost, setSinglePost] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const [singlePost, setSinglePost] = React.useState({});
 
   React.useEffect(() => {
     axios
@@ -25,9 +28,11 @@ const PostDetail = () => {
         headers,
       })
       .then((res) => {
+        setLoading(false);
         setSinglePost(res.data.post);
       })
       .catch((err) => {
+        setLoading(false);
         toast.error("Error loading post");
       });
   }, [postId]);
@@ -53,6 +58,10 @@ const PostDetail = () => {
 
   const iconContainerStyles =
     "flex gap-2 items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2 cursor-pointer";
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <>

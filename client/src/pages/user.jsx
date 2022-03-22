@@ -1,14 +1,17 @@
 import React from "react";
 import Avatar, { genConfig } from "react-nice-avatar";
 import { useDispatch, useSelector } from "react-redux";
+// import { useParams } from "react-router-dom";
 import moment from "moment";
 
-// to be stored in the database
 import { darkMode, lightMode } from "../store/actions/ui.action";
 import UserAvatarSettings from "../components/userAvatarSettings";
 import { logout } from "../store/actions/auth.action";
 
 const User = () => {
+  // const [gotUser, setGotUser] = React.useState();
+  // const { userId } = useParams();
+
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -66,22 +69,24 @@ const User = () => {
           <h3 className={h3Styles}>Customize your avatar</h3>
           <UserAvatarSettings />
         </div>
-        <div className="flex gap-4">
-          <button
-            onClick={handleThemeChange}
-            className={`${buttonStyles} w-[150px]`}
-          >
-            Change theme
-          </button>
-          <button
-            className={`${buttonStyles} w-[100px]`}
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
-        <div className={`${commons} flex items-center`}>
-          JMI Connect &copy; {moment(new Date()).format("YYYY")}
+        <div className={`${commons}`}>
+          <div className="flex gap-4 justify-center my-3 mb-4">
+            <button
+              onClick={handleThemeChange}
+              className={`${buttonStyles} w-[150px]`}
+            >
+              Change theme
+            </button>
+            <button
+              className={`${buttonStyles} w-[100px]`}
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </div>
+          <div className={`${commons} text-center`}>
+            JMI Connect &copy; {moment(new Date()).format("YYYY")}
+          </div>
         </div>
       </div>
     </>

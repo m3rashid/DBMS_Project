@@ -12,4 +12,5 @@ export const tokenConfig = () => {
   return configContentType;
 };
 
-export const SERVER_ROOT_URL = "http://localhost:5000";
+export const SERVER_ROOT_URL =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
