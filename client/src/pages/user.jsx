@@ -80,7 +80,7 @@ const User = () => {
             Logout
           </button>
         </div>
-        <div className={`${commons}`}>
+        <div className={`${commons} flex items-center`}>
           JMI Connect &copy; {moment(new Date()).format("YYYY")}
         </div>
       </div>
