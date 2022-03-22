@@ -5,88 +5,51 @@ import {
   faHeart,
   faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
+import { SERVER_ROOT_URL } from "../store/constants/config";
+import { headers } from "../hooks/globals";
 import UserTitle from "../components/atoms/userTitle";
 import Notif from "../components/notif";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getSinglePost } from "../store/actions/post.action";
+import usePostDetail from "../hooks/usePostDetail";
 
 const PostDetail = () => {
-  const postId = useParams().postId;
-  const dispatch = useDispatch();
+  const { postId } = useParams();
+  const [singlePost, setSinglePost] = React.useState(null);
 
   React.useEffect(() => {
-    dispatch(getSinglePost({ postId }));
-  }, [dispatch, postId]);
+    axios
+      .post(`${SERVER_ROOT_URL}/post/one`, JSON.stringify({ postId }), {
+        headers,
+      })
+      .then((res) => {
+        setSinglePost(res.data.post);
+      })
+      .catch((err) => {
+        toast.error("Error loading post");
+      });
+  }, [postId]);
 
-  const singlePost = useSelector((state) => state.posts.post);
-  const user = {
-    userName: singlePost.userName,
-    userId: singlePost.userID,
-    phNumber: singlePost.phNumber,
-    dob: singlePost.dob,
-    email: singlePost.email,
-    firstName: singlePost.firstName,
-    lastName: singlePost.lastName,
-    gender: singlePost.gender,
-  };
-
-  const avatar = {
-    avatarID: singlePost.avatarID,
-    sex: singlePost.sex,
-    faceColor: singlePost.faceColor,
-    earSize: singlePost.earSize,
-    hairColor: singlePost.hairColor,
-    hairStyle: singlePost.hairStyle,
-    hatColor: singlePost.hatColor,
-    hatStyle: singlePost.hatStyle,
-    glassesStyle: singlePost.glassesStyle,
-    noseStyle: singlePost.noseStyle,
-    mouthStyle: singlePost.mouthStyle,
-    shirtStyle: singlePost.shirtStyle,
-    shirtColor: singlePost.shirtColor,
-    bgColor: singlePost.bgColor,
-    isGradient: singlePost.isGradient,
-  };
-
-  const topic = {
-    name: singlePost.name,
-    topicID: singlePost.topicID,
-  };
-
-  const postDetail = {
-    postID: singlePost.postID,
-    title: singlePost.title,
-    description: singlePost.description,
-    likes: singlePost.likes,
-    commentsCount: singlePost.commentsCount,
-    createdAt: singlePost.createdAt,
-    updatedAt: singlePost.updatedAt,
-    comments: [],
-  };
-
-  const liked = false;
-  const bookmarked = false;
-
-  const [commentOpen, setCommentOpen] = React.useState(false);
-  const [commentText, setCommentText] = React.useState("");
-
-  const handleLikeSubmit = () => {};
-  const handleCommentSubmit = () => {};
-
-  const handleOpenComment = () => {
-    setCommentOpen(!commentOpen);
-  };
-  const handleBookmark = () => {};
-
-  const inputCharLength = () => {
-    return commentText.length > 0;
-  };
-
-  const handleCommentChange = (e) => {
-    setCommentText(e.target.value);
-  };
+  const {
+    state: {
+      user,
+      avatar,
+      // topic,
+      postDetail,
+      liked,
+      bookmarked,
+      commentOpen,
+      commentText,
+      inputCharLength,
+    },
+    handleLikeSubmit,
+    handleCommentSubmit,
+    handleOpenComment,
+    handleBookmark,
+    handleCommentChange,
+  } = usePostDetail(singlePost);
 
   const iconContainerStyles =
     "flex gap-2 items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2 cursor-pointer";

@@ -1,67 +1,16 @@
 import React from "react";
-import { toast } from "react-toastify";
 import Select from "react-select";
 
 import UserTitle from "./atoms/userTitle";
-import { useDispatch, useSelector } from "react-redux";
-import { addPost } from "../store/actions/post.action";
+import useCreatePost from "../hooks/useCreatePost";
 
 const CreatePost = () => {
-  const dispatch = useDispatch();
-  const theme = useSelector((state) => state.ui.theme);
-  const auth = useSelector((state) => state.auth);
-  const { topics, avatar, user } = auth;
-  const [text, setText] = React.useState({
-    title: "",
-    body: "",
-    topicId: "",
-  });
-
-  const handleTopicChange = ({ value }) => {
-    setText((prev) => ({
-      ...prev,
-      topicId: value,
-    }));
-  };
-
-  const maxTitleLength = 50;
-  const maxBodyLength = 10000;
-
-  const handleChange = (e) => {
-    setText((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const options = React.useMemo(() => {
-    return topics.reduce((acc, curr) => {
-      return [...acc, { value: curr.topicID, label: curr.name }];
-    }, []);
-  }, [topics]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (text.title.length > maxTitleLength + 10) {
-      toast.error(`Title cannot be more than ${maxTitleLength} characters`);
-      return;
-    }
-    if (text.body.length > maxBodyLength - 50) {
-      toast.error(`Body cannot be more than ${maxBodyLength} characters`);
-      return;
-    }
-    if (!text.topicId) {
-      toast.error("Please select a topic");
-      toast.info("If you cant find your topic, ask an admin to create one");
-      return;
-    }
-    dispatch(addPost(text));
-    setText({
-      title: "",
-      body: "",
-      topicId: "",
-    });
-  };
+  const {
+    state: { theme, text, avatar, user, options, maxTitleLength, loading },
+    handleChange,
+    handleSubmit,
+    handleTopicChange,
+  } = useCreatePost();
 
   return (
     <>
@@ -89,25 +38,27 @@ const CreatePost = () => {
           <div className="flex gap-4">
             {text.title.length > 5 ? (
               <>
-                <Select
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      border: "none",
-                      color: theme === "dark" ? "white" : "black",
-                    }),
-                    container: (base) => ({
-                      ...base,
-                      color: theme === "dark" ? "white" : "black",
-                    }),
-                  }}
-                  className=""
-                  placeholder="Select Topic"
-                  options={options}
-                  name="topicId"
-                  onChange={handleTopicChange}
-                  value={text.topicId}
-                />
+                {!loading && (
+                  <Select
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        border: "none",
+                        color: theme === "dark" ? "white" : "black",
+                      }),
+                      container: (base) => ({
+                        ...base,
+                        color: theme === "dark" ? "white" : "black",
+                      }),
+                    }}
+                    className=""
+                    placeholder="Select Topic"
+                    options={options}
+                    name="topicId"
+                    onChange={handleTopicChange}
+                    value={text.topicId}
+                  />
+                )}
                 <button
                   className="bg-blue-500 text-gray-200 rounded-full p-2 px-4 text-lg font-semibold max-w-[200px]"
                   onClick={handleSubmit}

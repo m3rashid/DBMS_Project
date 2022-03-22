@@ -13,7 +13,7 @@ router.get("/all", checkAuth, async (req, res) => {
         `select * from Post
           inner join User on Post.userID = User.userID
           inner join Avatar on User.avatarID = Avatar.avatarID
-          inner join Topic on Post.topicID = Topic.topicID;`,
+          inner join Topic on Post.topicID = Topic.topicID order by Post.updatedAt DESC;`,
         (err, results) => {
           if (err) throw new Error(err);
           connection.release();
@@ -58,16 +58,13 @@ router.post("/one", checkAuth, (req, res) => {
 });
 
 router.post("/add", checkAuth, (req, res) => {
-  const {
-    userId,
-    body: { title, body, topicId },
-  } = req;
+  const { title, body, topicId, userId } = req.body;
   const postId = uuidv4();
-  if (!title || !body || !topicId) res.sendStatus(500);
+  if (!title || !topicId) return res.sendStatus(500);
 
   pool.getConnection((error, connection) => {
-    if (error) return res.sendStatus(500);
     try {
+      if (error) throw new Error(error);
       connection.query(
         `insert into Post (postID, title, description, topicID, userID) values (
         '${postId}',
@@ -77,8 +74,8 @@ router.post("/add", checkAuth, (req, res) => {
         '${userId}'
       );`,
         (err, result, fields) => {
-          connection.release();
           if (err) throw new Error(err);
+          connection.release();
           return res.status(200).json({
             result,
             fields,
@@ -88,6 +85,7 @@ router.post("/add", checkAuth, (req, res) => {
       );
     } catch (err) {
       console.log(err);
+      connection.release();
       return res.sendStatus(500);
     }
   });

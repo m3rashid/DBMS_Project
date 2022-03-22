@@ -8,11 +8,11 @@ import { clearErrors, returnErrors } from "./error.action";
 
 export const createTopic =
   ({ topicName }) =>
-  (dispatch, getState) => {
+  (dispatch) => {
     dispatch(userLoading());
     const body = JSON.stringify({ topicName });
     axios
-      .post(`${SERVER_ROOT_URL}/admin/createTopic`, body, tokenConfig(getState))
+      .post(`${SERVER_ROOT_URL}/admin/createTopic`, body, tokenConfig())
       .then((res) => {
         dispatch({
           type: CREATE_TOPIC_SUCCESS,
