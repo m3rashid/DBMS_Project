@@ -69,8 +69,8 @@ router.post("/deleteUser", checkAuth, checkAdmin, (req, res) => {
 
 router.get("/topics", checkAuth, (req, res) => {
   pool.getConnection((error, connection) => {
-    if (error) return res.sendStatus(500);
     try {
+      if (error) throw new Error(error);
       connection.query(`select * from Topic`, (err, result) => {
         if (err || result.length == 0) throw new Error(err);
         connection.release();
@@ -90,8 +90,8 @@ router.post("/createTopic", checkAuth, checkAdmin, (req, res) => {
   const { topicName } = req.body;
   const topicId = uuidv4();
   pool.getConnection((error, connection) => {
-    if (error) return res.sendStatus(500);
     try {
+      if (error) throw new Error(error);
       connection.query(
         `insert into Topic (topicID, name) values ('${topicId}', '${topicName}')`,
         (err, result) => {

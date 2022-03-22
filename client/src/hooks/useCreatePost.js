@@ -17,7 +17,7 @@ const useCreatePost = () => {
     body: "",
     topicId: "",
   });
-  const maxTitleLength = 50;
+  const maxTitleLength = 170;
   const maxBodyLength = 10000;
 
   const options =

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CreatePost from "../components/create";
 import PostCard from "../components/postCard";
 import { getPosts } from "../store/actions/post.action";
+import RightSidebar from "../components/rightSidebar";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,9 @@ const Main = () => {
     <>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         <CreatePost />
+        <div className="w-full rightSidebarInMainPage">
+          <RightSidebar fullWidth />
+        </div>
         {posts &&
           posts.map((post) => <PostCard key={post.postID} post={post} />)}
       </div>

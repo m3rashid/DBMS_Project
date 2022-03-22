@@ -6,7 +6,7 @@ import useCreatePost from "../hooks/useCreatePost";
 
 const CreatePost = () => {
   const {
-    state: { theme, text, avatar, user, options, maxTitleLength, loading },
+    state: { theme, text, avatar, user, options, loading },
     handleChange,
     handleSubmit,
     handleTopicChange,
@@ -16,28 +16,27 @@ const CreatePost = () => {
     <>
       <div className="flex flex-col w-full bg-gray-50 dark:bg-gray-900 rounded-md shadow-md">
         <UserTitle user={user} avatar={avatar} />
-        <div className="flex flex-col bg-gray-200 dark:bg-gray-800 items-end gap-2 p-4 rounded-b-md">
+        <div className="flex flex-col bg-gray-50 dark:bg-gray-900 items-end gap-2 p-4 rounded-b-md">
           <textarea
             rows="2"
             value={text.title}
             name="title"
             placeholder="Share something interesting"
             onChange={handleChange}
-            className="p-2 rounded-md outline-none w-full resize-none bg-gray-50 dark:bg-gray-700 dark:text-gray-200"
+            className="p-2 rounded-md outline-none w-full resize-none bg-gray-200 dark:bg-gray-800 dark:text-gray-200"
           />
-          {text.title.length > maxTitleLength ? (
-            <textarea
-              style={{ whiteSpace: "pre-wrap" }}
-              className="p-2 rounded-lg w-full outline-none min-h-[150px] bg-gray-50 dark:bg-gray-700 dark:text-gray-200"
-              value={text.body}
-              name="body"
-              onChange={handleChange}
-              placeholder="Describe"
-            />
-          ) : null}
-          <div className="flex gap-4">
-            {text.title.length > 5 ? (
-              <>
+
+          {text.title.length > 5 ? (
+            <>
+              <textarea
+                style={{ whiteSpace: "pre-wrap" }}
+                className="p-2 rounded-lg w-full outline-none min-h-[150px] bg-gray-200 dark:bg-gray-800 dark:text-gray-200"
+                value={text.body}
+                name="body"
+                onChange={handleChange}
+                placeholder="Describe"
+              />
+              <div className="flex gap-4">
                 {!loading && (
                   <Select
                     styles={{
@@ -65,9 +64,9 @@ const CreatePost = () => {
                 >
                   Post
                 </button>
-              </>
-            ) : null}
-          </div>
+              </div>
+            </>
+          ) : null}
         </div>
       </div>
     </>

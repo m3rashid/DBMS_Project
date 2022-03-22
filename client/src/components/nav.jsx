@@ -4,7 +4,7 @@ import {
   faBell,
   faBookmark,
   faUser,
-  faMessage,
+  // faMessage,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -28,7 +28,7 @@ const Nav = () => {
           shape="rounded"
           {...avatarSettings}
         />
-        <Link to="/user/me">
+        <Link to={`/user/${user.userID}`}>
           <div className="mt-2 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
             <p className="font-bold text-2xl dark:text-gray-200">
               {user.firstName + " " + user.lastName}
@@ -71,7 +71,7 @@ const Nav = () => {
               <p className={iconLabelStyles}>Chat</p>
             </div>
           </Link> */}
-          <Link to="/user/me">
+          <Link to={`/user/${user.userID}`}>
             <div className={iconContainerStyles}>
               <FontAwesomeIcon icon={faUser} size="xl" className={iconStyles} />
               <p className={iconLabelStyles}>Profile</p>

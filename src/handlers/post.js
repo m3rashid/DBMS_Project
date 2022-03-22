@@ -57,6 +57,34 @@ router.post("/one", checkAuth, (req, res) => {
   });
 });
 
+router.post("/fromTopic", checkAuth, (req, res) => {
+  const { topicId } = req.body;
+  if (!topicId) return res.sendStatus(500);
+  pool.getConnection((error, connection) => {
+    if (error) return res.sendStatus(500);
+    try {
+      connection.query(
+        `select * from Post
+          inner join User on Post.userID = User.userID
+          inner join Avatar on User.avatarID = Avatar.avatarID
+          inner join Topic on Post.topicID = Topic.topicID
+        where Post.topicID='${topicId}' order by Post.updatedAt DESC;`,
+        (err, results) => {
+          if (err) throw new Error(err);
+          connection.release();
+          return res.status(200).json({
+            posts: results,
+          });
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      connection.release();
+      return res.sendStatus(500);
+    }
+  });
+});
+
 router.post("/add", checkAuth, (req, res) => {
   const { title, body, topicId, userId } = req.body;
   const postId = uuidv4();
