@@ -100,7 +100,19 @@ const UserAvatarSettings = () => {
   const dispatch = useDispatch();
 
   const handleConfigChange = (label, container) => {
-    dispatch(changeAvatar({ [container.name]: label.value }));
+    dispatch(changeAvatar(
+    setAvatarData((prev)=>{
+      return {
+        ...prev,
+        [container.name]: label.value
+
+      }
+    })
+    ));
+    // setAvatarData((prev) => ({
+    //   ...prev,
+    //   [container.name]: label.value,
+    // }));
   };
 
   const delay = 500;
@@ -122,6 +134,25 @@ const UserAvatarSettings = () => {
   };
 
   const saveToDatabase = () => {};
+
+  const [avatarData, setAvatarData] = React.useState([
+     {label :"sex" ,value :" " },
+     {label :"earSize" ,value :" " },
+     {label :"hairStyle" ,value :" " },
+     {label :"hatStyle" ,value :" " },
+     {label :"glassesStyle" ,value :" " },
+     {label :"noseStyle" ,value :" " },
+     {label :"mouthStyle" ,value :" " },
+     {label :"shirtStyle" ,value :" " },
+
+
+  ]);
+
+
+
+  const theme = useSelector((state) => state.ui.theme);
+  console.log(avatarData);
+
   return (
     <>
       <div className="grid grid-cols-2 gap-4">
@@ -129,21 +160,26 @@ const UserAvatarSettings = () => {
           <div key={item.id} className="flex flex-col w-full gap-2 my-2">
             <label className="pl-2 text-lg font-medium">{item.label}</label>
             <Select
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  border: "none",
+                  color: theme === "dark" ? "white" : "black",
+                }),
+                container: (base) => ({
+                  ...base,
+                  color: theme === "dark" ? "white" : "black",
+                }),
+              }}
               className=""
               classNamePrefix="bg-gray-200 dark:bg-gray-800 outline-none"
               onChange={handleConfigChange}
               options={item.data}
               name={item.name}
-              value={item.label}
-              placeholder="Select"
-              defaultValue={avatarConfig[item.name]}
+              value={avatarData[0][item.name]}
+              placeholder={`Select ${item.label}`}
+              defaultValue={avatarData[item.name] || ""}
               label="Single Select"
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  border: "none",
-                }),
-              }}
             />
           </div>
         ))}
