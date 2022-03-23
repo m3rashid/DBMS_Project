@@ -141,3 +141,21 @@ ADD CONSTRAINT `Friendship_fromID_fkey` FOREIGN KEY (`fromID`) REFERENCES `User`
 -- AddForeignKey
 ALTER TABLE `Friendship`
 ADD CONSTRAINT `Friendship_toID_fkey` FOREIGN KEY (`toID`) REFERENCES `User`(`userID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+--create table
+CREATE TABLE `Bookmark` (
+  `bookmarkID` VARCHAR(191) NOT NULL,
+  `userID` VARCHAR(191) NOT NULL,
+  `postID` VARCHAR(191) NOT NULL,
+  UNIQUE INDEX `Bookmark_key`(`bookmarkID`),
+  PRIMARY KEY (`bookmarkID`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- AddForeignKey
+ALTER TABLE `bookmark`
+ADD CONSTRAINT `Bookmark_userID_fkey` FOREIGN KEY (`userID`) REFERENCES `User`(`userID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+-- AddForeignKey
+ALTER TABLE `bookmark`
+ADD CONSTRAINT `Bookmark_postID_fkey` FOREIGN KEY (`postID`) REFERENCES `Post`(`postID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+--change column name of user table
+alter table user change reputation userReputation decimal(65, 30) null;
+--change column name of post table
+alter table post change reputation postReputation decimal(65, 30) null;
