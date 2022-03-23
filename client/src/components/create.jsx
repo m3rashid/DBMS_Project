@@ -6,12 +6,15 @@ import useCreatePost from "../hooks/useCreatePost";
 
 const CreatePost = () => {
   const {
-    state: { theme, text, avatar, user, options, loading },
+    state: {theme, text, avatar, user, options, loading },
     handleChange,
     handleSubmit,
     handleTopicChange,
   } = useCreatePost();
 
+  const [topicState,setTopicState] =React.useState(
+    [{label :"topic",value:""}]
+  )
   return (
     <>
       <div className="flex flex-col w-full bg-gray-50 dark:bg-gray-900 rounded-md shadow-md">
@@ -36,34 +39,40 @@ const CreatePost = () => {
                 onChange={handleChange}
                 placeholder="Describe"
               />
-              <div className="flex gap-4">
-                {!loading && (
-                  <Select
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        border: "none",
-                        color: theme === "dark" ? "white" : "black",
-                      }),
-                      container: (base) => ({
-                        ...base,
-                        color: theme === "dark" ? "white" : "black",
-                      }),
-                    }}
-                    className=""
-                    placeholder="Select Topic"
-                    options={options}
-                    name="topicId"
-                    onChange={handleTopicChange}
-                    value={text.topicId}
-                  />
-                )}
-                <button
-                  className="bg-blue-500 text-gray-200 rounded-full p-2 px-4 text-lg font-semibold max-w-[200px]"
-                  onClick={handleSubmit}
-                >
-                  Post
-                </button>
+              <div className="flex flex-col w-full gap-2 my-2">
+                <div >
+                  {!loading && (
+                    <Select
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          border: "none",
+                          color: theme === "dark" ? "white" : "black",
+                        }),
+                        container: (base) => ({
+                          ...base,
+                          color: theme === "dark" ? "white" : "black",
+                        }),
+                      }}
+                      className=""
+                      classNamePrefix="bg-gray-200 dark:bg-gray-800 outline-none"
+                      placeholder="Select Topic"
+                      options={options}
+                      name="topicId"
+                      onChange={(e)=>
+                        handleTopicChange(e)}
+                      value={topicState[0][text.topicId]}
+                    />
+                  )}
+                </div>
+                 <div>
+                  <button
+                    className="bg-blue-500 text-gray-200 rounded-full p-2 px-4 text-lg font-semibold max-w-[200px]"
+                    onClick={handleSubmit}
+                  >
+                    Post
+                  </button>
+                </div>
               </div>
             </>
           ) : null}
