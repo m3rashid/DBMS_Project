@@ -16,6 +16,12 @@ const loginSchema = Joi.object({
   isAdmin: Joi.boolean().required(),
 });
 
+const adminLoginSchema = Joi.object({
+  username: Joi.string().required(),
+  password: Joi.string().required(),
+  isAdmin: Joi.boolean().required(),
+});
+
 const validateLogin = async (req, res, next) => {
   try {
     await loginSchema.validateAsync({ ...req.body });
@@ -34,4 +40,17 @@ const validateSignup = async (req, res, next) => {
   }
 };
 
-module.exports = { validateLogin, validateSignup };
+const validateAdminLogin = async (req, res, next) => {
+  try {
+    await adminLoginSchema.validateAsync({ ...req.body });
+    next();
+  } catch (err) {
+    return res.sendStatus(400);
+  }
+};
+
+module.exports = {
+  validateLogin,
+  validateSignup,
+  validateAdminLogin,
+};

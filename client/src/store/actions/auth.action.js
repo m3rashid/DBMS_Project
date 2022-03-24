@@ -57,17 +57,19 @@ export const loadUser = () => (dispatch) => {
   axios
     .get(`${SERVER_ROOT_URL}/auth`, tokenConfig())
     .then((res) => {
+      console.log(res.data);
       dispatch({
         type: USER_LOADED,
         payload: res.data,
       });
-      toast.success("Hello User");
+      toast.success("Hello " + res.data.user.firstName + ". Welcome back");
+      toast.info("See what all happened in your absence");
     })
     .catch((err) => {
       dispatch({
         type: AUTH_ERROR,
       });
-      toast.error("Error in loading user");
+      toast.info("Could not find your logged in session");
     });
 };
 

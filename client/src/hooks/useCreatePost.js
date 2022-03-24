@@ -67,7 +67,11 @@ const useCreatePost = () => {
     axios
       .post(
         `${SERVER_ROOT_URL}/post/add`,
-        JSON.stringify({ ...text, userId: user.userID }),
+        JSON.stringify({
+          ...text,
+          body: text.body.replace(/\n/g, "<br/>"),
+          userId: user.userID,
+        }),
         { headers }
       )
       .then((res) => {

@@ -20,24 +20,26 @@ const checkAuth = (req, res, next) => {
   next();
 };
 
-const checkAdmin = (req, res, next) => {
+const checkAdmin = async (req, res, next) => {
   const { userId } = req;
   if (!userId) return unauthorizedResponse(res);
   try {
-    pool.getConnection((error, connection) => {
-      if (error) throw new Error(error);
+    const db = await pool.getConnection();
+    const [admins, _] = await db.query("select * from Admin where userID = ?", [
+      userId,
+    ]);
+    db.release();
+    if (admins.length === 0) {
+      return unauthorizedResponse(res);
+    }
 
-      connection.query(
-        `select * from Admin where userID = '${userId}'`,
-        (err, result) => {
-          if (err || result.length == 0) throw new Error(err);
-          next();
-        }
-      );
-    });
+    req.admin = admins[0];
+    next();
   } catch (err) {
-    console.log(error);
-    return unauthorizedResponse(res);
+    console.log(err);
+    return res.status(500).json({
+      message: err.message,
+    });
   }
 };
 
