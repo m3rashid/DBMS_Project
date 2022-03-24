@@ -77,7 +77,12 @@ const PostDetail = () => {
               >
                 {postDetail.title}
               </div>
-              <div className="dark:text-gray-20">{postDetail.description}</div>
+              <div
+                className="dark:text-gray-20"
+                dangerouslySetInnerHTML={{
+                  __html: postDetail.description,
+                }}
+              ></div>
             </div>
           </div>
           <div className="p-4 flex items-center justify-between">

@@ -6,117 +6,89 @@ const pool = require("../utils/database");
 const { checkAuth } = require("../middlewares/jwt.auth");
 
 router.get("/all", checkAuth, async (req, res) => {
-  pool.getConnection((error, connection) => {
-    if (error) return res.sendStatus(500);
-    try {
-      connection.query(
-        `select * from Post
-          inner join User on Post.userID = User.userID
-          inner join Avatar on User.avatarID = Avatar.avatarID
-          inner join Topic on Post.topicID = Topic.topicID order by Post.updatedAt DESC;`,
-        (err, results) => {
-          if (err) throw new Error(err);
-          connection.release();
-          return res.status(200).json({
-            posts: results,
-          });
-        }
-      );
-    } catch (err) {
-      console.log(err);
-      connection.release();
-      return res.sendStatus(500);
-    }
-  });
+  try {
+    const db = await pool.getConnection();
+    const [posts, _] = await db.query(
+      "select * from Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID order by Post.updatedAt DESC"
+    );
+    db.release();
+    return res.status(200).json({ posts });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
 });
 
-router.post("/one", checkAuth, (req, res) => {
+router.post("/one", checkAuth, async (req, res) => {
   const { postId } = req.body;
-  if (!postId) return res.sendStatus(500);
-  pool.getConnection((error, connection) => {
-    if (error) return res.sendStatus(500);
-    try {
-      connection.query(
-        `select * from Post
-          inner join User on Post.userID = User.userID
-          inner join Avatar on User.avatarID = Avatar.avatarID
-          inner join Topic on Post.topicID = Topic.topicID where postID='${postId}';`,
-        (err, results) => {
-          if (err) throw new Error(err);
-          connection.release();
-          return res.status(200).json({
-            post: results[0],
-          });
-        }
-      );
-    } catch (err) {
-      console.log(err);
-      connection.release();
-      return res.sendStatus(500);
-    }
-  });
+  try {
+    if (!postId) throw new Error("No post ID");
+
+    const db = await pool.getConnection();
+    const [posts, _] = await db.query(
+      "select * from Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID where postID = ?",
+      [postId]
+    );
+    db.release();
+    return res.status(200).json({
+      post: posts[0],
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
 });
 
-router.post("/fromTopic", checkAuth, (req, res) => {
+router.post("/fromTopic", checkAuth, async (req, res) => {
   const { topicId } = req.body;
-  if (!topicId) return res.sendStatus(500);
-  pool.getConnection((error, connection) => {
-    if (error) return res.sendStatus(500);
-    try {
-      connection.query(
-        `select * from Post
-          inner join User on Post.userID = User.userID
-          inner join Avatar on User.avatarID = Avatar.avatarID
-          inner join Topic on Post.topicID = Topic.topicID
-        where Post.topicID='${topicId}' order by Post.updatedAt DESC;`,
-        (err, results) => {
-          if (err) throw new Error(err);
-          connection.release();
-          return res.status(200).json({
-            posts: results,
-          });
-        }
-      );
-    } catch (err) {
-      console.log(err);
-      connection.release();
-      return res.sendStatus(500);
-    }
-  });
+  try {
+    if (!topicId) throw new Error("No topic ID");
+
+    const db = await pool.getConnection();
+    const [posts, _] = await db.query(
+      "select * from Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID where Post.topicID = ? order by Post.updatedAt DESC",
+      [topicId]
+    );
+    db.release();
+    return res.status(200).json({
+      posts,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
 });
 
-router.post("/add", checkAuth, (req, res) => {
+router.post("/add", checkAuth, async (req, res) => {
   const { title, body, topicId, userId } = req.body;
-  const postId = uuidv4();
-  if (!title || !topicId) return res.sendStatus(500);
+  try {
+    if (!title || !topicId || !userId)
+      throw new Error("No title, topicId or userId");
 
-  pool.getConnection((error, connection) => {
-    try {
-      if (error) throw new Error(error);
-      connection.query(
-        `insert into Post (postID, title, description, topicID, userID) values (
-        '${postId}',
-        '${title}',
-        '${body}',
-        '${topicId}',
-        '${userId}'
-      );`,
-        (err, result, fields) => {
-          if (err) throw new Error(err);
-          connection.release();
-          return res.status(200).json({
-            result,
-            fields,
-            message: "Added successfully",
-          });
-        }
-      );
-    } catch (err) {
-      console.log(err);
-      connection.release();
-      return res.sendStatus(500);
-    }
-  });
+    const postId = uuidv4();
+
+    const db = await pool.getConnection();
+    const [post, _] = await db.query(
+      "insert into Post (postID, title, description, topicID, userID) values (?, ?, ?, ?, ?)",
+      [postId, title, body, topicId, userId]
+    );
+    return res.status(200).json({
+      message: "Added successfully",
+      post,
+    });
+    db.release();
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
 });
 
 module.exports = router;
