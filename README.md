@@ -15,4 +15,3 @@ Students of FET-JMI, Batch 2020-24
 - 20BCS032 MD Haider Zama &nbsp; [haiderzm](https://github.com/haiderzm)
 - 20BCS063 Mohammad Kashif &nbsp; [M0hammad-Kashif](https://github.com/M0hammad-Kashif)
 - 20BEE003 Heeba Khan &nbsp; []()
-
