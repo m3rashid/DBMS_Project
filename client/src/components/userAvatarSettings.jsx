@@ -115,6 +115,9 @@ const UserAvatarSettings = () => {
     // }));
   };
 
+ console.log(avatarConfig);
+
+
   const delay = 500;
   const handleColorChange = (e) => {
     // TODO fix the debounce, this shit isnt working properly
@@ -136,22 +139,40 @@ const UserAvatarSettings = () => {
   const saveToDatabase = () => {};
 
   const [avatarData, setAvatarData] = React.useState([
-     {label :"sex" ,value :" " },
-     {label :"earSize" ,value :" " },
-     {label :"hairStyle" ,value :" " },
-     {label :"hatStyle" ,value :" " },
-     {label :"glassesStyle" ,value :" " },
-     {label :"noseStyle" ,value :" " },
-     {label :"mouthStyle" ,value :" " },
-     {label :"shirtStyle" ,value :" " },
+     {label :"sex" ,value :avatarConfig.sex },
+     {label :"earSize" ,value :avatarConfig.earSize},
+     {label :"hairStyle" ,value :avatarConfig.hairstyle },
+     {label :"hatStyle" ,value :avatarConfig.hatStyle },
+     {label :"glassesStyle" ,value :avatarConfig.glassesStyle },
+     {label :"noseStyle" ,value :avatarConfig.noseStyle },
+     {label :"mouthStyle" ,value :avatarConfig.mouthstyle },
+     {label :"shirtStyle" ,value :avatarConfig.shirtStyle },
 
 
   ]);
+  
+//   avatarID: "9f985d34-b59a-41f4-a840-6a524a92f823"
+// bgColor: "#3687dd"
+// createdAt: "2022-03-22T10:30:47.952Z"
+// earSize: "big"
+// faceColor: "#eeea77"
+// glassesStyle: "none"
+// hairColor: "#000000"
+// hairStyle: "thick"
+// hatColor: "#ff0000"
+// hatStyle: "none"
+// isGradient: 0
+// mouthStyle: "laugh"
+// noseStyle: "round"
+// sex: "man"
+// shirtColor: "#ff0000"
+// shirtStyle: "polo"
+// updatedAt: "2022-03-22T10:30:47.952Z"
 
 
 
   const theme = useSelector((state) => state.ui.theme);
-  console.log(avatarData);
+  // console.log(avatarData);
 
   return (
     <>
@@ -177,8 +198,8 @@ const UserAvatarSettings = () => {
               options={item.data}
               name={item.name}
               value={avatarData[0][item.name]}
-              placeholder={`Select ${item.label}`}
-              defaultValue={avatarData[item.name] || ""}
+              // placeholder={`Choose`}
+              defaultValue={avatarData[0][item.name]}
               label="Single Select"
             />
           </div>
