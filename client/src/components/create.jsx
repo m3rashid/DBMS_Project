@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
 
-import Loader from "./loader"
+import Loader from "./loader";
 import UserTitle from "./atoms/userTitle";
 import useCreatePost from "../hooks/useCreatePost";
 
@@ -23,18 +23,18 @@ const CreatePost = () => {
         <UserTitle user={user} avatar={avatar} />
         <div className="flex flex-col bg-gray-50 dark:bg-gray-900 items-end gap-2 p-4 rounded-b-md">
           {loading && <Loader />}
-          {!loading && 
+          {!loading && (
             <textarea
-            rows="2"
-            value={text.title}
-            name="title"
-            placeholder="Share something interesting"
-            onChange={handleChange}
-            className="p-2 rounded-md outline-none w-full resize-none bg-gray-200 dark:bg-gray-800 dark:text-gray-200"
+              rows="2"
+              value={text.title}
+              name="title"
+              placeholder="Share something interesting"
+              onChange={handleChange}
+              className="p-2 rounded-md outline-none w-full resize-none bg-gray-200 dark:bg-gray-800 dark:text-gray-200"
             />
-          }
+          )}
 
-          {!loading && text.title.length > 5 && 
+          {!loading && text.title.length > 5 && (
             <>
               <textarea
                 style={{ whiteSpace: "pre-wrap" }}
@@ -79,7 +79,7 @@ const CreatePost = () => {
                 </div>
               </div>
             </>
-           }
+          )}
         </div>
       </div>
     </>
