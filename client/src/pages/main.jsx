@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import CreatePost from "../components/create";
 import PostCard from "../components/postCard";
 import { getPosts } from "../store/actions/post.action";
