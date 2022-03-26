@@ -4,6 +4,7 @@ import CreatePost from "../components/create";
 import PostCard from "../components/postCard";
 import { getPosts } from "../store/actions/post.action";
 import RightSidebar from "../components/rightSidebar";
+import { AuthWrapper } from "../components/authWrapper";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const Main = () => {
   );
 
   return (
-    <>
+    <AuthWrapper>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         <CreatePost />
         <div className="w-full rightSidebarInMainPage">
@@ -26,7 +27,7 @@ const Main = () => {
         {posts &&
           posts.map((post) => <PostCard key={post.postID} post={post} />)}
       </div>
-    </>
+    </AuthWrapper>
   );
 };
 

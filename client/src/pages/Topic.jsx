@@ -7,6 +7,7 @@ import PostCard from "../components/postCard";
 import { SERVER_ROOT_URL } from "../store/constants/config";
 import { headers } from "../hooks/globals";
 import RightSidebar from "../components/rightSidebar";
+import { AuthWrapper } from "../components/authWrapper";
 
 const Topic = () => {
   const { topicId } = useParams();
@@ -26,7 +27,7 @@ const Topic = () => {
   }, [topicId]);
 
   return (
-    <>
+    <AuthWrapper>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         <div className="w-full rightSidebarInMainPage">
           <RightSidebar fullWidth />
@@ -34,7 +35,7 @@ const Topic = () => {
         {posts &&
           posts.map((post) => <PostCard key={post.postID} post={post} />)}
       </div>
-    </>
+    </AuthWrapper>
   );
 };
 

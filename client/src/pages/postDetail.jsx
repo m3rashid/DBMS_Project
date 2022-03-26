@@ -16,10 +16,12 @@ import { toast } from "react-toastify";
 
 import { SERVER_ROOT_URL } from "../store/constants/config";
 import { headers } from "../hooks/globals";
+import { AuthWrapper } from "../components/authWrapper";
 
 const PostDetail = () => {
   const { postId } = useParams();
   const [loading, setLoading] = React.useState(true);
+  const [postFound, setPostFound] = React.useState(false);
   const [singlePost, setSinglePost] = React.useState({});
 
   React.useEffect(() => {
@@ -29,6 +31,11 @@ const PostDetail = () => {
       })
       .then((res) => {
         setLoading(false);
+        if (!res.data.post) {
+          setPostFound(false);
+        } else {
+          setPostFound(true);
+        }
         setSinglePost(res.data.post);
       })
       .catch((err) => {
@@ -64,7 +71,7 @@ const PostDetail = () => {
   }
 
   return (
-    <>
+    <AuthWrapper>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         <div className="flex flex-col  bg-gray-50 dark:bg-gray-900 rounded-md w-full shadow-md">
           <UserTitle post={postDetail} user={user} avatar={avatar} />
@@ -119,7 +126,7 @@ const PostDetail = () => {
             </div>
           </div>
           {commentOpen ? (
-            <div className="bg-gray-300 dark:bg-gray-900 max-h-[500px] overflow-auto p-2 rounded-md">
+            <div className="bg-gray-200 dark:bg-gray-800 max-h-[500px] overflow-auto p-2 rounded-b-md">
               <div className="flex flex-col gap-2 items-end mb-2">
                 <textarea
                   style={{ whiteSpace: "pre-wrap" }}
@@ -129,9 +136,9 @@ const PostDetail = () => {
                   value={commentText}
                   onChange={handleCommentChange}
                 />
-                {inputCharLength() ? (
+                {inputCharLength ? (
                   <button
-                    className="bg-blue-500 text-gray-200 rounded-full px-4 py-2 text-lg font-semibold max-w-[200px] mb-3"
+                    className="bg-blue-500 text-gray-200 rounded-full px-4 py-2 text-lg font-semibold max-w-[200px]"
                     onClick={handleCommentSubmit}
                   >
                     Add Comment
@@ -147,7 +154,7 @@ const PostDetail = () => {
           ) : null}
         </div>
       </div>
-    </>
+    </AuthWrapper>
   );
 };
 

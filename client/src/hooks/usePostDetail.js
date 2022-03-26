@@ -1,9 +1,5 @@
 import React from "react";
-// import axios from "axios";
-// import { toast } from "react-toastify";
-
-// import { SERVER_ROOT_URL } from "../store/constants/config";
-// import { headers } from "../hooks/globals";
+import DOMPurify from "dompurify";
 
 const usePostDetail = (singlePost) => {
   const user = {
@@ -43,7 +39,7 @@ const usePostDetail = (singlePost) => {
   const postDetail = {
     postID: singlePost.postID,
     title: singlePost.title,
-    description: singlePost.description,
+    description: DOMPurify.sanitize(singlePost.description),
     likes: singlePost.likes,
     commentsCount: singlePost.commentsCount,
     createdAt: singlePost.createdAt,

@@ -5,16 +5,11 @@ import { useSelector } from "react-redux";
 import Avatar, { genConfig } from "react-nice-avatar";
 import { Link } from "react-router-dom";
 
-const data =
-  "This package provides a single React component The component contains an input field with a drop down menu to pick a possible option based on the current input as a React component Have a look at w3schools.com to see how you can do something similar with pure html, css, and js. For more information about React and the ecosystem see this guide".split(
-    " "
-  );
+import { SearchBox } from "./searchBox";
 
 const Header = () => {
   const searchRef = React.useRef();
   const [searchOpen, setSearchOpen] = React.useState(false);
-  const [suggestions, setSuggestions] = React.useState([""]);
-  const [searchValue, setSearchValue] = React.useState("");
 
   const avatarConfig = useSelector((state) => state.auth.avatar);
   const avatarSettings = genConfig(avatarConfig);
@@ -26,22 +21,6 @@ const Header = () => {
       }
     }
   });
-
-  const handleSearch = (word) => {
-    const regex = new RegExp(word, "gi");
-    const foundSuggestions = data.filter((item) => item.match(regex));
-    if (searchValue.length === 0) {
-      setSuggestions([]);
-    } else {
-      setSuggestions(foundSuggestions);
-    }
-  };
-
-  // TODO debounce the searches
-  const handleChange = (e) => {
-    setSearchValue(e.target.value);
-    handleSearch(searchValue);
-  };
 
   return (
     <>
@@ -58,7 +37,6 @@ const Header = () => {
             </h1>
           </div>
           <div className="flex items-center justify-center gap-4">
-            {/* on the basis of current logged in user */}
             <div
               ref={searchRef}
               className={`flex items-start rounded-3xl shadow-md ${
@@ -66,24 +44,7 @@ const Header = () => {
                 "absolute md:static top-0 left-0 w-[calc(100%-1rem)] mx-2 md:w-auto z-10 bg-gray-50 dark:bg-gray-700 border-2 dark:border-gray-700"
               }`}
             >
-              {searchOpen ? (
-                <form className="w-full mx-4">
-                  <input
-                    type="text"
-                    value={searchValue}
-                    placeholder="Search"
-                    onChange={handleChange}
-                    className="w-full md:w-auto pl-4 py-2 rounded-3xl outline-0 text-lg bg-gray-50 dark:bg-gray-700 outline-none dark:text-gray-200 font-semibold"
-                  />
-                  <div className="relative w-full max-h-[300px] bg-gray-50 dark:bg-gray-700 dark:text-gray-200">
-                    <ul className="">
-                      {suggestions.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </form>
-              ) : null}
+              {searchOpen ? <SearchBox /> : null}
               <FontAwesomeIcon
                 className={`rounded-full bg-gray-50 dark:bg-gray-700 dark:text-gray-200 ${
                   searchOpen
