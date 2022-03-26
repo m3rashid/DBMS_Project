@@ -118,4 +118,29 @@ router.post("/createTopic", checkAuth, checkAdmin, async (req, res) => {
   }
 });
 
+router.post("/deleteTopic", checkAuth, checkAdmin, async (req, res) => {
+  const { topicName } = req.body;
+ 
+  try {
+    if (!topicName) throw new Error("NO topic name ");
+
+    const db = await pool.getConnection();
+
+    //deleting topic
+    const [_, __] = await db.query("delete from Topic where name = ?", [
+      topicName,
+    ]);
+    db.release();
+
+    return res.status(200).json({
+      message: "Topic Deleted successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+});
+
 module.exports = router;
