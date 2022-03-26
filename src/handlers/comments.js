@@ -24,14 +24,13 @@ router.post("/addComments", checkAuth, async (req, res) => {
   
       const db = await pool.getConnection();
       const [comment, _] = await db.query(
-        "insert into Comment (commentId, text, userID, postID) values ( ?, ?, ?, ?)",
+        "insert into Comments (commentId, text, userID, postID) values ( ?, ?, ?, ?)",
         [commentId, text, userId, postId]
       );
-      return res.status(200).json({
-        message: "Comment Added successfully",
-        comment,
-      });
       db.release();
+      return res.status(200).json({
+        message: "Comment Added successfully"
+    });
     } catch (err) {
       console.log(err);
       return res.status(500).json({
