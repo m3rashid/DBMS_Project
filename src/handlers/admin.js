@@ -143,4 +143,30 @@ router.post("/deleteTopic", checkAuth, checkAdmin, async (req, res) => {
   }
 });
 
+
+router.post("/deletePost", checkAuth, checkAdmin, async (req, res) => {
+  const { postID } = req.body;
+ 
+  try {
+    if (!postID) throw new Error("Post not found ");
+
+    const db = await pool.getConnection();
+
+    //deleting post
+    const [_, __] = await db.query("delete from Post where postID = ?", [
+      postID,
+    ]);
+    db.release();
+
+    return res.status(200).json({
+      message: "Post Deleted successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+});
+
 module.exports = router;
