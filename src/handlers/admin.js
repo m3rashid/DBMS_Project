@@ -118,4 +118,80 @@ router.post("/createTopic", checkAuth, checkAdmin, async (req, res) => {
   }
 });
 
+router.post("/updateTopic", checkAuth, checkAdmin, async (req, res) => {
+  const { topicName,topicID } = req.body;
+ 
+  try {
+    if (!topicID) throw new Error("NO topic found ");
+
+    const db = await pool.getConnection();
+
+    //updating topic
+    const [_, __] = await db.query("update Topic set name = ?, updatedAt = CURRENT_TIMESTAMP(3) where topicID = ?", [
+      topicName,topicID,
+    ]);
+    db.release();
+
+    return res.status(200).json({
+      message: "Topic Updated successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+});
+
+router.post("/deleteTopic", checkAuth, checkAdmin, async (req, res) => {
+  const { topicName } = req.body;
+ 
+  try {
+    if (!topicName) throw new Error("NO topic name ");
+
+    const db = await pool.getConnection();
+
+    //deleting topic
+    const [_, __] = await db.query("delete from Topic where name = ?", [
+      topicName,
+    ]);
+    db.release();
+
+    return res.status(200).json({
+      message: "Topic Deleted successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+});
+
+
+router.post("/deletePost", checkAuth, checkAdmin, async (req, res) => {
+  const { postID } = req.body;
+ 
+  try {
+    if (!postID) throw new Error("Post not found ");
+
+    const db = await pool.getConnection();
+
+    //deleting post
+    const [_, __] = await db.query("delete from Post where postID = ?", [
+      postID,
+    ]);
+    db.release();
+
+    return res.status(200).json({
+      message: "Post Deleted successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+});
+
 module.exports = router;
