@@ -12,7 +12,16 @@ const {
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "PROD"
+        ? "https://jmi-connect.netlify.app"
+        : "http://localhost:3000",
+    optionsSuccessStatus: 200,
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

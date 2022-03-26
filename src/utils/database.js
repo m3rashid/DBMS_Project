@@ -19,10 +19,10 @@ const prodPool = mysql.createPool({
   password: process.env.DB_PASS,
   database: process.env.DATABASE,
   waitForConnections: true,
-  ssl: {
-    rejectUnauthorized: true,
-    ca: [fs.readFileSync(path.join(__dirname, "./keys/ca.pem"), "utf-8")],
-  },
+  // ssl: {
+  //   rejectUnauthorized: true,
+  //   ca: [fs.readFileSync(path.join(__dirname, "./keys/ca.pem"), "utf-8")],
+  // },
 });
 
 const pool = env === "PROD" ? prodPool.promise() : localPool.promise();
