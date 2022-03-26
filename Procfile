@@ -1,1 +1,1 @@
-web: node index.js
+web: NODE_ENV='PROD' node 'src/utils/generateKeyPair.js'  && node index.js

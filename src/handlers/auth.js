@@ -54,7 +54,7 @@ router.post("/signup", validateSignup, async (req, res) => {
     const db = await pool.getConnection();
     await db.query("START TRANSACTION");
     const [_, __] = await db.query(
-      "insert into Avatar (avatarID, sex, faceColor, earSize, hairColor, hairStyle, hatColor, hatStyle, glassesStyle, noseStyle, mouthStyle, shirtStyle, shirtColor, bgColor, isGradient) values (?)",
+      "insert into Avatar (avatarID, sex, faceColor, earSize, hairColor, hairStyle, hatColor, hatStyle, glassesStyle, noseStyle, mouthStyle, shirtStyle, shirtColor, bgColor, isGradient) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         avatarId,
         avatarConfig.sex,
@@ -74,7 +74,7 @@ router.post("/signup", validateSignup, async (req, res) => {
       ]
     );
     const [___, ____] = await db.query(
-      "insert into User (userID, userName, firstName, lastName, email, gender, avatarID, password) values (?)",
+      "insert into User (userID, userName, firstName, lastName, email, gender, avatarID, password) values (?, ?, ?, ?, ?, ?, ?, ?)",
       [
         userId,
         username,
