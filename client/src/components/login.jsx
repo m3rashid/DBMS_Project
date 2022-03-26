@@ -1,49 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { faUser, faKey, faLock } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
 
 import Input from "./atoms/input";
 import Button from "./atoms/Button";
-import { adminLogin, login } from "../store/actions/auth.action";
+
+import { AuthWrapper } from "./authWrapper";
+import useLogin from "../hooks/useLogin";
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const [credentials, setCredentials] = React.useState({
-    username: "",
-    password: "",
-    isAdmin: false,
-  });
-
-  const handleLogin = () => {
-    if (credentials.isAdmin) {
-      dispatch(adminLogin(credentials));
-    } else {
-      dispatch(login(credentials));
-    }
-    setCredentials({
-      username: "",
-      password: "",
-      isAdmin: false,
-    });
-  };
-
-  const handleChange = (e) => {
-    setCredentials((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const toggleAdmin = () => {
-    setCredentials((prev) => ({
-      ...prev,
-      isAdmin: !credentials.isAdmin,
-    }));
-  };
+  const {
+    state: { credentials },
+    handleChange,
+    toggleAdmin,
+    handleLogin,
+  } = useLogin();
 
   return (
-    <>
+    <AuthWrapper>
       <Input
         name="username"
         type="text"
@@ -80,7 +54,7 @@ const Login = () => {
           <b> Signup</b>
         </Link>
       </div>
-    </>
+    </AuthWrapper>
   );
 };
 

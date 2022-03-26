@@ -57,7 +57,6 @@ export const loadUser = () => (dispatch) => {
   axios
     .get(`${SERVER_ROOT_URL}/auth`, tokenConfig())
     .then((res) => {
-      console.log(res.data);
       dispatch({
         type: USER_LOADED,
         payload: res.data,
@@ -78,6 +77,7 @@ export const login =
   (dispatch) => {
     dispatch(userLoading());
     const body = JSON.stringify({ username, password, isAdmin });
+    const loginToast = toast.loading("Logging you in, Please wait...");
     axios
       .post(`${SERVER_ROOT_URL}/auth/login`, body, configContentType)
       .then((res) => {
@@ -86,7 +86,12 @@ export const login =
           payload: res.data,
         });
         dispatch(clearErrors);
-        toast.success("Successfully logged in");
+        toast.update(loginToast, {
+          render: "Successfully logged in",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+        });
       })
       .catch((err) => {
         dispatch(
@@ -95,7 +100,12 @@ export const login =
         dispatch({
           type: LOGIN_FAIL,
         });
-        toast.error("Error in logging in");
+        toast.update(loginToast, {
+          render: "Error in logging you in",
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+        });
       });
   };
 
@@ -120,6 +130,8 @@ export const register =
       password,
       confirmPassword,
     });
+    const registerToast = toast.loading("Signup in progress, Please wait...");
+
     axios
       .post(`${SERVER_ROOT_URL}/auth/signup`, body, configContentType)
       .then((res) => {
@@ -128,7 +140,12 @@ export const register =
           payload: res.data,
         });
         dispatch(clearErrors);
-        toast.success("Successfully registered");
+        toast.update(registerToast, {
+          render: "Successfully created your account",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+        });
         toast.info("Please login to continue");
       })
       .catch((err) => {
@@ -138,7 +155,12 @@ export const register =
         dispatch({
           type: REGISTER_FAIL,
         });
-        toast.error("Error in registering");
+        toast.update(registerToast, {
+          render: "Error in register",
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+        });
       });
   };
 
@@ -146,6 +168,7 @@ export const adminLogin =
   ({ username, password, isAdmin }) =>
   (dispatch) => {
     dispatch(userLoading());
+    const loginToast = toast.loading("Logging you in, Please wait...");
     const body = JSON.stringify({ username, password, isAdmin });
     axios
       .post(`${SERVER_ROOT_URL}/auth/adminLogin`, body, configContentType)
@@ -155,7 +178,12 @@ export const adminLogin =
           payload: res.data,
         });
         dispatch(clearErrors);
-        toast.success("Successfully logged in");
+        toast.update(loginToast, {
+          render: "Successfully logged in",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+        });
       })
       .catch((err) => {
         dispatch(
@@ -164,7 +192,12 @@ export const adminLogin =
         dispatch({
           type: ADMIN_LOGIN_FAIL,
         });
-        toast.error("Error in logging in");
+        toast.update(loginToast, {
+          render: "Error in logging yout in",
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+        });
       });
   };
 

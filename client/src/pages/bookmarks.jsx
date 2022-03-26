@@ -1,4 +1,5 @@
 import React from "react";
+import { AuthWrapper } from "../components/authWrapper";
 
 import PostCard from "../components/postCard";
 
@@ -8,11 +9,11 @@ const Bookmarks = () => {
   }, []);
 
   return (
-    <>
+    <AuthWrapper>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         <PostCard />
       </div>
-    </>
+    </AuthWrapper>
   );
 };
 

@@ -7,10 +7,13 @@ import moment from "moment";
 import { darkMode, lightMode } from "../store/actions/ui.action";
 import UserAvatarSettings from "../components/userAvatarSettings";
 import { logout } from "../store/actions/auth.action";
+import { AuthWrapper } from "../components/authWrapper";
+import { useNavigate } from "react-router-dom";
 
 const User = () => {
   // const [gotUser, setGotUser] = React.useState();
   // const { userId } = useParams();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -32,6 +35,7 @@ const User = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/login");
   };
 
   const commons =
@@ -42,7 +46,7 @@ const User = () => {
   const h3Styles = "font-bold text-xl ml-1 my-3 text-center sm:text-left";
 
   return (
-    <>
+    <AuthWrapper>
       <div className="flex flex-col gap-4 p-2">
         <div className={`${commons}`}>
           <div className="w-full h-28 z-0 rounded-t-md flex items-start bg-gray-300 dark:bg-gray-800"></div>
@@ -73,9 +77,9 @@ const User = () => {
           <div className="flex gap-4 justify-center my-3 mb-4">
             <button
               onClick={handleThemeChange}
-              className={`${buttonStyles} w-[150px]`}
+              className={`${buttonStyles} w-[170px]`}
             >
-              Change theme
+              {theme === "dark" ? "Use Light Theme" : "Use Dark Theme"}
             </button>
             <button
               className={`${buttonStyles} w-[100px]`}
@@ -89,7 +93,7 @@ const User = () => {
           </div>
         </div>
       </div>
-    </>
+    </AuthWrapper>
   );
 };
 

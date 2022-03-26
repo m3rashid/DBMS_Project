@@ -5,52 +5,20 @@ import Select from "react-select";
 
 import Input from "./atoms/input";
 import Button from "./atoms/Button";
-import { useDispatch, useSelector } from "react-redux";
-import { register } from "../store/actions/auth.action";
+
+import { AuthWrapper } from "./authWrapper";
+import useSignup from "../hooks/useSignup";
 
 const Signup = () => {
-  const theme = useSelector((state) => state.ui.theme);
-  const dispatch = useDispatch();
-  const [credentials, setCredentials] = React.useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    gender: "",
-    password: "",
-    confirmPassword: "",
-  });
-
-  const handleChange = (e) => {
-    setCredentials((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const data = {
-    name: "gender",
-    label: "Gender",
-    data: [
-      { value: "male", label: "male" },
-      { value: "female", label: "female" },
-      { value: "others", label: "others" },
-    ],
-  };
-
-  const changeGender = (label, container) => {
-    setCredentials((prev) => ({
-      ...prev,
-      [container.name]: label.value,
-    }));
-  };
-
-  const handleSubmit = () => {
-    dispatch(register(credentials));
-  };
+  const {
+    state: { theme, credentials, data },
+    handleChange,
+    changeGender,
+    handleSubmit,
+  } = useSignup();
 
   return (
-    <>
+    <AuthWrapper>
       <Input
         name="firstName"
         type="text"
@@ -127,7 +95,7 @@ const Signup = () => {
           <b> Login</b>
         </Link>
       </div>
-    </>
+    </AuthWrapper>
   );
 };
 
