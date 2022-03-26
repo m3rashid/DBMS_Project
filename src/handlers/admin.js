@@ -45,13 +45,24 @@ router.post("/getUser", checkAuth, checkAdmin, async (req, res) => {
 });
 
 router.post("/deleteUser", checkAuth, checkAdmin, async (req, res) => {
-  const { userID } = req.body;
+  const { userID,avatarID } = req.body;
   try {
     if (!userID) throw new Error("User not found");
 
     const db = await pool.getConnection();
-    const [_, __] = await db.query("delete from User where userID = ?", [
+    //firstly deleting all the posts of that user
+    const [_, __] = await db.query("delete from Post where userID = ?", [
       userID,
+    ]);
+
+    //then deleting the user
+    const [___, ____] = await db.query("delete from User where userID = ?", [
+      userID,
+    ]);
+
+    //then deleting the avatar
+    const [_____, ______] = await db.query("delete from Avatar where avatarID = ?", [
+      avatarID,
     ]);
     db.release();
 
