@@ -1,7 +1,7 @@
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Admin from "./pages/Admin";
@@ -20,12 +20,25 @@ import Chat from "./pages/chat";
 import { NotFound } from "./pages/404";
 
 const App = () => {
+  const { isAuthUser, isAuthAdmin } = useSelector((state) => state.auth);
   const theme = useSelector((state) => state.ui.theme);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(loadUser());
   }, [dispatch]);
+
+  const IndexRoute = (
+    <>
+      {isAuthUser ? (
+        <Navigate to="/home" />
+      ) : isAuthAdmin ? (
+        <Navigate to="/admin" />
+      ) : (
+        <Navigate to="/login" />
+      )}
+    </>
+  );
 
   return (
     <>
@@ -43,6 +56,7 @@ const App = () => {
       />
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={IndexRoute} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/admin" element={<Admin />} />

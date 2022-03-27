@@ -6,7 +6,7 @@ import {
   // POSTS_LOADING,
   POSTS_LOADED,
   POST_LOADED,
-} from "../constants/post";
+} from "../constants";
 
 const initialState = {
   posts: {},

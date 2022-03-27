@@ -16,7 +16,7 @@ import {
   USER_LOADING,
   TOPIC_GOT,
   TOPIC_GOT_FAIL,
-} from "../constants/auth";
+} from "../constants";
 
 const initialState = {
   isAuthUser: false,

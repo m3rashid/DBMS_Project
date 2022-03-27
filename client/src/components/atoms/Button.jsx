@@ -5,10 +5,13 @@ const Button = ({ classes, onClick, Icon, label }) => {
   return (
     <>
       <div
-        className={`flex items-center justify-center gap-2 bg-blue-500 text-gray-200 p-2 rounded-md ${classes}`}
+        className={`flex justify-center bg-blue-500 text-gray-200 rounded-md ${classes}`}
       >
-        {Icon && <FontAwesomeIcon icon={Icon} />}
-        <button className="text-xl font-semibold" onClick={onClick}>
+        <button
+          className="flex items-center justify-center gap-2 w-full text-xl font-semibold p-2"
+          onClick={onClick}
+        >
+          {Icon && <FontAwesomeIcon icon={Icon} />}
           {label}
         </button>
       </div>

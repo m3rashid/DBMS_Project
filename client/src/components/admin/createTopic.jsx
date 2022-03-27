@@ -1,18 +1,15 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 
 import Button from "../atoms/Button";
 import Input from "../atoms/input";
-import { createTopic } from "../../store/actions/admin.action";
+import useCreateTopic from "../../hooks/useCreateTopic";
 
 const CreateTopic = () => {
-  const dispatch = useDispatch();
-  const [topicName, setTopicName] = React.useState("");
-
-  const createThisTopic = () => {
-    dispatch(createTopic({ topicName }));
-    setTopicName("");
-  };
+  const {
+    state: { topicName },
+    createThisTopic,
+    setTopicName,
+  } = useCreateTopic();
 
   return (
     <div className="rounded-lg dark:text-gray-200 border mt-8 mb-12">
