@@ -3,7 +3,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { SERVER_ROOT_URL } from "../store/constants/config";
+import { SERVER_ROOT_URL } from "../store/constants";
 import { headers } from "../hooks/globals";
 import { getPosts } from "../store/actions/post.action";
 

@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { LIGHT_MODE, DARK_MODE } from "../constants/ui";
+import { LIGHT_MODE, DARK_MODE } from "../constants";
 
 const checkTheme = () => {
   if (

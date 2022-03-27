@@ -1,4 +1,4 @@
-import { DARK_MODE, LIGHT_MODE } from "../constants/ui";
+import { DARK_MODE, LIGHT_MODE } from "../constants";
 
 export const darkMode = () => {
   return {
