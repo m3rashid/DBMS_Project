@@ -5,6 +5,7 @@ import moment from "moment";
 
 import Table from "./MaterialTable";
 import Button from "../atoms/Button";
+import deleteUser from "../../hooks/deleteUser";
 
 const columns = [
   { title: "Username", field: "userName", sorting: false },
@@ -43,13 +44,13 @@ const columns = [
     title: "Actions",
     field: "",
     sorting: false,
-    render: ({ userID }) => (
+    render: ({ userID, avatarID }) => (
       <div className="flex gap-2 items-center">
         <Button
           Icon={faTrash}
           label="Delete"
           classes="bg-red-500"
-          onClick={() => {}}
+          onClick={() => deleteUser(userID, avatarID)}
         />
       </div>
     ),
