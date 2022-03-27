@@ -52,15 +52,10 @@ const CreatePost = () => {
                         control: (base) => ({
                           ...base,
                           border: "none",
-                          color: theme === "dark" ? "white" : "black",
-                        }),
-                        container: (base) => ({
-                          ...base,
-                          color: theme === "dark" ? "white" : "black",
                         }),
                       }}
                       className=""
-                      classNamePrefix="bg-gray-200 dark:bg-gray-800 outline-none"
+                      classNamePrefix="bg-gray-200 dark:bg-gray-700 text-black dark:text-white outline-none"
                       placeholder="Select Topic"
                       options={options}
                       name="topicId"
