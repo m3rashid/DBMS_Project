@@ -28,6 +28,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/auth", /* authRateLimiter, */ require("./src/handlers/auth"));
 app.use("/admin", /* regularRateLimiter, */ require("./src/handlers/admin"));
 app.use("/post", /* regularRateLimiter, */ require("./src/handlers/post"));
+app.use(
+  "/comments",
+  /* regularRateLimiter, */ require("./src/handlers/comments")
+);
 // app.use(
 //   "/update",
 //   // authRateLimiter,

@@ -4,13 +4,11 @@ import thunk from "redux-thunk";
 import UiReducer from "./ui.reducer";
 import authReducer from "./auth.reducer";
 import postReducer from "./post.reducer";
-import errorReducer from "./error.reducer";
 
 const reducers = combineReducers({
   auth: authReducer,
   posts: postReducer,
   ui: UiReducer,
-  error: errorReducer,
   // avatar: AvatarReducer,
 });
 

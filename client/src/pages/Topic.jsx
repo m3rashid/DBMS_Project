@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import PostCard from "../components/postCard";
-import { SERVER_ROOT_URL } from "../store/constants/config";
+import { SERVER_ROOT_URL } from "../store/constants";
 import { headers } from "../hooks/globals";
 import RightSidebar from "../components/rightSidebar";
 import { AuthWrapper } from "../components/authWrapper";
