@@ -122,6 +122,7 @@ router.post("/updateTopic", checkAuth, checkAdmin, async (req, res) => {
   const { topicName,topicID } = req.body;
  
   try {
+    if (!topicName) throw new Error("NO topic name ");
     if (!topicID) throw new Error("NO topic found ");
 
     const db = await pool.getConnection();
@@ -144,16 +145,15 @@ router.post("/updateTopic", checkAuth, checkAdmin, async (req, res) => {
 });
 
 router.post("/deleteTopic", checkAuth, checkAdmin, async (req, res) => {
-  const { topicName } = req.body;
+  const { topicID } = req.body;
  
   try {
-    if (!topicName) throw new Error("NO topic name ");
-
+    
     const db = await pool.getConnection();
 
     //deleting topic
-    const [_, __] = await db.query("delete from Topic where name = ?", [
-      topicName,
+    const [_, __] = await db.query("delete from Topic where topicID = ?", [
+      topicID,
     ]);
     db.release();
 
