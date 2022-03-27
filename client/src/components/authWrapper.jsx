@@ -18,15 +18,15 @@ export const AuthWrapper = ({ children }) => {
     <div className="flex flex-col md:flex-row h-screen w-screen bg-gray-200 dark:bg-gray-700 relative ">
       <div className="h-screen w-screen md:w-[50vw] bg-blue-500 md:rounded-br-[100px] px-10 py-20 absolute top-0 left-0 flex flex-col items-center shadow-2xl">
         <img
-          className="w-32 md:w-60 -translate-y-2"
+          className="w-32 md:w-60 -translate-y-16"
           src="/images/logo.png"
           alt=""
         />
-        <p className="text-gray-50 font-bold text-3xl md:text-5xl">
+        <p className="text-gray-50 font-bold text-3xl md:text-5xl -translate-y-12">
           JMI Connect
         </p>
       </div>
-      <div className="h-screen w-screen flex flex-col items-center justify-end md:translate-y-0 z-10 shadow-2xl">
+      <div className="h-screen w-screen flex flex-col items-center justify-end md:translate-y-24 z-10 shadow-2xl">
         <div className="flex flex-col gap-3 justify-center bg-gray-50 dark:bg-gray-900 rounded-t-2xl md:rounded-xl shadow-md md:max-w-[450px]  md:m-0 md:mb-32 px-6 py-8 pt-12 md:px-8 md:py-20 w-screen">
           {route === "/login" || route === "/signup" ? children : null}
         </div>
