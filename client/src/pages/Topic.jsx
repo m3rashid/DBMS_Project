@@ -32,8 +32,12 @@ const Topic = () => {
         <div className="w-full rightSidebarInMainPage">
           <RightSidebar fullWidth />
         </div>
-        {posts &&
-          posts.map((post) => <PostCard key={post.postID} post={post} />)}
+        {!posts.length > 0 ? (
+          <div className="text-2xl mt-10">No Posts found</div>
+        ) : (
+          posts &&
+          posts.map((post) => <PostCard key={post.postID} post={post} />)
+        )}
       </div>
     </AuthWrapper>
   );

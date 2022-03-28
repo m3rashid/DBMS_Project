@@ -10,7 +10,7 @@ const {
 } = require("../middlewares/auth");
 const { hashPassword, comparePassword } = require("../utils/auth");
 const pool = require("../utils/database");
-const { checkAuth } = require("../middlewares/jwt.auth");
+const { checkAuth, checkAdmin } = require("../middlewares/jwt.auth");
 const { manAvatarDefault, womanAvatarDefault } = require("../handlers/helpers");
 
 router.get("/", checkAuth, async (req, res) => {
@@ -33,6 +33,27 @@ router.get("/", checkAuth, async (req, res) => {
     return res.status(200).json({
       user: users[0],
       avatar: avatars[0],
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+});
+
+router.get("/admin", checkAuth, checkAdmin, async (req, res) => {
+  try {
+    const db = await pool.getConnection();
+    const [users, __] = await db.query("select * from User");
+    const [topics, ___] = await db.query("select * from Topic");
+    const [posts, ____] = await db.query("select * from Post");
+    db.release();
+
+    return res.status(200).json({
+      users,
+      posts,
+      topics,
     });
   } catch (err) {
     console.log(err);

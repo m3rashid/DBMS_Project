@@ -2,14 +2,14 @@ import React from "react";
 
 import Button from "../atoms/Button";
 import Input from "../atoms/input";
-import useCreateTopic from "../../hooks/useCreateTopic";
+import useTopic from "../../hooks/useTopic";
 
 const CreateTopic = () => {
   const {
     state: { topicName },
     createThisTopic,
     setTopicName,
-  } = useCreateTopic();
+  } = useTopic();
 
   return (
     <div className="rounded-lg dark:text-gray-200 border mt-8 mb-12">

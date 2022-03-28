@@ -12,9 +12,6 @@ export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
 
-export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
-export const DELETE_USER_FAIL = "DELETE_USER_FAIL";
-
 export const FORGOT_PASSWORD = "FORGOT_PASSWORD";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
 export const RESET_PASSWORD_FAIL = "RESET_PASSWORD_FAIL";
@@ -29,8 +26,15 @@ export const POSTS_LOADING = "POSTS_LOADING";
 export const POSTS_LOADED = "POSTS_LOADED";
 export const POST_LOADED = "POST_LOADED";
 
+export const ADMIN_LOADING = "ADMIN_LOADING";
+export const ADMIN_LOADED = "ADMIN_LOADED";
+
 export const DARK_MODE = "DARK_MODE";
 export const LIGHT_MODE = "LIGHT_MODE";
+
+export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
+export const DELETE_TOPIC_SUCCESS = "DELETE_TOPIC_SUCCESS";
+export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
 
 export const configContentType = {
   headers: {
