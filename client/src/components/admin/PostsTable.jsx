@@ -5,6 +5,23 @@ import moment from "moment";
 
 import Table from "./MaterialTable";
 import Button from "../atoms/Button";
+import usePost from "../../hooks/usePost";
+
+const ActionButtons = ({ postID }) => {
+  const { deletePost } = usePost();
+  return (
+    <div className="flex gap-2 items-center">
+      <Button
+        Icon={faTrash}
+        label="Delete"
+        classes="bg-red-500"
+        onClick={() => {
+          deletePost(postID);
+        }}
+      />
+    </div>
+  );
+};
 
 const columns = [
   {
@@ -33,6 +50,12 @@ const columns = [
     field: "",
     sorting: false,
     render: ({ updatedAt }) => moment(updatedAt).format("lll"),
+  },
+  {
+    title: "Actions",
+    field: "",
+    sorting: false,
+    render: ({ postID }) => <ActionButtons postID={postID} />,
   },
 ];
 

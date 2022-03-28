@@ -3,7 +3,7 @@ import Select from "react-select";
 
 import Loader from "./loader";
 import UserTitle from "./atoms/userTitle";
-import useCreatePost from "../hooks/useCreatePost";
+import usePost from "../hooks/usePost";
 
 const CreatePost = () => {
   const {
@@ -11,7 +11,7 @@ const CreatePost = () => {
     handleChange,
     handleSubmit,
     handleTopicChange,
-  } = useCreatePost();
+  } = usePost();
 
   const [topicState, setTopicState] = React.useState([
     { label: "topic", value: "" },

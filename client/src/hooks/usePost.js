@@ -3,11 +3,15 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { SERVER_ROOT_URL } from "../store/constants";
+import {
+  DELETE_POST_SUCCESS,
+  SERVER_ROOT_URL,
+  tokenConfig,
+} from "../store/constants";
 import { headers } from "../hooks/globals";
 import { getPosts } from "../store/actions/post.action";
 
-const useCreatePost = () => {
+const usePost = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(false);
   const theme = useSelector((state) => state.ui.theme);
@@ -91,6 +95,37 @@ const useCreatePost = () => {
     });
   };
 
+  const deletePost = async (postID) => {
+    const postToast = toast.loading("Deleting post...");
+    const body = JSON.stringify({ postID });
+    try {
+      const res = await axios.post(
+        `${SERVER_ROOT_URL}/admin/deletePost`,
+        body,
+        tokenConfig()
+      );
+      dispatch({
+        type: DELETE_POST_SUCCESS,
+        payload: res.data,
+      });
+      setTimeout(() => {
+        toast.update(postToast, {
+          render: "Successfully deleted Post",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+        });
+      }, 0);
+    } catch (err) {
+      toast.update(postToast, {
+        render: "Error deleting Post",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    }
+  };
+
   return {
     state: {
       theme,
@@ -104,7 +139,8 @@ const useCreatePost = () => {
     handleChange,
     handleSubmit,
     handleTopicChange,
+    deletePost,
   };
 };
 
-export default useCreatePost;
+export default usePost;

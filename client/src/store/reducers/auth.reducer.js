@@ -5,15 +5,15 @@ import {
   ADMIN_LOGIN_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  // DELETE_USER_SUCCESS,
-  // DELETE_USER_FAIL,
+  DELETE_USER_SUCCESS,
+  DELETE_POST_SUCCESS,
+  DELETE_TOPIC_SUCCESS,
   LOGOUT_SUCCESS,
-  // FORGOT_PASSWORD,
-  // RESET_PASSWORD_FAIL,
   AUTH_ERROR,
-  // RESET_PASSWORD_SUCCESS,
   USER_LOADED,
   USER_LOADING,
+  ADMIN_LOADING,
+  ADMIN_LOADED,
   TOPIC_GOT,
   TOPIC_GOT_FAIL,
 } from "../constants";
@@ -33,7 +33,26 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case DELETE_USER_SUCCESS:
+      return {
+        ...state,
+        users: action.payload.users,
+      };
+
+    case DELETE_POST_SUCCESS:
+      return {
+        ...state,
+        posts: action.payload.posts,
+      };
+
+    case DELETE_TOPIC_SUCCESS:
+      return {
+        ...state,
+        topics: action.payload.topics,
+      };
+
     case USER_LOADING:
+    case ADMIN_LOADING:
       return {
         ...state,
         isLoading: true,
@@ -47,18 +66,30 @@ const authReducer = (state = initialState, action) => {
         isAuthAdmin: false,
         isLoading: false,
       };
+
+    case ADMIN_LOADED:
+      return {
+        ...state,
+        ...action.payload,
+        isAuthUser: false,
+        isAuthAdmin: true,
+        isLoading: false,
+      };
+
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case REGISTER_FAIL:
     case ADMIN_LOGIN_FAIL:
       localStorage.removeItem("connect-token");
+      localStorage.removeItem("lastLogin");
       return {
         ...initialState,
       };
 
     case LOGIN_SUCCESS:
       localStorage.setItem("connect-token", action.payload.token);
+      localStorage.setItem("lastLogin", "user");
       return {
         ...state,
         ...action.payload,
@@ -70,6 +101,7 @@ const authReducer = (state = initialState, action) => {
 
     case ADMIN_LOGIN_SUCCESS:
       localStorage.setItem("connect-token", action.payload.token);
+      localStorage.setItem("lastLogin", "admin");
       return {
         ...state,
         ...action.payload,
