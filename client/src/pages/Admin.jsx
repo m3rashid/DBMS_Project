@@ -1,20 +1,15 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 
 import UserTable from "../components/admin/UsersTable";
 import PostTable from "../components/admin/PostsTable";
 import CreateTopic from "../components/admin/createTopic";
 import TopicTable from "../components/admin/topicTable";
 import Button from "../components/atoms/Button";
-import { logout } from "../store/actions/auth.action";
 import { AuthWrapper } from "../components/authWrapper";
+import useAdmin from "../hooks/useAdmin";
 
 const Admin = () => {
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(logout());
-  };
+  const { handleLogout } = useAdmin();
 
   return (
     <AuthWrapper>

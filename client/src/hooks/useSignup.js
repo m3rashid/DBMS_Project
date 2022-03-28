@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import {
@@ -10,9 +11,10 @@ import {
 } from "../store/constants";
 
 const useSignup = () => {
-  const theme = useSelector((state) => state.ui.theme);
   const dispatch = useDispatch();
-  const [credentials, setCredentials] = React.useState({
+  const navigate = useNavigate();
+  const theme = useSelector((state) => state.ui.theme);
+  const initialState = {
     firstName: "",
     lastName: "",
     username: "",
@@ -20,7 +22,8 @@ const useSignup = () => {
     gender: "",
     password: "",
     confirmPassword: "",
-  });
+  };
+  const [credentials, setCredentials] = React.useState(initialState);
 
   const handleChange = (e) => {
     setCredentials((prev) => ({
@@ -47,6 +50,7 @@ const useSignup = () => {
   };
 
   const handleSubmit = async () => {
+    setCredentials(initialState);
     const body = JSON.stringify(credentials);
     const registerToast = toast.loading("Signup in progress...");
     try {
@@ -67,6 +71,7 @@ const useSignup = () => {
           autoClose: 5000,
         });
         toast.info("Please login to continue");
+        navigate("/login");
       }, 0);
     } catch (err) {
       toast.update(registerToast, {
