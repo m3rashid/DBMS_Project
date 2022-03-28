@@ -8,10 +8,16 @@ const Bookmarks = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const bookmarks = [];
+
   return (
     <AuthWrapper>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
-        <PostCard />
+        {bookmarks.length > 0 ? (
+          <PostCard />
+        ) : (
+          <div className="text-2xl mt-10">No bookmarks found</div>
+        )}
       </div>
     </AuthWrapper>
   );
