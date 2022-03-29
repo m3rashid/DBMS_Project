@@ -42,7 +42,7 @@ router.post("/addComments", checkAuth, async (req, res) => {
 //deleteing comments
 
 //do we have to give access to admin to delete the comments?? 
-
+/*
 router.post("/delete", checkAuth, async (req, res) => {
     const { postID , commentID, userID } = req.body;
    
@@ -52,9 +52,9 @@ router.post("/delete", checkAuth, async (req, res) => {
       const db = await pool.getConnection();
   
       //deleting comment
-      const [, _] = await db.query("delete from Comments where  commentID = ?", 
+      const [, _] = await db.query("delete from Comments where  commentID = ?, userID = ?", 
       [
-        postID, commentID, userID
+        commentID, userID
       ]);
       db.release();
   
@@ -68,7 +68,7 @@ router.post("/delete", checkAuth, async (req, res) => {
       });
     }
   });
-
+*/ //del leftttttt
   ////////////
 
   router.post("/edit", checkAuth, async (req, res) => {
