@@ -16,7 +16,8 @@ router.post('/remove', checkAuth, async (req, res) => {
         await db.query("delete from Bookmark where bookmarkID=?",[bookmarkId]);
         db.release();
         return res.status(200).json({
-            bookmarkId: bookmarkId
+        
+            message :"Bookmark removed"
           });
     }catch(e){
         console.log(err);
