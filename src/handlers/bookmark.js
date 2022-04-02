@@ -27,20 +27,26 @@ router.post('/remove', checkAuth, async (req, res) => {
 })
 //
 
-router.post("/addBookmark",checkAuth,async(req,res) => {
+router.post("/add",checkAuth,async(req,res) => {
     const bookmarkId = uuidv4();
-    const userId = req.body.userId;
+    const userId = req.userId;
     const postId = req.body.postId;
     
 
     try {
-        const db = await pool.getConnection();
-        const sql ="INSERT INTO bookmark (bookmarkID,userID,postID) VALUES ?"
 
-        const values = [
-           [bookmarkId,userId,postId]
-        ]
-        db.query(sql,[values]);
+        
+        const db = await pool.getConnection();
+        const [users,_] = await db.query("select * from User where userID = ?",[userId] )
+        if(users.length === 0)
+        throw new Error ("user not found")
+
+        const [post,__] = await db.query("select * from Post where postID = ?",[postId] )
+        if(post.length === 0)
+        throw new Error ("Post not found")
+
+
+        await db.query("INSERT INTO Bookmark (bookmarkID,userID,postID) VALUES (?, ?, ?)",[bookmarkId,userId,postId]);
         db.release();
         
         return res.status(200).json({

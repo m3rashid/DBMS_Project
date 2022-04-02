@@ -35,13 +35,14 @@ app.use(
   "/comments",
   /* regularRateLimiter, */ require("./src/handlers/comments")
 );
+app.use("/bookmark",require("./src/handlers/bookmark"))
 // app.use(
 //   "/update",
 //   // authRateLimiter,
 //   updateUser
 // );
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log("INFO: Server is running on port ", port);
 });
