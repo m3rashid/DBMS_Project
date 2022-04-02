@@ -6,7 +6,25 @@ const pool = require("../utils/database");
 const { checkAuth } = require("../middlewares/jwt.auth");
 
 // add your routes here
-
+router.post('/removeBookmark', checkAuth, async (req, res) => {
+    const {bookmarkId} = req.body;
+    try{
+        const db = await pool.getConnection();
+        const [bookmark, _] = await db.query("select * from bookmark where bookmarkId = ?",[
+            bookmarkId,
+        ]);
+        await db.query("delete from bookmark where bookmarkId=?",[bookmarkId]);
+        db.release();
+        return res.status(200).json({
+            bookmarkId: bookmarkId
+          });
+    }catch(e){
+        console.log(err);
+        return res.status(500).json({
+        message: err.message,
+        });
+    }
+})
 //
 
 //
