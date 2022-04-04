@@ -8,6 +8,7 @@
     "@fortawesome/react-fontawesome": "^0.1.17",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
+    "@tensorflow-models/toxicity": "^1.2.2",
     "axios": "^0.26.0",
     "dompurify": "^2.3.6",
     "material-table": "^1.69.3",
