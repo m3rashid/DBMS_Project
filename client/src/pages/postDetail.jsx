@@ -1,10 +1,5 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faComment,
-  faHeart,
-  faBookmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { FaComment, FaHeart, FaBookmark } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 
 import UserTitle from "../components/atoms/userTitle";
@@ -95,34 +90,32 @@ const PostDetail = () => {
           <div className="p-4 flex items-center justify-between">
             <div className="flex gap-3">
               <div className={iconContainerStyles} onClick={handleLikeSubmit}>
-                <FontAwesomeIcon
+                <span
                   className={
                     liked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
                   }
-                  icon={faHeart}
-                  size="xl"
-                />
+                >
+                  <FaHeart />
+                </span>
                 <p className="dark:text-gray-200">{postDetail.likes}</p>
               </div>
               <div className={iconContainerStyles} onClick={handleOpenComment}>
-                <FontAwesomeIcon
-                  className="text-gray-700 dark:text-gray-300"
-                  icon={faComment}
-                  size="xl"
-                />
+                <span className="text-gray-700 dark:text-gray-300">
+                  <FaComment />
+                </span>
                 <p className="dark:text-gray-200">{postDetail.commentsCount}</p>
               </div>
             </div>
             <div className={iconContainerStyles} onClick={handleBookmark}>
-              <FontAwesomeIcon
+              <span
                 className={
                   bookmarked
                     ? "text-blue-500"
                     : "text-gray-700 dark:text-gray-300"
                 }
-                icon={faBookmark}
-                size="xl"
-              />
+              >
+                <FaBookmark />
+              </span>
             </div>
           </div>
           {commentOpen ? (

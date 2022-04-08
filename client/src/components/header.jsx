@@ -1,6 +1,5 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FaSearch } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import Avatar, { genConfig } from "react-nice-avatar";
 import { Link } from "react-router-dom";
@@ -45,16 +44,17 @@ const Header = () => {
               }`}
             >
               {searchOpen ? <SearchBox /> : null}
-              <FontAwesomeIcon
+              <span
                 className={`rounded-full bg-gray-50 dark:bg-gray-700 dark:text-gray-200 ${
                   searchOpen
                     ? "mr-4 mt-3"
                     : "p-3 hover:bg-gray-200 dark:hover:bg-gray-500"
                 }`}
-                icon={faSearch}
                 onClick={() => setSearchOpen(true)}
                 size="xl"
-              />
+              >
+                <FaSearch />
+              </span>
             </div>
             <Link to="/user/me">
               <div className="">

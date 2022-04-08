@@ -1,11 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHome,
-  faBell,
-  faBookmark,
-  faUser,
-  // faMessage,
-} from "@fortawesome/free-solid-svg-icons";
+  FaHome,
+  FaBell,
+  FaBookmark,
+  FaUser,
+  // FaMessage,
+} from "react-icons/fa";
+
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -21,35 +21,27 @@ const MobileNav = () => {
       <div className="fixed bottom-0 bg-gray-50 dark:bg-gray-900 w-full flex items-center justify-around rounded-t-md md:hidden">
         <Link to="/home">
           <div className={divStyles}>
-            <FontAwesomeIcon icon={faHome} size="xl" className={iconStyles} />
+            <FaHome className={iconStyles} />
           </div>
         </Link>
         <Link to="/notifications">
           <div className={divStyles}>
-            <FontAwesomeIcon icon={faBell} size="xl" className={iconStyles} />
+            <FaBell className={iconStyles} />
           </div>
         </Link>
         <Link to="/bookmarks">
           <div className={divStyles}>
-            <FontAwesomeIcon
-              icon={faBookmark}
-              size="xl"
-              className={iconStyles}
-            />
+            <FaBookmark className={iconStyles} />
           </div>
         </Link>
         {/* <Link to="/chat">
           <div className={divStyles}>
-            <FontAwesomeIcon
-              icon={faMessage}
-              size="xl"
-              className={iconStyles}
-            />
+            <FaMessage className={iconStyles} />
           </div>
         </Link> */}
         <Link to={`/user/${user.userID}`}>
           <div className={divStyles}>
-            <FontAwesomeIcon icon={faUser} size="xl" className={iconStyles} />
+            <FaUser className={iconStyles} />
           </div>
         </Link>
       </div>

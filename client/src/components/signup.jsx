@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { faUser, faKey, faLock } from "@fortawesome/free-solid-svg-icons";
+import { FaUser, FaKey, FaLock } from "react-icons/fa";
 import Select from "react-select";
 
 import Input from "./atoms/input";
@@ -22,7 +22,7 @@ const Signup = () => {
       <Input
         name="firstName"
         type="text"
-        Icon={faUser}
+        Icon={<FaUser />}
         placeholder="Enter First Name"
         value={credentials.firstName}
         setValue={handleChange}
@@ -30,7 +30,7 @@ const Signup = () => {
       <Input
         name="lastName"
         type="text"
-        Icon={faUser}
+        Icon={<FaUser />}
         placeholder="Enter Last Name"
         value={credentials.lastName}
         setValue={handleChange}
@@ -38,7 +38,7 @@ const Signup = () => {
       <Input
         name="username"
         type="text"
-        Icon={faUser}
+        Icon={<FaUser />}
         placeholder="Enter username"
         value={credentials.username}
         setValue={handleChange}
@@ -46,7 +46,7 @@ const Signup = () => {
       <Input
         name="email"
         type="email"
-        Icon={faUser}
+        Icon={<FaUser />}
         placeholder="Enter email"
         value={credentials.email}
         setValue={handleChange}
@@ -74,7 +74,7 @@ const Signup = () => {
       />
       <Input
         name="password"
-        Icon={faKey}
+        Icon={<FaKey />}
         placeholder="Enter password"
         type="password"
         value={credentials.password}
@@ -82,13 +82,13 @@ const Signup = () => {
       />
       <Input
         name="confirmPassword"
-        Icon={faKey}
+        Icon={<FaKey />}
         placeholder="Confirm password"
         type="password"
         value={credentials.confirmPassword}
         setValue={handleChange}
       />
-      <Button Icon={faLock} label="Signup" onClick={handleSubmit} />
+      <Button Icon={<FaLock />} label="Signup" onClick={handleSubmit} />
       <div className="text-center dark:text-gray-200 mt-3">
         Already have an account?
         <Link to="/login">

@@ -1,11 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHome,
-  faBell,
-  faBookmark,
-  faUser,
-  // faMessage,
-} from "@fortawesome/free-solid-svg-icons";
+  FaHome,
+  FaBell,
+  FaBookmark,
+  FaUser,
+  // FaMessage
+} from "react-icons/fa";
+
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Avatar, { genConfig } from "react-nice-avatar";
@@ -41,39 +41,31 @@ const Nav = () => {
         <div className="hidden sticky m-2 md:flex flex-col bg-gray-50 dark:bg-gray-900 rounded-md p-2 h-fit shadow-md mt-4">
           <Link to="/home">
             <div className={iconContainerStyles}>
-              <FontAwesomeIcon icon={faHome} size="xl" className={iconStyles} />
+              <FaHome className={iconStyles} />
               <p className={iconLabelStyles}>Home</p>
             </div>
           </Link>
           <Link to="/notifications">
             <div className={iconContainerStyles}>
-              <FontAwesomeIcon icon={faBell} size="xl" className={iconStyles} />
+              <FaBell className={iconStyles} />
               <p className={iconLabelStyles}>Notifications</p>
             </div>
           </Link>
           <Link to="/bookmarks">
             <div className={iconContainerStyles}>
-              <FontAwesomeIcon
-                icon={faBookmark}
-                size="xl"
-                className={iconStyles}
-              />
+              <FaBookmark className={iconStyles} />
               <p className={iconLabelStyles}>Bookmarks</p>
             </div>
           </Link>
           {/* <Link to="/chat">
             <div className={iconContainerStyles}>
-              <FontAwesomeIcon
-                icon={faMessage}
-                size="xl"
-                className={iconStyles}
-              />
+              <FaMessage className={iconStyles} />
               <p className={iconLabelStyles}>Chat</p>
             </div>
           </Link> */}
           <Link to={`/user/${user.userID}`}>
             <div className={iconContainerStyles}>
-              <FontAwesomeIcon icon={faUser} size="xl" className={iconStyles} />
+              <FaUser className={iconStyles} />
               <p className={iconLabelStyles}>Profile</p>
             </div>
           </Link>
