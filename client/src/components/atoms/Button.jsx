@@ -1,5 +1,4 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Button = ({ classes, onClick, Icon, label }) => {
   return (
@@ -11,7 +10,7 @@ const Button = ({ classes, onClick, Icon, label }) => {
           className="flex items-center justify-center gap-2 w-full text-xl font-semibold p-2"
           onClick={onClick}
         >
-          {Icon && <FontAwesomeIcon icon={Icon} />}
+          {Icon && Icon}
           {label}
         </button>
       </div>

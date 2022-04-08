@@ -1,14 +1,21 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const Input = ({ Icon, type, name, placeholder, value, setValue }) => {
+const Input = ({
+  Icon,
+  type,
+  name,
+  placeholder,
+  value,
+  setValue,
+  iconSize,
+}) => {
   const [showPassword, setShowPassword] = React.useState(false);
 
   return (
     <>
       <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-md p-2">
-        <FontAwesomeIcon className="dark:text-gray-200" icon={Icon} size="2x" />
+        {Icon}
         <div className="flex items-center gap-2 rounded-md w-full">
           <input
             type={
@@ -22,12 +29,13 @@ const Input = ({ Icon, type, name, placeholder, value, setValue }) => {
           />
           {type === "password" && (
             <div className="cursor-pointer p-2 rounded-md hover:bg-gray-300">
-              <FontAwesomeIcon
+              <span
                 className="dark:text-gray-200"
                 size="xl"
-                icon={showPassword ? faEye : faEyeSlash}
                 onClick={() => setShowPassword(!showPassword)}
-              />
+              >
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </span>
             </div>
           )}
         </div>

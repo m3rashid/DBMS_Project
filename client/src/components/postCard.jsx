@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faBookmark } from "@fortawesome/free-solid-svg-icons";
+import { FaHeart, FaBookmark } from "react-icons/fa";
 
 import UserTitle from "./atoms/userTitle";
 
@@ -71,28 +70,29 @@ const Card = ({ post }) => {
           onClick={handleLike}
         >
           <div className="flex gap-3 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md">
-            <FontAwesomeIcon
+            <span
               className={
                 liked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
               }
-              icon={faHeart}
-              size="xl"
-            />
+            >
+              <FaHeart />
+            </span>
             <p className="dark:text-gray-200">{postDetail.likes}</p>
           </div>
           <div
             className="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
             onClick={handleBookmark}
           >
-            <FontAwesomeIcon
+            <span
               className={
                 bookmarked
                   ? "text-blue-500"
                   : "text-gray-700 dark:text-gray-300"
               }
-              icon={faBookmark}
               size="xl"
-            />
+            >
+              <FaBookmark />
+            </span>
           </div>
         </div>
       </div>
