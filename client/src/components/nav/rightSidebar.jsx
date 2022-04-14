@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getTopics } from "../store/actions/auth.action";
+import { getTopics } from "../../store/actions/auth.action";
 
 const RightSidebar = ({ fullWidth }) => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const RightSidebar = ({ fullWidth }) => {
             <h3 className="font-bold text-2xl">Topics</h3>
             {topics.map((topic) => (
               <Link to={"/topic/" + topic.topicID} key={topic.topicID}>
-                <div className="my-2 py-2 px-2 mr-4 rounded-md font-medium hover:bg-gray-100 hover:dark:bg-gray-800">
+                <div className="my-2 py-2 px-2 mr-4 rounded-md font-medium hover:bg-gray-100 hover:dark:bg-gray-700">
                   # {topic.name}
                 </div>
               </Link>

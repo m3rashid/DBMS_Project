@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 import { FaUser, FaKey, FaLock } from "react-icons/fa";
 import Select from "react-select";
 
-import Input from "./atoms/input";
-import Button from "./atoms/Button";
-
-import { AuthWrapper } from "./authWrapper";
-import useSignup from "../hooks/useSignup";
+import Input from "../atoms/input";
+import Button from "../atoms/Button";
+import useSignup from "../../hooks/useSignup";
 
 const Signup = () => {
   const {
@@ -18,11 +16,11 @@ const Signup = () => {
   } = useSignup();
 
   return (
-    <AuthWrapper>
+    <>
       <Input
         name="firstName"
         type="text"
-        Icon={<FaUser />}
+        Icon={FaUser}
         placeholder="Enter First Name"
         value={credentials.firstName}
         setValue={handleChange}
@@ -30,7 +28,7 @@ const Signup = () => {
       <Input
         name="lastName"
         type="text"
-        Icon={<FaUser />}
+        Icon={FaUser}
         placeholder="Enter Last Name"
         value={credentials.lastName}
         setValue={handleChange}
@@ -38,7 +36,7 @@ const Signup = () => {
       <Input
         name="username"
         type="text"
-        Icon={<FaUser />}
+        Icon={FaUser}
         placeholder="Enter username"
         value={credentials.username}
         setValue={handleChange}
@@ -46,7 +44,7 @@ const Signup = () => {
       <Input
         name="email"
         type="email"
-        Icon={<FaUser />}
+        Icon={FaUser}
         placeholder="Enter email"
         value={credentials.email}
         setValue={handleChange}
@@ -74,7 +72,7 @@ const Signup = () => {
       />
       <Input
         name="password"
-        Icon={<FaKey />}
+        Icon={FaKey}
         placeholder="Enter password"
         type="password"
         value={credentials.password}
@@ -82,7 +80,7 @@ const Signup = () => {
       />
       <Input
         name="confirmPassword"
-        Icon={<FaKey />}
+        Icon={FaKey}
         placeholder="Confirm password"
         type="password"
         value={credentials.confirmPassword}
@@ -95,7 +93,7 @@ const Signup = () => {
           <b> Login</b>
         </Link>
       </div>
-    </AuthWrapper>
+    </>
   );
 };
 

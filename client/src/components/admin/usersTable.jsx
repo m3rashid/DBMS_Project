@@ -7,7 +7,7 @@ import { Table } from "./table";
 import Button from "../atoms/Button";
 import useDeleteUser from "../../hooks/useDeleteUser";
 
-export const UserTable = () => {
+const UserTable = () => {
   const { deleteUser } = useDeleteUser();
   const users = useSelector((state) => state.auth.users);
   const columns = React.useMemo(
@@ -80,3 +80,5 @@ export const UserTable = () => {
 
   return <Table columns={columns} data={users} title="Users" />;
 };
+
+export default UserTable;

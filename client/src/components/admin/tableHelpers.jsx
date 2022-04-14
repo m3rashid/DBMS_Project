@@ -82,8 +82,7 @@ export const GlobalFilter = ({
     <label className="flex gap-x-2 items-baseline">
       <Input
         type="text"
-        Icon={<FaSearch />}
-        iconSize="lg"
+        Icon={FaSearch}
         border={false}
         value={value || ""}
         name="search"

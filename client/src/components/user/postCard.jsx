@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaHeart, FaBookmark } from "react-icons/fa";
 
-import UserTitle from "./atoms/userTitle";
+import UserTitle from "../atoms/userTitle";
 
 const Card = ({ post }) => {
   const user = {
@@ -75,7 +75,7 @@ const Card = ({ post }) => {
                 liked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
               }
             >
-              <FaHeart />
+              <FaHeart size={22} />
             </span>
             <p className="dark:text-gray-200">{postDetail.likes}</p>
           </div>
@@ -91,7 +91,7 @@ const Card = ({ post }) => {
               }
               size="xl"
             >
-              <FaBookmark />
+              <FaBookmark size={22} />
             </span>
           </div>
         </div>

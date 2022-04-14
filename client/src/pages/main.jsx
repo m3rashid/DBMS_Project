@@ -1,10 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CreatePost from "../components/create";
-import PostCard from "../components/postCard";
+
 import { getPosts } from "../store/actions/post.action";
-import RightSidebar from "../components/rightSidebar";
-import { AuthWrapper } from "../components/authWrapper";
+const RightSidebar = React.lazy(() => import("../components/nav/rightSidebar"));
+const CreatePost = React.lazy(() => import("../components/user/create"));
+const PostCard = React.lazy(() => import("../components/user/postCard"));
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const Main = () => {
   );
 
   return (
-    <AuthWrapper>
+    <>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         <CreatePost />
         <div className="w-full rightSidebarInMainPage">
@@ -27,7 +27,7 @@ const Main = () => {
         {posts &&
           posts.map((post) => <PostCard key={post.postID} post={post} />)}
       </div>
-    </AuthWrapper>
+    </>
   );
 };
 

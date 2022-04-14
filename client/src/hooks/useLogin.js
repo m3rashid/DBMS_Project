@@ -41,7 +41,7 @@ const useLogin = () => {
           isLoading: false,
           autoClose: 5000,
         });
-        navigate("/admin");
+        navigate("/admin", { replace: true });
       }, 0);
     } catch (err) {
       toast.update(loginToast, {
@@ -73,7 +73,7 @@ const useLogin = () => {
           isLoading: false,
           autoClose: 5000,
         });
-        navigate("/home");
+        navigate("/home", { replace: true });
       }, 0);
     } catch (err) {
       toast.update(loginToast, {

@@ -11,7 +11,7 @@ const useAdmin = () => {
   const handleLogout = () => {
     dispatch(logout());
     setTimeout(() => {
-      navigate("/login");
+      navigate("/login", { replace: true });
     }, 0);
   };
 

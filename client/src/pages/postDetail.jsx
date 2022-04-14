@@ -1,17 +1,14 @@
 import React from "react";
 import { FaComment, FaHeart, FaBookmark } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 import UserTitle from "../components/atoms/userTitle";
-import Notif from "../components/notif";
+import Notif from "../components/user/notif";
 import usePostDetail from "../hooks/usePostDetail";
-
-import axios from "axios";
-import { toast } from "react-toastify";
-
 import { SERVER_ROOT_URL } from "../store/constants";
 import { headers } from "../hooks/globals";
-import { AuthWrapper } from "../components/authWrapper";
 
 const PostDetail = () => {
   const { postId } = useParams();
@@ -66,7 +63,7 @@ const PostDetail = () => {
   }
 
   return (
-    <AuthWrapper>
+    <>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         <div className="flex flex-col  bg-gray-50 dark:bg-gray-900 rounded-md w-full shadow-md">
           <UserTitle post={postDetail} user={user} avatar={avatar} />
@@ -147,7 +144,7 @@ const PostDetail = () => {
           ) : null}
         </div>
       </div>
-    </AuthWrapper>
+    </>
   );
 };
 

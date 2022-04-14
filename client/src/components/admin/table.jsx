@@ -108,7 +108,7 @@ export const Table = ({ columns, data, title }) => {
                   </thead>
                   <tbody
                     {...getTableBodyProps()}
-                    className="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-500 dark:divide-gray-500"
+                    className="bg-gray-50 dark:bg-gray-700 divide-y divide-gray-500 dark:divide-gray-100"
                   >
                     {page.map((row, i) => {
                       prepareRow(row);
