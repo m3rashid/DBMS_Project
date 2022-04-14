@@ -7,7 +7,7 @@ import useTopic from "../../hooks/useTopic";
 import { Table } from "./table";
 import Button from "../atoms/Button";
 
-export const TopicTable = () => {
+const TopicTable = () => {
   const { deleteTopic } = useTopic();
   const topics = useSelector((state) => state.auth.topics);
   const columns = React.useMemo(
@@ -63,3 +63,5 @@ export const TopicTable = () => {
 
   return <Table columns={columns} data={topics} title="Topics" />;
 };
+
+export default TopicTable;

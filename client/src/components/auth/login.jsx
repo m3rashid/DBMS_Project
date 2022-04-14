@@ -2,11 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaKey, FaLock } from "react-icons/fa";
 
-import Input from "./atoms/input";
-import Button from "./atoms/Button";
-
-import { AuthWrapper } from "./authWrapper";
-import useLogin from "../hooks/useLogin";
+import Input from "../atoms/input";
+import Button from "../atoms/Button";
+import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
   const {
@@ -17,18 +15,18 @@ const Login = () => {
   } = useLogin();
 
   return (
-    <AuthWrapper>
+    <>
       <Input
         name="username"
         type="text"
-        Icon={<FaUser />}
+        Icon={FaUser}
         placeholder="Enter username"
         value={credentials.username}
         setValue={handleChange}
       />
       <Input
         name="password"
-        Icon={<FaKey />}
+        Icon={FaKey}
         placeholder="Enter password"
         type="password"
         value={credentials.password}
@@ -54,7 +52,7 @@ const Login = () => {
           <b> Signup</b>
         </Link>
       </div>
-    </AuthWrapper>
+    </>
   );
 };
 

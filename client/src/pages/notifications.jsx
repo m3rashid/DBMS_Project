@@ -1,6 +1,5 @@
 import React from "react";
-import { AuthWrapper } from "../components/authWrapper";
-import Notif from "../components/notif";
+import Notif from "../components/user/notif";
 
 const notifs = [];
 
@@ -10,7 +9,7 @@ const Notifications = () => {
   }, []);
 
   return (
-    <AuthWrapper>
+    <>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         {notifs.length > 0 ? (
           notifs.map(({ username, notif }, index) => (
@@ -22,7 +21,7 @@ const Notifications = () => {
           </div>
         )}
       </div>
-    </AuthWrapper>
+    </>
   );
 };
 

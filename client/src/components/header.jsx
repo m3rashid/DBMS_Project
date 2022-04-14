@@ -53,7 +53,7 @@ const Header = () => {
                 onClick={() => setSearchOpen(true)}
                 size="xl"
               >
-                <FaSearch />
+                <FaSearch size={20} />
               </span>
             </div>
             <Link to="/user/me">

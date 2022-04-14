@@ -7,7 +7,7 @@ import { Table } from "./table";
 import usePost from "../../hooks/usePost";
 import Button from "../atoms/Button";
 
-export const PostsTable = () => {
+const PostsTable = () => {
   const { deletePost } = usePost();
   const posts = useSelector((state) => state.auth.posts);
   const columns = React.useMemo(
@@ -72,3 +72,5 @@ export const PostsTable = () => {
 
   return <Table columns={columns} data={posts} title="Posts" />;
 };
+
+export default PostsTable;

@@ -1,9 +1,9 @@
 import React from "react";
 import Select from "react-select";
 
-import Loader from "./loader";
-import UserTitle from "./atoms/userTitle";
-import usePost from "../hooks/usePost";
+import Loader from "../loader";
+import UserTitle from "../atoms/userTitle";
+import usePost from "../../hooks/usePost";
 
 const CreatePost = () => {
   const {
