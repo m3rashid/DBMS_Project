@@ -47,6 +47,17 @@ const Card = ({ post }) => {
     commentsCount: post.commentsCount,
     createdAt: post.createdAt,
     updatedAt: post.updatedAt,
+    reputation: post.postReputation,
+  };
+
+  const classification = {
+    identity_attack: post.identity_attack,
+    insult: post.insult,
+    obscene: post.obscene,
+    severe_toxicity: post.severe_toxicity,
+    sexual_explicit: post.sexual_explicit,
+    threat: post.threat,
+    toxicity: post.toxicity,
   };
 
   // handle these
@@ -59,12 +70,27 @@ const Card = ({ post }) => {
   return (
     <>
       <div className="flex flex-col  bg-gray-50 dark:bg-gray-900 rounded-md w-full shadow-md">
-        <UserTitle post={postDetail} user={user} avatar={avatar} />
-        <Link to={`/post/${postDetail.postID}`}>
-          <div className="w-full bg-gray-200 dark:bg-gray-800 p-4 dark:text-gray-200">
-            {postDetail.title}
-          </div>
-        </Link>
+        <UserTitle
+          post={postDetail}
+          user={user}
+          avatar={avatar}
+          classification={classification}
+        />
+        <div className="w-full bg-gray-200 dark:bg-gray-800 dark:text-gray-200 pt-2">
+          <Link to={`/topic/${topic.topicID}`}>
+            <span className="font-semibold px-4 text-blue-500">
+              # {topic.name}
+            </span>
+          </Link>
+          <Link to={`/post/${postDetail.postID}`}>
+            <div className="w-full px-4 py-2">
+              {postDetail.title}
+              {postDetail.description && (
+                <span className="px-4 text-blue-500">read more ...</span>
+              )}
+            </div>
+          </Link>
+        </div>
         <div
           className="p-3 flex items-center justify-between cursor-pointer"
           onClick={handleLike}

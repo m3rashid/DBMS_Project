@@ -1,6 +1,6 @@
 import React from "react";
 import { FaComment, FaHeart, FaBookmark } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -9,12 +9,13 @@ import Notif from "../components/user/notif";
 import usePostDetail from "../hooks/usePostDetail";
 import { SERVER_ROOT_URL } from "../store/constants";
 import { headers } from "../hooks/globals";
+import Loader from "../components/loader";
 
 const PostDetail = () => {
   const { postId } = useParams();
   const [loading, setLoading] = React.useState(true);
-  const [postFound, setPostFound] = React.useState(false);
   const [singlePost, setSinglePost] = React.useState({});
+  const [classification, setClassification] = React.useState({});
 
   React.useEffect(() => {
     axios
@@ -23,12 +24,8 @@ const PostDetail = () => {
       })
       .then((res) => {
         setLoading(false);
-        if (!res.data.post) {
-          setPostFound(false);
-        } else {
-          setPostFound(true);
-        }
         setSinglePost(res.data.post);
+        setClassification(res.data.classification);
       })
       .catch((err) => {
         setLoading(false);
@@ -40,10 +37,11 @@ const PostDetail = () => {
     state: {
       user,
       avatar,
-      // topic,
+      topic,
       postDetail,
       liked,
       bookmarked,
+      analysis,
       commentOpen,
       commentText,
       inputCharLength,
@@ -53,31 +51,42 @@ const PostDetail = () => {
     handleOpenComment,
     handleBookmark,
     handleCommentChange,
-  } = usePostDetail(singlePost);
+  } = usePostDetail(singlePost, classification);
 
   const iconContainerStyles =
     "flex gap-2 items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2 cursor-pointer";
 
   if (loading) {
-    return null;
+    return <Loader />;
   }
 
   return (
     <>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         <div className="flex flex-col  bg-gray-50 dark:bg-gray-900 rounded-md w-full shadow-md">
-          <UserTitle post={postDetail} user={user} avatar={avatar} />
+          <UserTitle
+            post={postDetail}
+            user={user}
+            avatar={avatar}
+            classification={analysis}
+          />
+
           <div className="">
-            <div className="w-full bg-gray-200 dark:bg-gray-800  dark:text-gray-200 p-4">
+            <div className="w-full bg-gray-200 dark:bg-gray-800  dark:text-gray-200 pt-2">
+              <Link to={`/topic/${topic.topicID}`}>
+                <span className="font-semibold px-4 text-blue-500">
+                  # {topic.name}
+                </span>
+              </Link>
               <div
-                className={`dark:text-gray-20 ${
-                  postDetail.body && "font-semibold"
+                className={`dark:text-gray-20 px-4 pt-2 ${
+                  postDetail.description && "font-semibold"
                 }`}
               >
                 {postDetail.title}
               </div>
               <div
-                className="dark:text-gray-20"
+                className="dark:text-gray-20 px-4 py-2"
                 dangerouslySetInnerHTML={{
                   __html: postDetail.description,
                 }}

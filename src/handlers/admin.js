@@ -168,8 +168,12 @@ router.post("/deletePost", checkAuth, checkAdmin, async (req, res) => {
     if (!postID) throw new Error("Post not found ");
 
     const db = await pool.getConnection();
+    await db.query("START TRANSACTION");
+    await db.query("delete from Comments where postID = ?", [postID]);
+    await db.query("delete from Classification where postID = ?", [postID]);
     await db.query("delete from Post where postID = ?", [postID]);
     const [posts, _] = await db.query("select * from Post");
+    await db.query("COMMIT");
     db.release();
 
     return res.status(200).json({

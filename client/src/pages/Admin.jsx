@@ -27,13 +27,11 @@ const Admin = () => {
       >
         <React.Suspense fallback={<Loader />}>
           <CreateTopic />
-          <TopicTable />
-          <br />
-          <UserTable />
-          <br />
-          <PostsTable />
-          <br />
-          <br />
+          <div className="flex flex-col items-center justify-center mb-10">
+            <TopicTable />
+            <UserTable />
+            <PostsTable />
+          </div>
         </React.Suspense>
         <Button label="Logout from Admin" onClick={handleLogout} />
       </div>
