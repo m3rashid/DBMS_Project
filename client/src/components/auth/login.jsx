@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { faUser, faKey, faLock } from "@fortawesome/free-solid-svg-icons";
+import { FaUser, FaKey, FaLock } from "react-icons/fa";
 
-import Input from "./atoms/input";
-import Button from "./atoms/Button";
-
-import { AuthWrapper } from "./authWrapper";
-import useLogin from "../hooks/useLogin";
+import Input from "../atoms/input";
+import Button from "../atoms/Button";
+import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
   const {
@@ -15,22 +13,20 @@ const Login = () => {
     toggleAdmin,
     handleLogin,
   } = useLogin();
-  
- 
 
   return (
-    <AuthWrapper>
+    <>
       <Input
         name="username"
         type="text"
-        Icon={faUser}
+        Icon={FaUser}
         placeholder="Enter username"
         value={credentials.username}
         setValue={handleChange}
       />
       <Input
         name="password"
-        Icon={faKey}
+        Icon={FaKey}
         placeholder="Enter password"
         type="password"
         value={credentials.password}
@@ -49,14 +45,14 @@ const Login = () => {
           onChange={toggleAdmin}
         />
       </div>
-      <Button Icon={faLock} label="Login" onClick={handleLogin} />
+      <Button Icon={<FaLock />} label="Login" onClick={handleLogin} />
       <div className="text-center dark:text-gray-200 mt-3">
         Don't have an account?
         <Link to="/signup">
           <b> Signup</b>
         </Link>
       </div>
-    </AuthWrapper>
+    </>
   );
 };
 

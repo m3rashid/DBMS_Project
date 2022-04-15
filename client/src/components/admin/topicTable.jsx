@@ -1,19 +1,51 @@
 import React from "react";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import moment from "moment";
 
-import Table from "./MaterialTable";
-import Button from "../atoms/Button";
 import useTopic from "../../hooks/useTopic";
+import { Table } from "./table";
+import Button from "../atoms/Button";
 
-const ActionButtons = ({ topicID }) => {
+const TopicTable = () => {
   const { deleteTopic } = useTopic();
+  const topics = useSelector((state) => state.auth.topics);
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: "Topic",
+        accessor: "name",
+        Cell: ({ cell }) => <>{cell.row.original.name}</>,
+      },
+      {
+        Header: "Created",
+        accessor: "createdAt",
+        Cell: ({ cell }) => (
+          <>{moment(cell.row.original.createdAt).format("lll")}</>
+        ),
+      },
+      {
+        Header: "Updated",
+        accessor: "updatedAt",
+        Cell: ({ cell }) => (
+          <>{moment(cell.row.original.updatedAt).format("lll")}</>
+        ),
+      },
+      {
+        Header: "Actions",
+        accessor: "",
+        Cell: ({ cell }) => (
+          <ActionButtons topicID={cell.row.original.topicID} />
+        ),
+      },
+    ],
+    []
+  );
 
-  return (
+  const ActionButtons = ({ topicID }) => (
     <div className="flex gap-2 items-center">
       <Button
-        Icon={faTrash}
+        Icon={<FaTrash />}
         label="Delete"
         classes="bg-red-500"
         onClick={() => {
@@ -21,45 +53,15 @@ const ActionButtons = ({ topicID }) => {
         }}
       />
       <Button
-        Icon={faEdit}
+        Icon={<FaEdit />}
         label="Edit"
         classes="bg-blue-500"
         onClick={() => {}}
       />
     </div>
   );
-};
 
-const columns = [
-  { title: "Topic", field: "name", sorting: false },
-  {
-    title: "Created",
-    field: "",
-    sorting: false,
-    render: ({ createdAt }) => moment(createdAt).format("lll"),
-  },
-  {
-    title: "Updated",
-    field: "",
-    sorting: false,
-    render: ({ updatedAt }) => moment(updatedAt).format("lll"),
-  },
-  {
-    title: "Actions",
-    field: "",
-    sorting: false,
-    render: ({ topicID }) => <ActionButtons topicID={topicID} />,
-  },
-];
-
-const TopicTable = () => {
-  // TODO make it autorefreshable
-  const topics = useSelector((state) => state.auth.topics);
-  return (
-    <>
-      <Table columns={columns} data={topics} Title="Topics" />
-    </>
-  );
+  return <Table columns={columns} data={topics} title="Topics" />;
 };
 
 export default TopicTable;

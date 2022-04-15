@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import "@tensorflow/tfjs";
+import * as toxicity from "@tensorflow-models/toxicity";
 
 import {
   DELETE_POST_SUCCESS,
@@ -28,30 +30,18 @@ const usePost = () => {
     topics &&
     topics.length &&
     topics.reduce((acc, curr) => {
-      return [
-        ...acc,
-        {
-          value: curr.topicID,
-          label: curr.name,
-        },
-      ];
+      return [...acc, { value: curr.topicID, label: curr.name }];
     }, []);
 
   const handleTopicChange = ({ value }) => {
-    setText((prev) => ({
-      ...prev,
-      topicId: value,
-    }));
+    setText((prev) => ({ ...prev, topicId: value }));
   };
 
   const handleChange = (e) => {
-    setText((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    setText((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (text.title.length > maxTitleLength + 10) {
       toast.error(`Title cannot be more than ${maxTitleLength} characters`);
@@ -67,26 +57,39 @@ const usePost = () => {
       return;
     }
 
-    setLoading(true);
-    axios
-      .post(
+    try {
+      setLoading(true);
+      const threshold = 0.9;
+      const model = await toxicity.load(threshold);
+      const sentence = text.title + ". " + text.body.replace("\n", ". ");
+      const predictions = await model.classify(sentence);
+      const toxic = predictions[6].results[0].probabilities[1].toFixed(4);
+      const totalAnalysis = predictions.reduce((acc, curr) => {
+        return {
+          ...acc,
+          [curr.label]: curr.results[0].probabilities[1].toFixed(4),
+        };
+      }, {});
+
+      await axios.post(
         `${SERVER_ROOT_URL}/post/add`,
         JSON.stringify({
           ...text,
           body: text.body.replace(/\n/g, "<br/>"),
           userId: user.userID,
+          toxicity: toxic,
+          toxicityAnalysis: totalAnalysis,
         }),
         { headers }
-      )
-      .then((res) => {
-        toast.success("Post added successfully");
-        dispatch(getPosts());
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        toast.error("Error creating post");
-      });
+      );
+      toast.success("Post added successfully");
+      dispatch(getPosts());
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+      toast.error("Error creating post");
+    }
 
     setText({
       title: "",

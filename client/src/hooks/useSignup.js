@@ -71,7 +71,7 @@ const useSignup = () => {
           autoClose: 5000,
         });
         toast.info("Please login to continue");
-        navigate("/login");
+        navigate("/login", { replace: true });
       }, 0);
     } catch (err) {
       toast.update(registerToast, {

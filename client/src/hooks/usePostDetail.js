@@ -1,7 +1,7 @@
 import React from "react";
 import DOMPurify from "dompurify";
 
-const usePostDetail = (singlePost) => {
+const usePostDetail = (singlePost, classification) => {
   const user = {
     userName: singlePost.userName,
     userId: singlePost.userID,
@@ -41,10 +41,21 @@ const usePostDetail = (singlePost) => {
     title: singlePost.title,
     description: DOMPurify.sanitize(singlePost.description),
     likes: singlePost.likes,
+    reputation: singlePost.postReputation,
     commentsCount: singlePost.commentsCount,
     createdAt: singlePost.createdAt,
     updatedAt: singlePost.updatedAt,
     comments: [],
+  };
+
+  const analysis = {
+    identity_attack: classification.identity_attack,
+    insult: classification.insult,
+    obscene: classification.obscene,
+    severe_toxicity: classification.severe_toxicity,
+    sexual_explicit: classification.sexual_explicit,
+    threat: classification.threat,
+    toxicity: classification.toxicity,
   };
 
   const liked = false;
@@ -78,6 +89,7 @@ const usePostDetail = (singlePost) => {
       commentOpen,
       commentText,
       inputCharLength,
+      analysis,
     },
     handleLikeSubmit,
     handleCommentSubmit,

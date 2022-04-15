@@ -1,13 +1,13 @@
 import React from "react";
 import Select from "react-select";
 
-import Loader from "./loader";
-import UserTitle from "./atoms/userTitle";
-import usePost from "../hooks/usePost";
+import Loader from "../loader";
+import UserTitle from "../atoms/userTitle";
+import usePost from "../../hooks/usePost";
 
 const CreatePost = () => {
   const {
-    state: { theme, text, avatar, user, options, loading },
+    state: { text, avatar, user, options, loading },
     handleChange,
     handleSubmit,
     handleTopicChange,
@@ -21,8 +21,8 @@ const CreatePost = () => {
     <>
       <div className="flex flex-col w-full bg-gray-50 dark:bg-gray-900 rounded-md shadow-md">
         <UserTitle user={user} avatar={avatar} />
+        {loading && <Loader />}
         <div className="flex flex-col bg-gray-50 dark:bg-gray-900 items-end gap-2 p-4 rounded-b-md">
-          {loading && <Loader />}
           {!loading && (
             <textarea
               rows="2"

@@ -1,20 +1,20 @@
 import React from "react";
 
-import UserTable from "../components/admin/UsersTable";
-import PostTable from "../components/admin/PostsTable";
-import CreateTopic from "../components/admin/createTopic";
-import TopicTable from "../components/admin/topicTable";
 import Button from "../components/atoms/Button";
-import { AuthWrapper } from "../components/authWrapper";
+import Loader from "../components/loader";
 import useAdmin from "../hooks/useAdmin";
+const UserTable = React.lazy(() => import("../components/admin/usersTable"));
+const PostsTable = React.lazy(() => import("../components/admin/postsTable"));
+const CreateTopic = React.lazy(() => import("../components/admin/createTopic"));
+const TopicTable = React.lazy(() => import("../components/admin/topicTable"));
 
 const Admin = () => {
   const { handleLogout } = useAdmin();
 
   return (
-    <AuthWrapper>
+    <>
       <div
-        className="hide-scrollbar"
+        className="hide-scrollbar dark:bg-gray-800"
         style={{
           height: "100vh",
           overflow: "auto",
@@ -25,13 +25,17 @@ const Admin = () => {
           alignItems: "center",
         }}
       >
-        <CreateTopic />
-        <TopicTable />
-        <UserTable />
-        <PostTable />
+        <React.Suspense fallback={<Loader />}>
+          <CreateTopic />
+          <div className="flex flex-col items-center justify-center mb-10">
+            <TopicTable />
+            <UserTable />
+            <PostsTable />
+          </div>
+        </React.Suspense>
         <Button label="Logout from Admin" onClick={handleLogout} />
       </div>
-    </AuthWrapper>
+    </>
   );
 };
 
