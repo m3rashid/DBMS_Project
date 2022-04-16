@@ -36,6 +36,7 @@ app.use(
   /* regularRateLimiter, */ require("./src/handlers/comments")
 );
 app.use("/bookmark", require("./src/handlers/bookmark"));
+app.use("/", require("./src/handlers/search"));
 // app.use(
 //   "/update",
 //   // authRateLimiter,

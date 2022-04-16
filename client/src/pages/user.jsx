@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar, { genConfig } from "react-nice-avatar";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import { useParams } from "react-router-dom";
 import moment from "moment";
 
@@ -10,26 +10,24 @@ import UserAvatarSettings from "../components/user/userAvatarSettings";
 import { logout } from "../store/actions/auth.action";
 
 const User = () => {
-  // const [gotUser, setGotUser] = React.useState();
-  // const { userId } = useParams();
-  const navigate = useNavigate();
+  const location = useLocation();
+  const auth = useSelector((state) => state.auth);
+  const [isMe, setIsMe] = React.useState(null);
 
   React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    const userId = location.pathname.split("/")[2];
+    if (userId === auth.user.userID) setIsMe(true);
+    else setIsMe(false);
+  }, [location.pathname, auth.user.userID]);
 
-  const auth = useSelector((state) => state.auth);
-  const avatarSettings = genConfig(auth.avatar);
-  const user = auth.user;
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.ui.theme);
+  const user = auth.user;
+  const avatarSettings = genConfig(auth.avatar);
 
   const handleThemeChange = () => {
-    if (theme === "dark") {
-      dispatch(lightMode());
-    } else if (theme === "light") {
-      dispatch(darkMode());
-    }
+    theme === "dark" ? dispatch(lightMode()) : dispatch(darkMode());
   };
 
   const handleLogout = () => {
@@ -67,25 +65,29 @@ const User = () => {
         {user.phNumber && <p>Phone: {user.phNumber}</p>}
         {user.reputation && <p>Reputation: {user.reputation}</p>}
       </div>
-      <div className={`${commons}`}>
-        <h3 className={h3Styles}>Customize your avatar</h3>
-        <UserAvatarSettings />
-      </div>
-      <div className={`${commons}`}>
-        <div className="flex gap-4 justify-center my-3 mb-4">
-          <button
-            onClick={handleThemeChange}
-            className={`${buttonStyles} w-[170px]`}
-          >
-            {theme === "dark" ? "Use Light Theme" : "Use Dark Theme"}
-          </button>
-          <button
-            className={`${buttonStyles} w-[100px]`}
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
+      {isMe && (
+        <div className={`${commons}`}>
+          <h3 className={h3Styles}>Customize your avatar</h3>
+          <UserAvatarSettings />
         </div>
+      )}
+      <div className={`${commons}`}>
+        {isMe && (
+          <div className="flex gap-4 justify-center my-3 mb-4">
+            <button
+              onClick={handleThemeChange}
+              className={`${buttonStyles} w-[170px]`}
+            >
+              {theme === "dark" ? "Use Light Theme" : "Use Dark Theme"}
+            </button>
+            <button
+              className={`${buttonStyles} w-[100px]`}
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </div>
+        )}
         <div className={`${commons} text-center`}>
           JMI Connect &copy; {moment(new Date()).format("YYYY")}
         </div>
