@@ -8,23 +8,53 @@ import moment from "moment";
 import { darkMode, lightMode } from "../store/actions/ui.action";
 import UserAvatarSettings from "../components/user/userAvatarSettings";
 import { logout } from "../store/actions/auth.action";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { SERVER_ROOT_URL, tokenConfig } from "../store/constants";
+import Loader from "../components/loader";
+
+// ""; userId in req.body
 
 const User = () => {
   const location = useLocation();
   const auth = useSelector((state) => state.auth);
   const [isMe, setIsMe] = React.useState(null);
+  const [otherUser, setOtherUser] = React.useState(null);
+
+  const getAnotherUser = async (userId) => {
+    try {
+      const res = await axios.post(
+        `${SERVER_ROOT_URL}/auth/other-user`,
+        JSON.stringify({ userId }),
+        tokenConfig()
+      );
+      const data = await res.data;
+      setOtherUser(data);
+    } catch (err) {
+      toast.error(err.message || "Error in getting data");
+    }
+  };
 
   React.useEffect(() => {
     const userId = location.pathname.split("/")[2];
-    if (userId === auth.user.userID) setIsMe(true);
-    else setIsMe(false);
+    if (userId === auth.user.userID) {
+      setIsMe(true);
+    } else {
+      setIsMe(false);
+      getAnotherUser(userId);
+    }
   }, [location.pathname, auth.user.userID]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.ui.theme);
-  const user = auth.user;
-  const avatarSettings = genConfig(auth.avatar);
+
+  if (!isMe && !otherUser) {
+    return <Loader />;
+  }
+
+  const user = isMe ? auth.user : otherUser.user;
+  const avatarSettings = genConfig(isMe ? auth.avatar : otherUser.avatar);
 
   const handleThemeChange = () => {
     theme === "dark" ? dispatch(lightMode()) : dispatch(darkMode());
@@ -65,12 +95,20 @@ const User = () => {
         {user.phNumber && <p>Phone: {user.phNumber}</p>}
         {user.reputation && <p>Reputation: {user.reputation}</p>}
       </div>
-      {isMe && (
-        <div className={`${commons}`}>
-          <h3 className={h3Styles}>Customize your avatar</h3>
-          <UserAvatarSettings />
-        </div>
-      )}
+      <div className={`${commons}`}>
+        {isMe ? (
+          <>
+            <h3 className={h3Styles}>Customize your avatar</h3>
+            <UserAvatarSettings />
+          </>
+        ) : (
+          <>
+            <h3>Actions needed</h3>
+            <li>Send friend request</li>
+            <li>Block user</li>
+          </>
+        )}
+      </div>
       <div className={`${commons}`}>
         {isMe && (
           <div className="flex gap-4 justify-center my-3 mb-4">

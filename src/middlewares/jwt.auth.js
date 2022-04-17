@@ -23,24 +23,17 @@ const checkAuth = (req, res, next) => {
 const checkAdmin = async (req, res, next) => {
   const { userId } = req;
   if (!userId) return unauthorizedResponse(res);
-  try {
-    const db = await pool.getConnection();
-    const [admins, _] = await db.query("select * from Admin where userID = ?", [
-      userId,
-    ]);
-    db.release();
-    if (admins.length === 0) {
-      return unauthorizedResponse(res);
-    }
-
-    req.admin = admins[0];
-    next();
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({
-      message: err.message,
-    });
+  const db = await pool.getConnection();
+  const [admins, _] = await db.query("select * from Admin where userID = ?", [
+    userId,
+  ]);
+  db.release();
+  if (admins.length === 0) {
+    return unauthorizedResponse(res);
   }
+
+  req.admin = admins[0];
+  next();
 };
 
 module.exports = { checkAuth, checkAdmin };

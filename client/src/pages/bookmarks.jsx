@@ -15,7 +15,9 @@ const Bookmarks = () => {
         {bookmarks.length > 0 ? (
           <PostCard />
         ) : (
-          <div className="text-2xl mt-10">No bookmarks found</div>
+          <h3 className="text-center dark:text-gray-200 font-semibold text-2xl">
+            No bookmarks found
+          </h3>
         )}
       </div>
     </>
