@@ -3,7 +3,7 @@ import axios from "axios";
 import debounce from "lodash.debounce";
 import { Link } from "react-router-dom";
 import { MdPerson, MdTag } from "react-icons/md";
-import toast from "react-toastify";
+import { toast } from "react-toastify";
 
 import { SERVER_ROOT_URL } from "../store/constants";
 
