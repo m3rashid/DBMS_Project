@@ -2,14 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-const {
-  regularRateLimiter,
-  authRateLimiter,
-} = require("./src/utils/rateLimit");
-
-// const updateUser = require("./src/handlers/updateUser");
-// const post = require("./src/handlers/post");
-
 const app = express();
 
 // used for deployment
@@ -24,19 +16,21 @@ const app = express();
 // );
 
 app.use(cors());
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/auth", /* authRateLimiter, */ require("./src/handlers/auth"));
-app.use("/admin", /* regularRateLimiter, */ require("./src/handlers/admin"));
-app.use("/post", /* regularRateLimiter, */ require("./src/handlers/post"));
-app.use(
-  "/comments",
-  /* regularRateLimiter, */ require("./src/handlers/comments")
-);
-app.use("/bookmark", require("./src/handlers/bookmark"));
-app.use("/", require("./src/handlers/search"));
+app.use("/", require("./src/routes"));
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  return res.status(500).json({
+    message:
+      process.env.NODE_ENV !== "production"
+        ? JSON.stringify(err.message) || "Internal Server Error"
+        : "Internal Server Error",
+  });
+});
+
 // app.use(
 //   "/update",
 //   // authRateLimiter,
@@ -44,6 +38,4 @@ app.use("/", require("./src/handlers/search"));
 // );
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log("INFO: Server is running on port ", port);
-});
+app.listen(port, () => console.log("INFO: ⚡⚡⚡ Server running ⚡⚡⚡"));

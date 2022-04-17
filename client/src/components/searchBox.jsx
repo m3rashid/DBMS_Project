@@ -3,6 +3,7 @@ import axios from "axios";
 import debounce from "lodash.debounce";
 import { Link } from "react-router-dom";
 import { MdPerson, MdTag } from "react-icons/md";
+import toast from "react-toastify";
 
 import { SERVER_ROOT_URL } from "../store/constants";
 
@@ -19,7 +20,7 @@ export const SearchBox = () => {
       );
       return res.data;
     } catch (err) {
-      console.log(err);
+      toast.error("Error searching ...");
     }
   };
 
@@ -29,7 +30,6 @@ export const SearchBox = () => {
       setUsers([]);
     } else {
       const { topics, users } = await searchDb(e.target.value);
-      console.log({ topics, users });
       setTopics(topics);
       setUsers(users);
     }

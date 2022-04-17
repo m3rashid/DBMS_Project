@@ -1,6 +1,8 @@
 import moment from "moment";
 import React from "react";
 import Avatar from "react-nice-avatar";
+import { Link } from "react-router-dom";
+import Loader from "../loader";
 
 const getToxicityColorCode = (toxicity) => {
   if (!toxicity) {
@@ -22,7 +24,7 @@ const UserTitle = ({ post, user, avatar, classification }) => {
   const [cOpen, setCOpen] = React.useState(false);
 
   if (!user || !avatar) {
-    return null;
+    return <Loader />;
   }
 
   return (
@@ -30,7 +32,9 @@ const UserTitle = ({ post, user, avatar, classification }) => {
       <Avatar className="h-16 w-16" {...avatar} />
       <div className="ml-4 dark:text-gray-200">
         <p className="font-bold">
-          {user.firstName} {user.lastName}
+          <Link to={`/user/${user.userId}`}>
+            {user.firstName} {user.lastName}
+          </Link>
         </p>
         <p className="">
           @{user.userName}{" "}

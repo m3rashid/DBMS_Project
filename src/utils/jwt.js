@@ -36,7 +36,6 @@ const verifyJWT = (token) => {
       payload: decoded,
     };
   } catch (err) {
-    console.log(err);
     return {
       valid: false,
       expired: err.message === "jwt expired",

@@ -16,9 +16,9 @@ const Notifications = () => {
             <Notif username={username} text={notif} key={index} />
           ))
         ) : (
-          <div className="text-2xl mt-10 text-center">
+          <h3 className="text-center dark:text-gray-200 font-semibold text-2xl">
             No Notifications found
-          </div>
+          </h3>
         )}
       </div>
     </>
