@@ -16,6 +16,7 @@ import {
   ADMIN_LOADED,
   TOPIC_GOT,
   TOPIC_GOT_FAIL,
+  AVATAR_CHANGE,
 } from "../constants";
 
 const initialState = {
@@ -125,6 +126,11 @@ const authReducer = (state = initialState, action) => {
     case TOPIC_GOT_FAIL:
       return {
         ...state,
+      };
+    case AVATAR_CHANGE:
+      return {
+        ...state,
+        avatar: action.payload,
       };
 
     default:

@@ -5,33 +5,33 @@ import { Link } from "react-router-dom";
 import { MdPerson, MdTag } from "react-icons/md";
 import { toast } from "react-toastify";
 
+import Loader from "./loader";
 import { SERVER_ROOT_URL } from "../store/constants";
 
 export const SearchBox = () => {
+  const [text, setText] = React.useState("");
   const [topics, setTopics] = React.useState([]);
   const [users, setUsers] = React.useState([]);
-
-  const searchDb = async (word) => {
-    try {
-      const res = await axios.post(
-        `${SERVER_ROOT_URL}/search`,
-        JSON.stringify({ search: word }),
-        { headers: { "Content-Type": "application/json" } }
-      );
-      return res.data;
-    } catch (err) {
-      toast.error("Error searching ...");
-    }
-  };
 
   const handleChange = async (e) => {
     if (e.target.value === "") {
       setTopics([]);
       setUsers([]);
     } else {
-      const { topics, users } = await searchDb(e.target.value);
-      setTopics(topics);
-      setUsers(users);
+      setText(e.target.value);
+      try {
+        const res = await axios.post(
+          `${SERVER_ROOT_URL}/search`,
+          JSON.stringify({ search: e.target.value }),
+          { headers: { "Content-Type": "application/json" } }
+        );
+        const data = await res.data;
+        const { topics, users } = data;
+        setTopics(topics);
+        setUsers(users);
+      } catch (err) {
+        toast.error("Error searching ...");
+      }
     }
   };
 
@@ -53,10 +53,13 @@ export const SearchBox = () => {
         onChange={debouncedResults}
         className="w-full md:w-auto pl-4 py-2 rounded-3xl outline-0 text-lg bg-gray-50 dark:bg-gray-700 outline-none dark:text-gray-200"
       />
-      {(topics.length > 0 || users.length > 0) && (
-        <div className="relative w-full h-full top-2 -left-4 sm:left-0">
-          <div className="absolute bg-gray-50 dark:bg-gray-800 dark:text-gray-200 rounded-md w-[94vw] sm:w-full p-4 shadow-md dark:shadow-black max-h-[350px] overflow-auto hide-scrollbar">
-            {users.map(({ userID, userName }) => (
+      <div className="relative w-full h-full top-2 -left-4 sm:left-0">
+        <div className="absolute bg-gray-50 dark:bg-gray-800 dark:text-gray-200 rounded-md w-[94vw] sm:w-full p-4 shadow-md dark:shadow-black max-h-[350px] overflow-auto hide-scrollbar">
+          {text.length > 0 && users.length === 0 && topics.length === 0 && (
+            <Loader />
+          )}
+          {users.length > 0 &&
+            users.map(({ userID, userName }) => (
               <Link to={`/user/${userID}`} key={userID}>
                 <p className="flex items-center gap-2 p-1 hover:bg-gray-700 cursor-pointer rounded-md">
                   <MdPerson size={20} />
@@ -64,7 +67,8 @@ export const SearchBox = () => {
                 </p>
               </Link>
             ))}
-            {topics.map(({ topicID, name }) => (
+          {topics.length > 0 &&
+            topics.map(({ topicID, name }) => (
               <Link to={`/topic/${topicID}`} key={topicID}>
                 <p className="flex items-center gap-2 p-1 hover:bg-gray-700 cursor-pointer rounded-md">
                   <MdTag size={20} />
@@ -72,9 +76,8 @@ export const SearchBox = () => {
                 </p>
               </Link>
             ))}
-          </div>
         </div>
-      )}
+      </div>
     </form>
   );
 };

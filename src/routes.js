@@ -34,6 +34,11 @@ const {
 } = require("./handlers/post");
 const { searchUserAndTopic } = require("./handlers/search");
 const {
+  updateAvatar,
+  updatePassword,
+  updateProfile,
+} = require("./handlers/updateUser");
+const {
   validateAdminLogin,
   validateLogin,
   validateSignup,
@@ -65,6 +70,11 @@ router.post("/auth/signup", use(validateSignup), use(signup));
 router.post("/auth/login", use(validateLogin), use(login));
 router.get("/auth/", checkAuth, use(getUser));
 router.post("/auth/other-user", checkAuth, use(getOneOtherUser));
+
+// user actions
+router.post("/user/update-avatar", checkAuth, use(updateAvatar));
+router.post("/user/update-profile", checkAuth, use(updateProfile));
+router.post("/user/update-password", checkAuth, use(updatePassword));
 
 // Post actions
 router.post("/post/fromTopic", checkAuth, use(getPostsByTopic));

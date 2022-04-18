@@ -2,18 +2,18 @@ import React from "react";
 import Avatar, { genConfig } from "react-nice-avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-// import { useParams } from "react-router-dom";
+import axios from "axios";
 import moment from "moment";
 
 import { darkMode, lightMode } from "../store/actions/ui.action";
 import UserAvatarSettings from "../components/user/userAvatarSettings";
 import { logout } from "../store/actions/auth.action";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { SERVER_ROOT_URL, tokenConfig } from "../store/constants";
 import Loader from "../components/loader";
-
-// ""; userId in req.body
+import FriendActions, { SmallButton } from "../components/user/profile";
+import ChangePassword from "../components/user/changePassword";
+import EditProfileDetails from "../components/user/editProfile";
 
 const User = () => {
   const location = useLocation();
@@ -65,16 +65,22 @@ const User = () => {
     navigate("/login", { replace: true });
   };
 
+  const Tr = ({ label, data }) => {
+    return (
+      <tr>
+        <td className="pr-4">{label}</td>
+        <td>{data}</td>
+      </tr>
+    );
+  };
+
   const commons =
     "bg-gray-50 dark:bg-gray-900 p-2 rounded-md relative dark:text-gray-200";
-  const buttonStyles =
-    "bg-blue-500 text-gray-200 p-2 px-4 rounded-full font-semibold";
-
   const h3Styles = "font-bold text-xl ml-1 my-3 text-center sm:text-left";
 
   return (
     <div className="flex flex-col gap-4 p-2">
-      <div className={`${commons}`}>
+      <div className={commons}>
         <div className="w-full h-28 z-0 rounded-t-md flex items-start bg-gray-300 dark:bg-gray-800"></div>
         <div className="flex items-center justify-center relative -top-16">
           <Avatar className="h-32 w-32 rounded-full" {...avatarSettings} />
@@ -86,44 +92,59 @@ const User = () => {
           <p className="text-xl">{`@${user.userName}`}</p>
         </div>
       </div>
-      <div className={`${commons}`}>
+      <div className={commons}>
         <h3 className={h3Styles}>User Details</h3>
-        <p>Member Since: {moment(user.createdAt).format("MMMM Do YYYY")}</p>
-        <p>Last Changed: {moment(user.updatedAt).format("MMMM Do YYYY")}</p>
-        {user.dob && <p>{user.dob}</p>}
-        <p>Email: {user.email}</p>
-        {user.phNumber && <p>Phone: {user.phNumber}</p>}
-        {user.reputation && <p>Reputation: {user.reputation}</p>}
+        <table>
+          <tbody>
+            <Tr
+              label="Member Since: "
+              data={moment(user.createdAt).format("MMMM Do YYYY")}
+            />
+            <Tr label="Email: " data={user.email} />
+            <Tr
+              label="Last Changed: "
+              data={moment(user.updatedAt).format("MMMM Do YYYY")}
+            />
+            {user.dob && (
+              <Tr
+                label="Date of Birth: "
+                data={moment(user.dob).format("MMMM Do YYYY")}
+              />
+            )}
+            {user.phNumber && (
+              <Tr label="Mobile Number: " data={user.phNumber} />
+            )}
+            {user.reputation && (
+              <Tr label="Reputation: " data={user.reputation} />
+            )}
+          </tbody>
+        </table>
       </div>
-      <div className={`${commons}`}>
-        {isMe ? (
-          <>
-            <h3 className={h3Styles}>Customize your avatar</h3>
+      {isMe ? (
+        <>
+          <div className={commons}>
             <UserAvatarSettings />
-          </>
-        ) : (
-          <>
-            <h3>Actions needed</h3>
-            <li>Send friend request</li>
-            <li>Block user</li>
-          </>
-        )}
-      </div>
-      <div className={`${commons}`}>
+          </div>
+          <div className={commons}>
+            <ChangePassword />
+          </div>
+          <div className={commons}>
+            <EditProfileDetails />
+          </div>
+        </>
+      ) : (
+        <div className={commons}>
+          <FriendActions />
+        </div>
+      )}
+      <div className={commons}>
         {isMe && (
-          <div className="flex gap-4 justify-center my-3 mb-4">
-            <button
+          <div className="flex gap-4 justify-between my-3 px-4">
+            <SmallButton
+              label={theme === "dark" ? "Use Light Theme" : "Use Dark Theme"}
               onClick={handleThemeChange}
-              className={`${buttonStyles} w-[170px]`}
-            >
-              {theme === "dark" ? "Use Light Theme" : "Use Dark Theme"}
-            </button>
-            <button
-              className={`${buttonStyles} w-[100px]`}
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
+            />
+            <SmallButton onClick={handleLogout} label="Logout" />
           </div>
         )}
         <div className={`${commons} text-center`}>
