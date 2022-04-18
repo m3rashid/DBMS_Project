@@ -1,5 +1,6 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import NotFound from "../pages/404";
 
 import Header from "./header";
 import Loader from "./loader";
@@ -35,9 +36,10 @@ export const LoginPage = () => {
         <div className="flex flex-col gap-3 justify-center bg-gray-50 dark:bg-gray-900 rounded-t-2xl md:rounded-xl shadow-md md:max-w-[450px]  md:m-0 md:mb-32 px-6 py-8 pt-12 md:px-8 md:py-20 w-screen">
           <React.Suspense fallback={<Loader />}>
             <Routes>
+              <Route path="/" element={<Navigate to="/login" />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="*" element={<Navigate to="/login" />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </React.Suspense>
         </div>
@@ -51,8 +53,9 @@ export const AdminPage = () => {
     <div className="bg-gray-50 min-h-[100vh] overflow-x-hidden flex flex-col items-center">
       <React.Suspense fallback={<Loader />}>
         <Routes>
+          <Route path="/" element={<Navigate to="/admin" />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="*" element={<Navigate to="/admin" />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </React.Suspense>
     </div>
@@ -68,6 +71,7 @@ export const UserPage = () => {
         <div className="overflow-y-auto md:max-h-[calc(100vh-80px)] hide-scrollbar">
           <React.Suspense fallback={<Loader />}>
             <Routes>
+              <Route path="/" element={<Navigate to="/home" />} />
               <Route path="/home" element={<Main />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/bookmarks" element={<Bookmarks />} />
@@ -75,7 +79,7 @@ export const UserPage = () => {
               <Route path="/post/:postId" element={<PostDetail />} />
               <Route path="/topic/:topicId" element={<Topic />} />
               <Route path="/chat" element={<Chat />} />
-              <Route path="*" element={<Navigate to="/home" />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </React.Suspense>
         </div>

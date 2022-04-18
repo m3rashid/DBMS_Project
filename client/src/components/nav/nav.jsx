@@ -3,7 +3,7 @@ import {
   FaBell,
   FaBookmark,
   FaUser,
-  // FaMessage
+  FaRocketchat,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import Avatar, { genConfig } from "react-nice-avatar";
 const ListItem = ({ link, label, Icon }) => {
   return (
     <Link to={link}>
-      <div className="flex flex-row items-center px-2 py-2 mb-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 w-full">
+      <div className="flex flex-row items-center px-2 py-2 mb-3 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 w-full">
         <Icon className="text-gray-600 dark:text-gray-300 mr-3" size={22} />
         <p className="block font-semibold dark:text-gray-300">{label}</p>
       </div>
@@ -47,7 +47,7 @@ const Nav = () => {
           <ListItem link="/home" label="Home" Icon={FaHome} />
           <ListItem link="/notifications" label="Notifications" Icon={FaBell} />
           <ListItem link="/bookmarks" label="Bookmarks" Icon={FaBookmark} />
-          {/* <ListItem link="/chat" label="Messages" Icon={FaMessage} /> */}
+          <ListItem link="/chat" label="Global Chat" Icon={FaRocketchat} />
           <ListItem
             link={`/user/${user.userID}`}
             label="Profile"

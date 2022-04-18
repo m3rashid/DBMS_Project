@@ -1,13 +1,25 @@
 import React from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const Input = ({ Icon, type, name, placeholder, value, setValue }) => {
+const Input = ({
+  Icon,
+  type,
+  name,
+  placeholder,
+  value,
+  setValue,
+  className,
+}) => {
   const [showPassword, setShowPassword] = React.useState(false);
 
   return (
     <>
-      <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-md p-2">
-        {<Icon size={22} className="text-gray-800 dark:text-gray-200" />}
+      <div
+        className={`flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-md p-2 ${className}`}
+      >
+        {Icon && (
+          <Icon size={22} className="text-gray-800 dark:text-gray-200" />
+        )}
         <div className="flex items-center gap-2 rounded-md w-full">
           <input
             type={

@@ -11,7 +11,7 @@ const Button = ({ classes, onClick, Icon, label }) => {
           onClick={onClick}
         >
           {Icon && Icon}
-          {label}
+          {label && label}
         </button>
       </div>
     </>
