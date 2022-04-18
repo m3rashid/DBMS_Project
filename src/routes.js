@@ -20,6 +20,7 @@ const {
   getOneOtherUser,
 } = require("./handlers/auth");
 const { addBookmark, removeBookmark } = require("./handlers/bookmark");
+const { getAllChats } = require("./handlers/chat");
 const {
   addComments,
   editComment,
@@ -79,6 +80,9 @@ router.post("/comments/edit", checkAuth, use(editComment));
 // bookmark actions
 router.post("/bookmark/remove", checkAuth, use(removeBookmark));
 router.post("/bookmark/add", checkAuth, use(addBookmark));
+
+// chat actions
+router.post("/chats/all", checkAuth, use(getAllChats));
 
 // search actions
 router.post("/search", use(searchUserAndTopic));

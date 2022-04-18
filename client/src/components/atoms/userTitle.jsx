@@ -44,21 +44,29 @@ const UserTitle = ({ post, user, avatar, classification }) => {
       {post && post.reputation && (
         <>
           <div
-            className={`absolute right-6 h-8 w-8 rounded-full ${getToxicityColorCode(
+            className={`absolute right-6 h-8 w-8 rounded-full cursor-pointer ${getToxicityColorCode(
               post.reputation
-            )} cursor-pointer`}
+            )}`}
             onClick={() => setCOpen(!cOpen)}
           ></div>
           {cOpen && (
             <div
-              className="absolute bg-gray-300 dark:bg-gray-600 dark:text-white p-2 rounded-md top-10 right-10"
+              className="absolute bg-gray-300 dark:bg-gray-600 dark:text-white p-3 rounded-md top-10 right-10"
               onClick={() => setCOpen(!cOpen)}
             >
-              {Object.entries(classification).map(([key, value]) => (
-                <p key={key}>
-                  {key}: {parseFloat(value).toFixed(2)}
-                </p>
-              ))}
+              <table>
+                <tbody>
+                  {Object.entries(classification).map(([key, value]) => (
+                    <tr key={key}>
+                      <td className="pr-6">
+                        {key.charAt(0).toUpperCase() +
+                          key.slice(1).split("_").join(" ")}
+                      </td>
+                      <td>{parseFloat(value).toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </>

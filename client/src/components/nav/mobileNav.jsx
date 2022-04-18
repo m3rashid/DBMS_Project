@@ -3,7 +3,7 @@ import {
   FaBell,
   FaBookmark,
   FaUser,
-  // FaMessage,
+  FaRocketchat,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -12,7 +12,7 @@ const ListItem = ({ link, Icon }) => {
   return (
     <Link to={link}>
       <div className="rounded-md px-4 py-3 my-1 hover:bg-gray-200 dark:hover:bg-gray-700">
-        <Icon className="text-gray-600 dark:text-gray-300" size={22} />
+        <Icon className="text-gray-600 dark:text-gray-300" size={26} />
       </div>
     </Link>
   );
@@ -27,7 +27,7 @@ const MobileNav = () => {
         <ListItem link="/home" Icon={FaHome} />
         <ListItem link="/notifications" Icon={FaBell} />
         <ListItem link="/bookmarks" Icon={FaBookmark} />
-        {/* <ListItem link="/chat" Icon={FaMessage} /> */}
+        <ListItem link="/chat" Icon={FaRocketchat} />
         <ListItem link={`/user/${user.userID}`} Icon={FaUser} />
       </div>
     </>
