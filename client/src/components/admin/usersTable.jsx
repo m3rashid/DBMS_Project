@@ -1,10 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { FaTrash } from "react-icons/fa";
 import moment from "moment";
 
 import { Table } from "./table";
-import Button from "../atoms/Button";
+import Dialog from "./dialog";
 import useDeleteUser from "../../hooks/useDeleteUser";
 
 const UserTable = () => {
@@ -69,11 +68,13 @@ const UserTable = () => {
 
   const ActionButtons = ({ userID, avatarID }) => (
     <div className="flex gap-2 items-center">
-      <Button
-        Icon={<FaTrash />}
-        label="Delete"
-        classes="bg-red-500"
-        onClick={() => deleteUser(userID, avatarID)}
+      <Dialog
+        isDeleteDialog={true}
+        title="Delete User"
+        content="Are you sure you want to delete this user?"
+        onConfirm={(message) =>
+          message === "Deleted" && deleteUser(userID, avatarID)
+        }
       />
     </div>
   );

@@ -1,11 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import moment from "moment";
 
 import useTopic from "../../hooks/useTopic";
 import { Table } from "./table";
-import Button from "../atoms/Button";
 import Dialog from "./dialog";
 
 const TopicTable = () => {
@@ -48,16 +46,14 @@ const TopicTable = () => {
       <Dialog
         isDeleteDialog={true}
         title="Delete Topic"
-        message="Are you sure you want to delete this topic?"
-        method={deleteTopic}
-        deletionID={topicID}
+        content="Are you sure you want to delete this topic?"
+        onConfirm={(message) => message === "Deleted" && deleteTopic(topicID)}
       />
       <Dialog
         isDeleteDialog={false}
         title="Edit Topic"
-        message=""
-        method={null}
-        deletionID={topicID}
+        content=""
+        onConfirm={(message) => message === "Edited" && console.log("Edited")}
       />
     </div>
   );
