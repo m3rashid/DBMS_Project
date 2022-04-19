@@ -72,9 +72,7 @@ const UserTable = () => {
         isDeleteDialog={true}
         title="Delete User"
         content="Are you sure you want to delete this user?"
-        onConfirm={(message) =>
-          message === "Deleted" && deleteUser(userID, avatarID)
-        }
+        onConfirm={() => deleteUser(userID, avatarID)}
       />
     </div>
   );

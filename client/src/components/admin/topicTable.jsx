@@ -7,7 +7,7 @@ import { Table } from "./table";
 import Dialog from "./dialog";
 
 const TopicTable = () => {
-  const { deleteTopic } = useTopic();
+  const { deleteTopic, updateTopic } = useTopic();
   const topics = useSelector((state) => state.auth.topics);
   const columns = React.useMemo(
     () => [
@@ -47,13 +47,13 @@ const TopicTable = () => {
         isDeleteDialog={true}
         title="Delete Topic"
         content="Are you sure you want to delete this topic?"
-        onConfirm={(message) => message === "Deleted" && deleteTopic(topicID)}
+        onConfirm={() => deleteTopic(topicID)}
       />
       <Dialog
         isDeleteDialog={false}
         title="Edit Topic"
         content=""
-        onConfirm={(message) => message === "Edited" && console.log("Edited")}
+        onConfirm={(topicName) => updateTopic(topicName, topicID)}
       />
     </div>
   );

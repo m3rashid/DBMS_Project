@@ -3,6 +3,7 @@ import Button from "../atoms/Button";
 import { FaTrash, FaEdit } from "react-icons/fa";
 const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
   const [showModal, setShowModal] = React.useState(false);
+  const [topicName, setTopicName] = React.useState("");
   return (
     <>
       {isDeleteDialog ? (
@@ -46,6 +47,7 @@ const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
                       className="w-96 p-2 mx-4"
                       type="text"
                       placeholder="# Enter New Topic Name"
+                      onChange={(e) => setTopicName(e.target.value)}
                     />
                   )}
                 </div>
@@ -64,8 +66,7 @@ const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
                     onClick={() => {
                       setShowModal(false);
 
-                      isDeleteDialog && onConfirm("Deleted");
-                      !isDeleteDialog && onConfirm("Edited");
+                      isDeleteDialog ? onConfirm() : onConfirm(topicName);
                     }}
                   >
                     Yes
