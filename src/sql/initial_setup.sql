@@ -159,3 +159,11 @@ ADD CONSTRAINT `Bookmark_postID_fkey` FOREIGN KEY (`postID`) REFERENCES `Post`(`
 alter table `User` change reputation userReputation decimal(65, 30) null;
 -- change column name of post table
 alter table `Post` change reputation postReputation decimal(65, 30) null;
+create table Chat (
+  id  varchar(191)  not null,
+  userID  varchar(191) not null,
+  userName  varchar(191) not null,
+  message varchar(255) not null,
+  createdAt  datetime(3) default CURRENT_TIMESTAMP(3) not null,
+  primary key (id)
+);

@@ -16,6 +16,7 @@ import {
   TOPIC_GOT_FAIL,
   tokenConfig,
   SERVER_ROOT_URL,
+  UPDATE_PROFILE,
 } from "../constants";
 
 export const logout = () => {
@@ -37,6 +38,13 @@ export const changeAvatar = (config) => {
   return {
     type: AVATAR_CHANGE,
     payload: config,
+  };
+};
+
+export const updateProfile = (data) => {
+  return {
+    type: UPDATE_PROFILE,
+    payload: data,
   };
 };
 

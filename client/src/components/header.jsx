@@ -10,7 +10,10 @@ const Header = () => {
   const searchRef = React.useRef();
   const [searchOpen, setSearchOpen] = React.useState(false);
 
-  const avatarConfig = useSelector((state) => state.auth.avatar);
+  const auth = useSelector((state) => state.auth);
+  const avatarConfig = auth.avatar;
+  const user = auth.user;
+
   const avatarSettings = genConfig(avatarConfig);
 
   window.addEventListener("click", (e) => {
@@ -56,7 +59,7 @@ const Header = () => {
                 <FaSearch size={20} />
               </span>
             </div>
-            <Link to="/user/me">
+            <Link to={`/user/${user.userID}`}>
               <div className="">
                 <Avatar className="h-12 w-12" {...avatarSettings} />
               </div>

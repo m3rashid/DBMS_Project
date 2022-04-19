@@ -1,54 +1,77 @@
 import React from "react";
+import axios from "axios";
+import debounce from "lodash.debounce";
+import { Link } from "react-router-dom";
+import { MdPerson, MdTag } from "react-icons/md";
+import { toast } from "react-toastify";
 
-const data =
-  "This package provides a single React component The component contains an input field with a drop down menu to pick a possible option based on the current input as a React component Have a look at w3schools.com to see how you can do something similar with pure html, css, and js. For more information about React and the ecosystem see this guide".split(
-    " "
-  );
+import { SERVER_ROOT_URL } from "../store/constants";
 
 export const SearchBox = () => {
-  const [suggestions, setSuggestions] = React.useState([]);
-  const [searchValue, setSearchValue] = React.useState("");
+  const [topics, setTopics] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
 
-  const handleSearch = (word) => {
-    const regex = new RegExp(word, "gi");
-    const foundSuggestions = data.filter((item) => item.match(regex));
-    if (searchValue.length === 0) {
-      setSuggestions([]);
-    } else {
-      setSuggestions(foundSuggestions);
-    }
-  };
-
-  // TODO debounce the searches
-  const handleChange = (e) => {
-    setSearchValue(e.target.value);
+  const handleChange = async (e) => {
     if (e.target.value === "") {
-      setSuggestions([]);
+      setTopics([]);
+      setUsers([]);
+    } else {
+      try {
+        const res = await axios.post(
+          `${SERVER_ROOT_URL}/search`,
+          JSON.stringify({ search: e.target.value }),
+          { headers: { "Content-Type": "application/json" } }
+        );
+        const data = await res.data;
+        const { topics, users } = data;
+        setTopics(topics);
+        setUsers(users);
+      } catch (err) {
+        toast.error("Error searching ...");
+      }
     }
-    handleSearch(searchValue);
   };
+
+  const debouncedResults = React.useMemo(() => {
+    return debounce(handleChange, 1000);
+  }, []);
+
+  React.useEffect(() => {
+    return () => {
+      debouncedResults.cancel();
+    };
+  }, []);
 
   return (
     <form className="w-full mx-4">
       <input
         type="text"
-        value={searchValue}
         placeholder="Search people"
-        onChange={handleChange}
+        onChange={debouncedResults}
         className="w-full md:w-auto pl-4 py-2 rounded-3xl outline-0 text-lg bg-gray-50 dark:bg-gray-700 outline-none dark:text-gray-200"
       />
-      {suggestions.length > 0 && (
+      {(users.length > 0 || topics.length > 0) && (
         <div className="relative w-full h-full top-2 -left-4 sm:left-0">
-          <ul className="absolute bg-gray-50 dark:bg-gray-800 dark:text-gray-200 rounded-md w-[94vw] sm:w-full p-4 shadow-md dark:shadow-black max-h-[350px] overflow-auto hide-scrollbar">
-            {suggestions.map((item, index) => (
-              <li
-                className="p-1 hover:bg-gray-700 cursor-pointer rounded-md"
-                key={index}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
+          <div className="absolute bg-gray-50 dark:bg-gray-800 dark:text-gray-200 rounded-md w-[94vw] sm:w-full p-4 shadow-md dark:shadow-black max-h-[350px] overflow-auto hide-scrollbar">
+            {users.length > 0 &&
+              users.map(({ userID, userName }) => (
+                <Link to={`/user/${userID}`} key={userID}>
+                  <p className="flex items-center gap-2 p-1 hover:bg-gray-700 cursor-pointer rounded-md">
+                    <MdPerson size={20} />
+                    {userName}
+                  </p>
+                </Link>
+              ))}
+            {topics.length > 0 &&
+              topics.map(({ topicID, name }) => (
+                <Link to={`/topic/${topicID}`} key={topicID}>
+                  <p className="flex items-center gap-2 p-1 hover:bg-gray-700 cursor-pointer rounded-md">
+                    <MdTag size={20} />
+                    {name}
+                  </p>
+                </Link>
+              ))}
+          </div>
         </div>
       )}
     </form>

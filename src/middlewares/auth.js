@@ -23,30 +23,18 @@ const adminLoginSchema = Joi.object({
 });
 
 const validateLogin = async (req, res, next) => {
-  try {
-    await loginSchema.validateAsync({ ...req.body });
-    next();
-  } catch (err) {
-    return res.sendStatus(400);
-  }
+  await loginSchema.validateAsync({ ...req.body });
+  next();
 };
 
 const validateSignup = async (req, res, next) => {
-  try {
-    await signupSchema.validateAsync({ ...req.body });
-    next();
-  } catch (err) {
-    return res.sendStatus(400);
-  }
+  await signupSchema.validateAsync({ ...req.body });
+  next();
 };
 
 const validateAdminLogin = async (req, res, next) => {
-  try {
-    await adminLoginSchema.validateAsync({ ...req.body });
-    next();
-  } catch (err) {
-    return res.sendStatus(400);
-  }
+  await adminLoginSchema.validateAsync({ ...req.body });
+  next();
 };
 
 module.exports = {
