@@ -7,6 +7,7 @@ const UserTable = React.lazy(() => import("../components/admin/usersTable"));
 const PostsTable = React.lazy(() => import("../components/admin/postsTable"));
 const CreateTopic = React.lazy(() => import("../components/admin/createTopic"));
 const TopicTable = React.lazy(() => import("../components/admin/topicTable"));
+const Modal = React.lazy(() => import("../components/admin/dialog"));
 
 const Admin = () => {
   const { handleLogout } = useAdmin();
