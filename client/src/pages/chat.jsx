@@ -38,7 +38,7 @@ const Chat = () => {
       const data = await res.data;
       setAllChats(data.chats);
     } catch (err) {
-      console.log(err.message || "An error occured in getting all chats");
+      toast.error("An error occured in getting all chats");
     }
   }, []);
 

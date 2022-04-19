@@ -97,26 +97,26 @@ const User = () => {
         <table>
           <tbody>
             <Tr
-              label="Member Since: "
+              label="Member Since"
               data={moment(user.createdAt).format("MMMM Do YYYY")}
             />
-            <Tr label="Email: " data={user.email} />
+            <Tr label="Email" data={user.email} />
             <Tr
-              label="Last Changed: "
+              label="Last Changed"
               data={moment(user.updatedAt).format("MMMM Do YYYY")}
             />
-            {user.dob && (
+            {user.dob ? (
               <Tr
-                label="Date of Birth: "
+                label="Date of Birth"
                 data={moment(user.dob).format("MMMM Do YYYY")}
               />
-            )}
-            {user.phNumber && (
-              <Tr label="Mobile Number: " data={user.phNumber} />
-            )}
-            {user.reputation && (
-              <Tr label="Reputation: " data={user.reputation} />
-            )}
+            ) : null}
+            {user.phNumber ? (
+              <Tr label="Mobile Number" data={user.phNumber} />
+            ) : null}
+            {user.reputation ? (
+              <Tr label="Reputation" data={user.reputation} />
+            ) : null}
           </tbody>
         </table>
       </div>
