@@ -43,7 +43,7 @@ const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
                   </p>
                   {!isDeleteDialog && (
                     <input
-                      class="w-96 p-2 mx-4"
+                      className="w-96 p-2 mx-4"
                       type="text"
                       placeholder="# Enter New Topic Name"
                     />
