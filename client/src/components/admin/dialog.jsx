@@ -1,16 +1,25 @@
 import React from "react";
 import Button from "../atoms/Button";
-import { FaTrash } from "react-icons/fa";
-const Dialog = ({ method, deletionID, title, message }) => {
+import { FaTrash, FaEdit } from "react-icons/fa";
+const Dialog = ({ isDeleteDialog, method, deletionID, title, message }) => {
   const [showModal, setShowModal] = React.useState(false);
   return (
     <>
-      <Button
-        Icon={<FaTrash />}
-        label="Delete"
-        classes="bg-red-500"
-        onClick={() => setShowModal(true)}
-      />
+      {isDeleteDialog ? (
+        <Button
+          Icon={<FaTrash />}
+          label="Delete"
+          classes="bg-red-500"
+          onClick={() => setShowModal(true)}
+        />
+      ) : (
+        <Button
+          Icon={<FaEdit />}
+          label="Edit"
+          classes="bg-blue-500"
+          onClick={() => setShowModal(true)}
+        />
+      )}
       {showModal ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -32,6 +41,13 @@ const Dialog = ({ method, deletionID, title, message }) => {
                   <p className="my-4 text-slate-500 text-lg leading-relaxed">
                     {message}
                   </p>
+                  {!isDeleteDialog && (
+                    <input
+                      class="w-96 p-2 mx-4"
+                      type="text"
+                      placeholder="# Enter New Topic Name"
+                    />
+                  )}
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
@@ -47,7 +63,8 @@ const Dialog = ({ method, deletionID, title, message }) => {
                     type="button"
                     onClick={() => {
                       setShowModal(false);
-                      method(deletionID);
+
+                      isDeleteDialog && method(deletionID);
                     }}
                   >
                     Yes

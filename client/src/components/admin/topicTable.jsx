@@ -6,6 +6,7 @@ import moment from "moment";
 import useTopic from "../../hooks/useTopic";
 import { Table } from "./table";
 import Button from "../atoms/Button";
+import Dialog from "./dialog";
 
 const TopicTable = () => {
   const { deleteTopic } = useTopic();
@@ -44,19 +45,19 @@ const TopicTable = () => {
 
   const ActionButtons = ({ topicID }) => (
     <div className="flex gap-2 items-center">
-      <Button
-        Icon={<FaTrash />}
-        label="Delete"
-        classes="bg-red-500"
-        onClick={() => {
-          deleteTopic(topicID);
-        }}
+      <Dialog
+        isDeleteDialog={true}
+        title="Delete Topic"
+        message="Are you sure you want to delete this topic?"
+        method={deleteTopic}
+        deletionID={topicID}
       />
-      <Button
-        Icon={<FaEdit />}
-        label="Edit"
-        classes="bg-blue-500"
-        onClick={() => {}}
+      <Dialog
+        isDeleteDialog={false}
+        title="Edit Topic"
+        message=""
+        method={null}
+        deletionID={topicID}
       />
     </div>
   );

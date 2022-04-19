@@ -61,10 +61,11 @@ const PostsTable = () => {
   const ActionButtons = ({ postID }) => (
     <div className="flex gap-2 items-center">
       <Dialog
-        method={deletePost}
-        deletionID={postID}
+        isDeleteDialog={true}
         title="Delete Post"
         message="Are you sure you want to delete this post?"
+        method={deletePost}
+        deletionID={postID}
       />
     </div>
   );
