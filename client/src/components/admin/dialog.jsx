@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../atoms/Button";
 import { FaTrash, FaEdit } from "react-icons/fa";
-const Dialog = ({ isDeleteDialog, method, deletionID, title, message }) => {
+const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
   const [showModal, setShowModal] = React.useState(false);
   return (
     <>
@@ -39,7 +39,7 @@ const Dialog = ({ isDeleteDialog, method, deletionID, title, message }) => {
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                    {message}
+                    {content}
                   </p>
                   {!isDeleteDialog && (
                     <input
@@ -64,7 +64,8 @@ const Dialog = ({ isDeleteDialog, method, deletionID, title, message }) => {
                     onClick={() => {
                       setShowModal(false);
 
-                      isDeleteDialog && method(deletionID);
+                      isDeleteDialog && onConfirm("Deleted");
+                      !isDeleteDialog && onConfirm("Edited");
                     }}
                   >
                     Yes

@@ -63,9 +63,8 @@ const PostsTable = () => {
       <Dialog
         isDeleteDialog={true}
         title="Delete Post"
-        message="Are you sure you want to delete this post?"
-        method={deletePost}
-        deletionID={postID}
+        content="Are you sure you want to delete this post?"
+        onConfirm={(message) => message === "Deleted" && deletePost(postID)}
       />
     </div>
   );
