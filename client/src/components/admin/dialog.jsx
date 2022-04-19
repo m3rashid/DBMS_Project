@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../atoms/Button";
-import { FaTrash, FaEdit } from "react-icons/fa";
+import { FaTrash, FaEdit, FaHashtag } from "react-icons/fa";
+import Input from "../atoms/input";
 const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
   const [showModal, setShowModal] = React.useState(false);
   const [topicName, setTopicName] = React.useState("");
@@ -32,7 +33,10 @@ const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
                   <h3 className="text-3xl font-semibold p-4">{title}</h3>
                   <button
                     className="text-black text-2xl font-bold p-4"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                      setShowModal(false);
+                      setTopicName("");
+                    }}
                   >
                     x
                   </button>
@@ -43,11 +47,15 @@ const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
                     {content}
                   </p>
                   {!isDeleteDialog && (
-                    <input
-                      className="w-96 p-2 mx-4"
+                    <Input
+                      className={"w-96 p-2 mx-4"}
+                      name="topicName"
+                      id="topicName"
                       type="text"
-                      placeholder="# Enter New Topic Name"
-                      onChange={(e) => setTopicName(e.target.value)}
+                      Icon={FaHashtag}
+                      placeholder="Enter new topic name"
+                      value={topicName}
+                      setValue={(e) => setTopicName(e.target.value)}
                     />
                   )}
                 </div>
@@ -56,7 +64,10 @@ const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
                   <button
                     className="text-black background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                      setShowModal(false);
+                      setTopicName("");
+                    }}
                   >
                     No
                   </button>
