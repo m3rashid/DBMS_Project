@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Collapse from "../atoms/collapse";
 import Input from "../atoms/input";
 import Select from "react-select";
@@ -8,6 +8,8 @@ import { LabelContainer } from "./changePassword";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { SERVER_ROOT_URL, tokenConfig } from "../../store/constants";
+import moment from "moment";
+import { updateProfile } from "../../store/actions/auth.action";
 
 const genderOptions = [
   { value: "male", label: "male" },
@@ -17,13 +19,14 @@ const genderOptions = [
 
 const EditProfileDetails = () => {
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   const [profile, setProfile] = React.useState({
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
     gender: user.gender,
     phNumber: user.phNumber || "",
-    dob: user.dob || "",
+    dob: moment(user.dob).format("YYYY-MM-DD") || "",
   });
 
   const handleChange = (e) => {
@@ -47,6 +50,7 @@ const EditProfileDetails = () => {
         body,
         tokenConfig()
       );
+      dispatch(updateProfile(profile));
       toast.update(t3, {
         render: "Profile updated successfully",
         type: "success",

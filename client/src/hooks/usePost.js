@@ -86,7 +86,6 @@ const usePost = () => {
       dispatch(getPosts());
       setLoading(false);
     } catch (err) {
-      console.log(err);
       setLoading(false);
       toast.error("Error creating post");
     }

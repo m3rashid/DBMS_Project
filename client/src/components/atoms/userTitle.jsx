@@ -31,15 +31,15 @@ const UserTitle = ({ post, user, avatar, classification }) => {
     <div className="flex items-center w-full py-3 pl-4 shadow-md relative">
       <Avatar className="h-16 w-16" {...avatar} />
       <div className="ml-4 dark:text-gray-200">
-        <p className="font-bold">
-          <Link to={`/user/${user.userId}`}>
+        <Link to={`/user/${user.userId || user.userID}`}>
+          <p className="font-bold">
             {user.firstName} {user.lastName}
-          </Link>
-        </p>
-        <p className="">
-          @{user.userName}{" "}
-          {post && "on " + moment(post.updatedAt).format("LLLL")}
-        </p>
+          </p>
+          <p className="">
+            @{user.userName}
+            {post && " on " + moment(post.updatedAt).format("LLLL")}
+          </p>
+        </Link>
       </div>
       {post && post.reputation && (
         <>

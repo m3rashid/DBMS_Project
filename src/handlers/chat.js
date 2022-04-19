@@ -4,7 +4,6 @@ const pool = require("../utils/database");
 const newUserInChat =
   (io, socket) =>
   ({ userName, userID }) => {
-    console.log(userName, userID);
     io.emit("user-joined-chat", {
       userName,
       timeStamp: new Date().toISOString(),
@@ -22,7 +21,6 @@ const sendMessage =
   async ({ userName, userID, message }) => {
     try {
       const chatId = uuidv4();
-      console.log(userName, userID, message);
       const db = await pool.getConnection();
       await db.query(
         "insert into Chat(id, userID, userName, message) values(?, ?, ?, ?)",

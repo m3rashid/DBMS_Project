@@ -36,6 +36,8 @@ export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
 export const DELETE_TOPIC_SUCCESS = "DELETE_TOPIC_SUCCESS";
 export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
 
+export const UPDATE_PROFILE = "UPDATE_PROFILE";
+
 export const configContentType = {
   headers: {
     "Content-type": "application/json",
