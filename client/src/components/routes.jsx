@@ -56,6 +56,7 @@ export const AdminPage = () => {
     <React.Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<Navigate to="/admin/home" />} />
+        <Route path="/admin" element={<Navigate to="/admin/home" />} />
         <Route path="/admin/home" element={<AdminHome />} />
         <Route path="/admin/users" element={<AdminUser />} />
         <Route path="/admin/topics" element={<AdminTopic />} />
