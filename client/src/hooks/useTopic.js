@@ -75,6 +75,10 @@ const useTopic = () => {
   };
 
   const createTopic = async () => {
+    if (topicName.trim() === "") {
+      toast.error("Topic name cannot be empty");
+      return;
+    }
     const topicToast = toast.loading("Creating a topic...");
     const body = JSON.stringify({ topicName });
     try {

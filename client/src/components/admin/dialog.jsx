@@ -1,10 +1,14 @@
 import React from "react";
-import Button from "../atoms/Button";
 import { FaTrash, FaEdit, FaHashtag } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
+
+import Button from "../atoms/Button";
 import Input from "../atoms/input";
+
 const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
   const [showModal, setShowModal] = React.useState(false);
   const [topicName, setTopicName] = React.useState("");
+
   return (
     <>
       {isDeleteDialog ? (
@@ -38,7 +42,7 @@ const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
                       setTopicName("");
                     }}
                   >
-                    x
+                    <ImCross />
                   </button>
                 </div>
                 {/*body*/}
@@ -92,4 +96,5 @@ const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
     </>
   );
 };
+
 export default Dialog;

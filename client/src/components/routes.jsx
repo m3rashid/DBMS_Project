@@ -8,7 +8,10 @@ import MobileNav from "./nav/mobileNav";
 import Nav from "./nav/nav";
 import RightSidebar from "./nav/rightSidebar";
 
-const Admin = React.lazy(() => import("../pages/Admin"));
+const AdminPost = React.lazy(() => import("../pages/admin/post"));
+const AdminTopic = React.lazy(() => import("../pages/admin/topic"));
+const AdminUser = React.lazy(() => import("../pages/admin/user"));
+const AdminHome = React.lazy(() => import("../pages/admin/home"));
 const Main = React.lazy(() => import("../pages/main"));
 const Notifications = React.lazy(() => import("../pages/notifications"));
 const Bookmarks = React.lazy(() => import("../pages/bookmarks"));
@@ -50,15 +53,16 @@ export const LoginPage = () => {
 
 export const AdminPage = () => {
   return (
-    <div className="bg-gray-50 min-h-[100vh] overflow-x-hidden flex flex-col items-center">
-      <React.Suspense fallback={<Loader />}>
-        <Routes>
-          <Route path="/" element={<Navigate to="/admin" />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </React.Suspense>
-    </div>
+    <React.Suspense fallback={<Loader />}>
+      <Routes>
+        <Route path="/" element={<Navigate to="/admin/home" />} />
+        <Route path="/admin/home" element={<AdminHome />} />
+        <Route path="/admin/users" element={<AdminUser />} />
+        <Route path="/admin/topics" element={<AdminTopic />} />
+        <Route path="/admin/posts" element={<AdminPost />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </React.Suspense>
   );
 };
 
