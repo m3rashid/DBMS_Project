@@ -43,6 +43,37 @@ const useTopic = () => {
     }
   };
 
+  const updateTopic = async (topicName, topicID) => {
+    const topicToast = toast.loading("Updating topic...");
+    const body = JSON.stringify({ topicName, topicID });
+    try {
+      const res = await axios.post(
+        `${SERVER_ROOT_URL}/admin/updateTopic`,
+        body,
+        tokenConfig()
+      );
+      dispatch({
+        type: DELETE_TOPIC_SUCCESS,
+        payload: res.data,
+      });
+      setTimeout(() => {
+        toast.update(topicToast, {
+          render: "Successfully updated Topic",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+        });
+      }, 0);
+    } catch (err) {
+      toast.update(topicToast, {
+        render: "Error updating Topic",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    }
+  };
+
   const createTopic = async () => {
     const topicToast = toast.loading("Creating a topic...");
     const body = JSON.stringify({ topicName });
@@ -83,6 +114,7 @@ const useTopic = () => {
       topicName,
     },
     deleteTopic,
+    updateTopic,
     createThisTopic,
     setTopicName,
   };

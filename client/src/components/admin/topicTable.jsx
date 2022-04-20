@@ -1,14 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import moment from "moment";
 
 import useTopic from "../../hooks/useTopic";
 import { Table } from "./table";
-import Button from "../atoms/Button";
+import Dialog from "./dialog";
 
 const TopicTable = () => {
-  const { deleteTopic } = useTopic();
+  const { deleteTopic, updateTopic } = useTopic();
   const topics = useSelector((state) => state.auth.topics);
   const columns = React.useMemo(
     () => [
@@ -44,19 +43,17 @@ const TopicTable = () => {
 
   const ActionButtons = ({ topicID }) => (
     <div className="flex gap-2 items-center">
-      <Button
-        Icon={<FaTrash />}
-        label="Delete"
-        classes="bg-red-500"
-        onClick={() => {
-          deleteTopic(topicID);
-        }}
+      <Dialog
+        isDeleteDialog={true}
+        title="Delete Topic"
+        content="Are you sure you want to delete this topic?"
+        onConfirm={() => deleteTopic(topicID)}
       />
-      <Button
-        Icon={<FaEdit />}
-        label="Edit"
-        classes="bg-blue-500"
-        onClick={() => {}}
+      <Dialog
+        isDeleteDialog={false}
+        title="Edit Topic"
+        content=""
+        onConfirm={(topicName) => updateTopic(topicName, topicID)}
       />
     </div>
   );

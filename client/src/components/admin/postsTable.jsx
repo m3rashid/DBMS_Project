@@ -1,11 +1,12 @@
 import React from "react";
-import { FaTrash } from "react-icons/fa";
+
 import { useSelector } from "react-redux";
 import moment from "moment";
 
 import { Table } from "./table";
 import usePost from "../../hooks/usePost";
-import Button from "../atoms/Button";
+
+import Dialog from "./dialog";
 
 const PostsTable = () => {
   const { deletePost } = usePost();
@@ -59,13 +60,11 @@ const PostsTable = () => {
 
   const ActionButtons = ({ postID }) => (
     <div className="flex gap-2 items-center">
-      <Button
-        Icon={<FaTrash />}
-        label="Delete"
-        classes="bg-red-500"
-        onClick={() => {
-          deletePost(postID);
-        }}
+      <Dialog
+        isDeleteDialog={true}
+        title="Delete Post"
+        content="Are you sure you want to delete this post?"
+        onConfirm={() => deletePost(postID)}
       />
     </div>
   );
