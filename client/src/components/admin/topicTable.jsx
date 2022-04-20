@@ -1,13 +1,19 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
 import useTopic from "../../hooks/useTopic";
 import { Table } from "./table";
 import Dialog from "./dialog";
+import { getTopics } from "../../store/actions/auth.action";
 
 const TopicTable = () => {
   const { deleteTopic, updateTopic } = useTopic();
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(getTopics());
+  }, [dispatch]);
+
   const topics = useSelector((state) => state.auth.topics);
   const columns = React.useMemo(
     () => [
@@ -15,6 +21,11 @@ const TopicTable = () => {
         Header: "Topic",
         accessor: "name",
         Cell: ({ cell }) => <>{cell.row.original.name}</>,
+      },
+      {
+        Header: "No. of Posts",
+        accessor: "postCount",
+        Cell: ({ cell }) => <>{cell.row.original.postCount}</>,
       },
       {
         Header: "Created",
