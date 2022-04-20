@@ -8,6 +8,9 @@ import Input from "../atoms/input";
 const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
   const [showModal, setShowModal] = React.useState(false);
   const [topicName, setTopicName] = React.useState("");
+  React.useEffect(() => {
+    setTopicName(content);
+  }, [content]);
 
   return (
     <>
@@ -39,7 +42,7 @@ const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
                     className="text-black dark:text-white text-2xl font-bold p-4"
                     onClick={() => {
                       setShowModal(false);
-                      setTopicName("");
+                      setTopicName(content);
                     }}
                   >
                     <ImCross />
@@ -47,9 +50,11 @@ const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-slate-500 dark:text-slate-300 text-lg leading-relaxed">
-                    {content}
-                  </p>
+                  {isDeleteDialog && (
+                    <p className="my-4 text-slate-500 dark:text-slate-300 text-lg leading-relaxed">
+                      {content}
+                    </p>
+                  )}
                   {!isDeleteDialog && (
                     <Input
                       className={"w-96 p-2 mx-4"}
@@ -70,7 +75,7 @@ const Dialog = ({ isDeleteDialog, title, content, onConfirm }) => {
                     type="button"
                     onClick={() => {
                       setShowModal(false);
-                      setTopicName("");
+                      setTopicName(content);
                     }}
                   >
                     No

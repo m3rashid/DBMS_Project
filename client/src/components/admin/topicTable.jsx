@@ -34,14 +34,17 @@ const TopicTable = () => {
         Header: "Actions",
         accessor: "",
         Cell: ({ cell }) => (
-          <ActionButtons topicID={cell.row.original.topicID} />
+          <ActionButtons
+            topicName={cell.row.original.name}
+            topicID={cell.row.original.topicID}
+          />
         ),
       },
     ],
     []
   );
 
-  const ActionButtons = ({ topicID }) => (
+  const ActionButtons = ({ topicName, topicID }) => (
     <div className="flex gap-2 items-center">
       <Dialog
         isDeleteDialog={true}
@@ -52,8 +55,8 @@ const TopicTable = () => {
       <Dialog
         isDeleteDialog={false}
         title="Edit Topic"
-        content=""
-        onConfirm={(topicName) => updateTopic(topicName, topicID)}
+        content={topicName}
+        onConfirm={(newTopicName) => updateTopic(newTopicName, topicID)}
       />
     </div>
   );
