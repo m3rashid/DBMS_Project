@@ -41,7 +41,7 @@ const deleteUser = async (req, res) => {
 const getTopics = async (req, res) => {
   const db = await pool.getConnection();
   const [topics, ___] = await db.query(
-    "select t.*,count(*) as postCount from topic t inner join post p on t.topicID = p.topicID group by t.name"
+    "select t.*,count(*) as postCount from Topic t inner join Post p on t.topicID = p.topicID group by t.name"
   );
   db.release();
 
