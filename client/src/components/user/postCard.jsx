@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaHeart, FaBookmark } from "react-icons/fa";
+import { FaHeart, FaBookmark, FaComment } from "react-icons/fa";
 
 import UserTitle from "../atoms/userTitle";
 
@@ -63,9 +63,11 @@ const Card = ({ post }) => {
   // handle these
   const liked = false;
   const bookmarked = true;
+  const commented = false;
 
   const handleLike = () => {};
   const handleBookmark = () => {};
+  const handleComment = () => {};
 
   return (
     <>
@@ -95,15 +97,35 @@ const Card = ({ post }) => {
           className="p-3 flex items-center justify-between cursor-pointer"
           onClick={handleLike}
         >
-          <div className="flex gap-3 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md">
-            <span
-              className={
-                liked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
-              }
+          <div className="flex gap-3">
+            <div
+              className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
+              onClick={handleLike}
             >
-              <FaHeart size={22} />
-            </span>
-            <p className="dark:text-gray-200">{postDetail.likes}</p>
+              <span
+                className={
+                  liked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
+                }
+              >
+                <FaHeart size={22} />
+              </span>
+              <p className="dark:text-gray-200">{postDetail.likes}</p>
+            </div>
+            <div
+              className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
+              onClick={handleComment}
+            >
+              <span
+                className={
+                  commented
+                    ? "text-blue-500"
+                    : "text-gray-700 dark:text-gray-300"
+                }
+              >
+                <FaComment size={22} />
+              </span>
+              <p className="dark:text-gray-200">{postDetail.commentsCount}</p>
+            </div>
           </div>
           <div
             className="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"

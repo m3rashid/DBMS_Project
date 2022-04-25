@@ -19,23 +19,25 @@ const addComments = async (req, res) => {
 /**
  * @ayesha and @aiman working on this
  */
+//compare the logged in user with the commented user 
 
-// const deleteComment = async (req, res) => {
-//   const { postID, commentID, userID } = req.body;
 
-//   if (!postID && !commentID && !userID)
-//     throw new Error("Post and Comment not found ");
+const deleteComment = async (req, res) => {
+  const { postID, commentID, userID } = req.body;
 
-//   const db = await pool.getConnection();
+  if (!postID && !commentID && !userID)
+    throw new Error("Post and Comment not found ");
 
-//   const [, _] = await db.query(
-//     "delete from Comments where  commentID = ?, userID = ?",
-//     [commentID, userID]
-//   );
-//   db.release();
+  const db = await pool.getConnection();
 
-//   return res.status(200).json({ message: "Comment Deleted successfully" });
-// };
+  const [, _] = await db.query(
+    "delete from Comments where  commentID = ?, userID = ?",
+    [commentID, userID]
+  );
+  db.release();
+
+  return res.status(200).json({ message: "Comment Deleted successfully" });
+};
 
 const editComment = async (req, res) => {
   const { commentID, text, userID } = req.body;
@@ -54,5 +56,5 @@ const editComment = async (req, res) => {
 module.exports = {
   addComments,
   editComment,
-  // deleteComment,
+  deleteComment,
 };

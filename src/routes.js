@@ -24,7 +24,7 @@ const { getAllChats } = require("./handlers/chat");
 const {
   addComments,
   editComment,
-  // deleteComment,
+  deleteComment,
 } = require("./handlers/comments");
 const {
   addPost,
@@ -85,7 +85,7 @@ router.post("/post/add", checkAuth, use(addPost));
 // comment actions
 router.post("/comments/addComments", checkAuth, use(addComments));
 router.post("/comments/edit", checkAuth, use(editComment));
-// router.post("/comments/delete", checkAuth, use(deleteComment));
+router.post("/comments/delete", checkAuth, use(deleteComment));
 
 // bookmark actions
 router.post("/bookmark/remove", checkAuth, use(removeBookmark));
