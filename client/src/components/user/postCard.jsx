@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaHeart, FaBookmark, FaComment } from "react-icons/fa";
+import { addBookmark, removeBookmark } from "../../store/actions/post.action";
 
 import UserTitle from "../atoms/userTitle";
+import { useDispatch } from "react-redux";
 
 const Card = ({ post }) => {
   const user = {
@@ -59,14 +61,18 @@ const Card = ({ post }) => {
     threat: post.threat,
     toxicity: post.toxicity,
   };
+  const dispatch = useDispatch();
 
   // handle these
   const liked = false;
-  const bookmarked = true;
+  const [bookmarked, setBookmarked] = React.useState(post.isBookmarked);
   const commented = false;
 
   const handleLike = () => {};
-  const handleBookmark = () => {};
+  const handleBookmark = () => {
+    bookmarked ? dispatch(removeBookmark(post)) : dispatch(addBookmark(post));
+    setBookmarked(!bookmarked);
+  };
   const handleComment = () => {};
 
   return (

@@ -7,11 +7,14 @@ import {
   POSTS_LOADED,
   POST_LOADED,
   BOOKMARKS_LOADED,
+  BOOKMARK_ADDED,
+  BOOKMARK_DELETED,
 } from "../constants";
 
 const initialState = {
   posts: {},
   post: {},
+  bookmarks: {},
 };
 
 const postReducer = (state = initialState, action) => {
@@ -33,12 +36,15 @@ const postReducer = (state = initialState, action) => {
       };
 
     case BOOKMARKS_LOADED:
+    case BOOKMARK_ADDED:
+    case BOOKMARK_DELETED:
       return {
         ...state,
         bookmarks: {
           ...action.payload.bookmarks,
         },
       };
+
     default:
       return state;
   }
