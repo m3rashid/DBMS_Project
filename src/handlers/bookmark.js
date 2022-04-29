@@ -36,7 +36,21 @@ const addBookmark = async (req, res) => {
   return res.status(200).json({ bookmarkId: bookmarkId });
 };
 
+const getAllBookmarks = async (req, res) => {
+  const { userID } = req.body;
+  if (!userID) throw new Error("No user ID");
+
+  const db = await pool.getConnection();
+  const [bookmarks, __] = await db.query(
+    "select  *,true as isBookmarked from bookmark inner join Post on bookmark.postID = Post.postID inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID where bookmark.userID = ? order by post.updatedAt DESC",
+    [userID]
+  );
+  db.release();
+  return res.status(200).json({ bookmarks });
+};
+
 module.exports = {
   removeBookmark,
   addBookmark,
+  getAllBookmarks,
 };
