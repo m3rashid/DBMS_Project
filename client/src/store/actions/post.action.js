@@ -5,6 +5,8 @@ import {
   POSTS_LOADING,
   POSTS_LOADED,
   POST_LOADED,
+  BOOKMARKS_LOADING,
+  BOOKMARKS_LOADED,
   SERVER_ROOT_URL,
   tokenConfig,
 } from "../constants";
@@ -12,6 +14,11 @@ import {
 export const postsLoading = () => {
   return {
     type: POSTS_LOADING,
+  };
+};
+export const bookmarksLoading = () => {
+  return {
+    type: BOOKMARKS_LOADING,
   };
 };
 
@@ -45,5 +52,23 @@ export const getSinglePost =
       })
       .catch((err) => {
         toast.error("Error loading post");
+      });
+  };
+
+export const getAllBookmarks =
+  ({ userID }) =>
+  (dispatch) => {
+    dispatch(bookmarksLoading());
+    const body = JSON.stringify({ userID });
+    axios
+      .post(`${SERVER_ROOT_URL}/bookmark/all`, body, tokenConfig())
+      .then((res) => {
+        dispatch({
+          type: BOOKMARKS_LOADED,
+          payload: res.data,
+        });
+      })
+      .catch((err) => {
+        toast.error("Error loading bookmarks");
       });
   };
