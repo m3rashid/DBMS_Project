@@ -6,7 +6,7 @@ import { addBookmark, removeBookmark } from "../../store/actions/post.action";
 import UserTitle from "../atoms/userTitle";
 import { useDispatch } from "react-redux";
 
-const Card = ({ post }) => {
+const Card = ({ post, loggedUser }) => {
   const user = {
     userName: post.userName,
     userId: post.userID,
@@ -65,12 +65,14 @@ const Card = ({ post }) => {
 
   // handle these
   const liked = false;
-  const [bookmarked, setBookmarked] = React.useState(post.isBookmarked);
+  const [bookmarked, setBookmarked] = React.useState(post.isBookmarked === 1);
   const commented = false;
 
   const handleLike = () => {};
   const handleBookmark = () => {
-    bookmarked ? dispatch(removeBookmark(post)) : dispatch(addBookmark(post));
+    bookmarked
+      ? dispatch(removeBookmark(loggedUser.userID, post.postID))
+      : dispatch(addBookmark(loggedUser.userID, post.postID));
     setBookmarked(!bookmarked);
   };
   const handleComment = () => {};
@@ -117,7 +119,7 @@ const Card = ({ post }) => {
               </span>
               <p className="dark:text-gray-200">{postDetail.likes}</p>
             </div>
-            <Link to="/comments" >
+            <Link to="/comments">
               <div
                 className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
                 onClick={handleComment}

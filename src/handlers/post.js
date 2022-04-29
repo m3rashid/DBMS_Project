@@ -8,7 +8,7 @@ const getAllPosts = async (req, res) => {
 
   const db = await pool.getConnection();
   let response = await db.query(
-    "select *, IF(post.userID = ? AND bookmark.postID = post.postID, true, false) as isBookmarked from Bookmark,Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID order by post.updatedAt DESC;",
+    "select *, IF(bookmark.userID = ? AND bookmark.postID = post.postID, true, false) as isBookmarked from Bookmark,Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID order by post.updatedAt DESC;",
     [userID]
   );
 

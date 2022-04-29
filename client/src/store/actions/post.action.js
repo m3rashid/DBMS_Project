@@ -78,40 +78,36 @@ export const getAllBookmarks =
       });
   };
 
-export const addBookmark =
-  ({ userID, postID }) =>
-  (dispatch) => {
-    dispatch(bookmarksLoading());
-    const body = JSON.stringify({ userID, postID });
-    axios
-      .post(`${SERVER_ROOT_URL}/bookmark/add`, body, tokenConfig())
-      .then((res) => {
-        dispatch({
-          type: BOOKMARK_ADDED,
-          payload: res.data,
-        });
-        toast.info("Bookmark added");
-      })
-      .catch((err) => {
-        toast.error("Error adding bookmark");
+export const addBookmark = (userID, postID) => (dispatch) => {
+  dispatch(bookmarksLoading());
+  const body = JSON.stringify({ userID, postID });
+  axios
+    .post(`${SERVER_ROOT_URL}/bookmark/add`, body, tokenConfig())
+    .then((res) => {
+      dispatch({
+        type: BOOKMARK_ADDED,
+        payload: res.data,
       });
-  };
+      toast.info("Bookmark added");
+    })
+    .catch((err) => {
+      toast.error("Error adding bookmark");
+    });
+};
 
-export const removeBookmark =
-  ({ userID, postID }) =>
-  (dispatch) => {
-    dispatch(bookmarksLoading());
-    const body = JSON.stringify({ userID, postID });
-    axios
-      .post(`${SERVER_ROOT_URL}/bookmark/remove`, body, tokenConfig())
-      .then((res) => {
-        dispatch({
-          type: BOOKMARK_DELETED,
-          payload: res.data,
-        });
-        toast.info("Bookmark removed");
-      })
-      .catch((err) => {
-        toast.error("Error removing bookmark");
+export const removeBookmark = (userID, postID) => (dispatch) => {
+  dispatch(bookmarksLoading());
+  const body = JSON.stringify({ userID, postID });
+  axios
+    .post(`${SERVER_ROOT_URL}/bookmark/remove`, body, tokenConfig())
+    .then((res) => {
+      dispatch({
+        type: BOOKMARK_DELETED,
+        payload: res.data,
       });
-  };
+      toast.info("Bookmark removed");
+    })
+    .catch((err) => {
+      toast.error("Error removing bookmark");
+    });
+};

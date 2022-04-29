@@ -63,7 +63,9 @@ const Main = () => {
           <RightSidebar fullWidth />
         </div>
         {posts &&
-          posts.map((post) => <PostCard key={post.postID} post={post} />)}
+          posts.map((post) => (
+            <PostCard key={post.postID} post={post} loggedUser={user} />
+          ))}
       </div>
     </>
   );

@@ -15,7 +15,9 @@ const Bookmarks = () => {
   }, [dispatch, user]);
 
   const bookmarks = useSelector((state) =>
-    Object.values(state.posts.bookmarks).sort((a, b) => b.updatedAt - a.updatedAt)
+    Object.values(state.posts.bookmarks).sort(
+      (a, b) => b.updatedAt - a.updatedAt
+    )
   );
 
   return (
@@ -23,7 +25,11 @@ const Bookmarks = () => {
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         {bookmarks.length > 0 ? (
           bookmarks.map((bookmark) => (
-            <PostCard key={bookmark.bookmarkID} post={bookmark} />
+            <PostCard
+              key={bookmark.bookmarkID}
+              post={bookmark}
+              loggedUser={user}
+            />
           ))
         ) : (
           <h3 className="text-center dark:text-gray-200 font-semibold text-2xl">
