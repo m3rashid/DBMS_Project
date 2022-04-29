@@ -8,11 +8,15 @@ const Bookmarks = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const user = auth.user;
-
+  const [isBookmarkToggled, setIsBookmarkToggled] = React.useState(false);
+  const reload = () => {
+    setIsBookmarkToggled(!isBookmarkToggled);
+  };
   React.useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(getAllBookmarks(user));
-  }, [dispatch, user]);
+    console.log("bookmarks");
+  }, [dispatch, user, isBookmarkToggled]);
 
   const bookmarks = useSelector((state) =>
     Object.values(state.posts.bookmarks).sort(
@@ -29,6 +33,7 @@ const Bookmarks = () => {
               key={bookmark.bookmarkID}
               post={bookmark}
               loggedUser={user}
+              reload={reload}
             />
           ))
         ) : (

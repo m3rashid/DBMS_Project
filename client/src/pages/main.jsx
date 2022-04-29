@@ -10,10 +10,14 @@ const Main = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const user = auth.user;
-
+  const [isBookmarkToggled, setIsBookmarkToggled] = React.useState(false);
+  const reload = () => {
+    setIsBookmarkToggled(!isBookmarkToggled);
+  };
   React.useEffect(() => {
     dispatch(getPosts(user));
-  }, [dispatch, user]);
+    console.log("posts");
+  }, [dispatch, user, isBookmarkToggled]);
 
   let posts = useSelector((state) =>
     Object.values(state.posts.posts).sort((a, b) => b.updatedAt - a.updatedAt)
@@ -64,7 +68,12 @@ const Main = () => {
         </div>
         {posts &&
           posts.map((post) => (
-            <PostCard key={post.postID} post={post} loggedUser={user} />
+            <PostCard
+              key={post.postID}
+              post={post}
+              loggedUser={user}
+              reload={reload}
+            />
           ))}
       </div>
     </>

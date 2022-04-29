@@ -6,7 +6,7 @@ import { addBookmark, removeBookmark } from "../../store/actions/post.action";
 import UserTitle from "../atoms/userTitle";
 import { useDispatch } from "react-redux";
 
-const Card = ({ post, loggedUser }) => {
+const Card = ({ post, loggedUser, reload }) => {
   const user = {
     userName: post.userName,
     userId: post.userID,
@@ -74,6 +74,7 @@ const Card = ({ post, loggedUser }) => {
       ? dispatch(removeBookmark(loggedUser.userID, post.postID))
       : dispatch(addBookmark(loggedUser.userID, post.postID));
     setBookmarked(!bookmarked);
+    reload();
   };
   const handleComment = () => {};
 
