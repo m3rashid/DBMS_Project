@@ -82,7 +82,7 @@ router.post("/user/update-password", checkAuth, use(updatePassword));
 
 // Post actions
 router.post("/post/fromTopic", checkAuth, use(getPostsByTopic));
-router.get("/post/all", checkAuth, use(getAllPosts));
+router.post("/post/all", checkAuth, use(getAllPosts));
 router.post("/post/one", checkAuth, use(getOnePost));
 router.post("/post/add", checkAuth, use(addPost));
 

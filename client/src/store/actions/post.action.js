@@ -22,20 +22,23 @@ export const bookmarksLoading = () => {
   };
 };
 
-export const getPosts = () => (dispatch) => {
-  dispatch(postsLoading());
-  axios
-    .get(`${SERVER_ROOT_URL}/post/all`, tokenConfig())
-    .then((res) => {
-      dispatch({
-        type: POSTS_LOADED,
-        payload: res.data,
+export const getPosts =
+  ({ userID }) =>
+  (dispatch) => {
+    dispatch(postsLoading());
+    const body = JSON.stringify({ userID });
+    axios
+      .post(`${SERVER_ROOT_URL}/post/all`, body, tokenConfig())
+      .then((res) => {
+        dispatch({
+          type: POSTS_LOADED,
+          payload: res.data,
+        });
+      })
+      .catch((err) => {
+        toast.error("Error loading posts");
       });
-    })
-    .catch((err) => {
-      toast.error("Error loading posts");
-    });
-};
+  };
 
 export const getSinglePost =
   ({ postId }) =>
