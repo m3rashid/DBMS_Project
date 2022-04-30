@@ -30,6 +30,7 @@ const {
   editComment,
   deleteComment,
 } = require("./handlers/comments");
+const { addLike, removeLike } = require("./handlers/like");
 const {
   addPost,
   getAllPosts,
@@ -85,6 +86,10 @@ router.post("/post/fromTopic", checkAuth, use(getPostsByTopic));
 router.post("/post/all", checkAuth, use(getAllPosts));
 router.post("/post/one", checkAuth, use(getOnePost));
 router.post("/post/add", checkAuth, use(addPost));
+
+// Like actions
+router.post("/like/add", checkAuth, use(addLike));
+router.post("/like/remove", checkAuth, use(removeLike));
 
 // comment actions
 router.post("/comments/addComments", checkAuth, use(addComments));
