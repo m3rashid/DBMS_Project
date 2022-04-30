@@ -3,15 +3,20 @@ import DOMPurify from "dompurify";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-import {
-  SERVER_ROOT_URL,
-} from "../store/constants";
+import { SERVER_ROOT_URL } from "../store/constants";
 
 import { headers } from "../hooks/globals";
+import { useDispatch } from "react-redux";
+import {
+  addBookmark,
+  addLike,
+  removeBookmark,
+  removeLike,
+} from "../store/actions/post.action";
 
 const maxBodyLength = 10000;
 
-const usePostDetail = (singlePost, classification) => {
+const usePostDetail = (singlePost, classification, loggedUser) => {
   const [loading, setLoading] = React.useState(false);
 
   const user = {
@@ -58,6 +63,8 @@ const usePostDetail = (singlePost, classification) => {
     createdAt: singlePost.createdAt,
     updatedAt: singlePost.updatedAt,
     comments: singlePost.comments,
+    isBookmarked: singlePost.isBookmarked,
+    isLiked: singlePost.isLiked,
   };
 
   const analysis = {
@@ -70,13 +77,39 @@ const usePostDetail = (singlePost, classification) => {
     toxicity: classification.toxicity,
   };
 
-  const liked = false;
-  const bookmarked = false;
+  const dispatch = useDispatch();
 
+  const [isLiked, setLiked] = React.useState(postDetail.isLiked);
+  const [Likes, setLikes] = React.useState(postDetail.likes);
+  const [Bookmarked, setBookmarked] = React.useState(postDetail.isBookmarked);
   const [commentOpen, setCommentOpen] = React.useState(false);
   const [commentText, setCommentText] = React.useState("");
+  const [commentsCount, setCommentsCount] = React.useState(
+    postDetail.commentsCount
+  );
 
-  const handleLikeSubmit = () => {};
+  React.useEffect(() => {
+    setLiked(postDetail.isLiked);
+    setLikes(postDetail.likes);
+    setBookmarked(postDetail.isBookmarked);
+    setCommentsCount(postDetail.commentsCount);
+  }, [
+    postDetail.isLiked,
+    postDetail.likes,
+    postDetail.isBookmarked,
+    postDetail.commentsCount,
+  ]);
+
+  const handleLikeSubmit = () => {
+    if (isLiked) {
+      dispatch(removeLike(loggedUser.userID, postDetail.postID));
+      setLikes(Likes - 1);
+    } else {
+      dispatch(addLike(loggedUser.userID, postDetail.postID));
+      setLikes(Likes + 1);
+    }
+    setLiked(!isLiked);
+  };
 
   const handleCommentSubmit = async () => {
     if (commentText.length > maxBodyLength - 50) {
@@ -90,13 +123,15 @@ const usePostDetail = (singlePost, classification) => {
         `${SERVER_ROOT_URL}/comments/addComments`,
         JSON.stringify({
           text: commentText.replace(/\n/g, "<br/>"),
-          userId: user.userId,
+          userId: loggedUser.userID,
           postId: postDetail.postID,
         }),
         { headers }
       );
       const commentRes = await res.data.comment;
       toast.success("Comment posted successfully");
+      setCommentText("");
+      setCommentsCount(commentsCount + 1);
       setLoading(false);
       return commentRes;
     } catch (err) {
@@ -110,7 +145,13 @@ const usePostDetail = (singlePost, classification) => {
   const handleOpenComment = () => {
     setCommentOpen(!commentOpen);
   };
-  const handleBookmark = () => {};
+
+  const handleBookmark = () => {
+    Bookmarked
+      ? dispatch(removeBookmark(loggedUser.userID, postDetail.postID))
+      : dispatch(addBookmark(loggedUser.userID, postDetail.postID));
+    setBookmarked(!Bookmarked);
+  };
 
   const inputCharLength = commentText.length > 0;
 
@@ -124,8 +165,10 @@ const usePostDetail = (singlePost, classification) => {
       avatar,
       topic,
       postDetail,
-      liked,
-      bookmarked,
+      isLiked,
+      Likes,
+      Bookmarked,
+      commentsCount,
       commentOpen,
       commentText,
       inputCharLength,
