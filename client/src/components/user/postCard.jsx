@@ -55,6 +55,8 @@ const Card = ({ post, loggedUser, reload }) => {
     createdAt: post.createdAt,
     updatedAt: post.updatedAt,
     reputation: post.postReputation,
+    isLiked: post.isLiked,
+    isBookmarked: post.isBookmarked,
   };
 
   const classification = {
@@ -69,22 +71,19 @@ const Card = ({ post, loggedUser, reload }) => {
   const dispatch = useDispatch();
 
   // handle these
-  const [liked, setLiked] = React.useState(post.isLiked);
-  const [bookmarked, setBookmarked] = React.useState(post.isBookmarked);
   const commented = false;
 
   const handleLike = () => {
-    liked
+    postDetail.isLiked
       ? dispatch(removeLike(loggedUser.userID, post.postID))
       : dispatch(addLike(loggedUser.userID, post.postID));
-    setLiked(!liked);
+
     reload();
   };
   const handleBookmark = () => {
-    bookmarked
+    postDetail.isBookmarked
       ? dispatch(removeBookmark(loggedUser.userID, post.postID))
       : dispatch(addBookmark(loggedUser.userID, post.postID));
-    setBookmarked(!bookmarked);
     reload();
   };
   const handleComment = () => {};
@@ -113,15 +112,17 @@ const Card = ({ post, loggedUser, reload }) => {
             </div>
           </Link>
         </div>
-        <div
-          className="p-3 flex items-center justify-between cursor-pointer"
-          onClick={handleLike}
-        >
+        <div className="p-3 flex items-center justify-between cursor-pointer">
           <div className="flex gap-3">
-            <div className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md">
+            <div
+              className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
+              onClick={handleLike}
+            >
               <span
                 className={
-                  liked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
+                  postDetail.isLiked
+                    ? "text-red-500"
+                    : "text-gray-700 dark:text-gray-300"
                 }
               >
                 <FaHeart size={22} />
@@ -152,7 +153,7 @@ const Card = ({ post, loggedUser, reload }) => {
           >
             <span
               className={
-                bookmarked
+                postDetail.isBookmarked
                   ? "text-blue-500"
                   : "text-gray-700 dark:text-gray-300"
               }
