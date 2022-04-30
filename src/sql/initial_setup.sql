@@ -167,3 +167,13 @@ create table Chat (
   createdAt  datetime(3) default CURRENT_TIMESTAMP(3) not null,
   primary key (id)
 );
+
+
+--- change name of columns
+alter table comments
+    change createdAt comment_createdAt datetime(3) default CURRENT_TIMESTAMP(3) not null;
+
+alter table comments
+    change updatedAt comment_upadatedAt datetime(3) default CURRENT_TIMESTAMP(3) not null;
+
+---

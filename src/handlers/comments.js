@@ -12,8 +12,12 @@ const addComments = async (req, res) => {
     "insert into Comments (commentId, text, userID, postID) values ( ?, ?, ?, ?)",
     [commentId, text, userId, postId]
   );
+  const [comments, ___] = await db.query(
+    "select * from Comments inner join User on Comments.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID where commentID = ?",
+    [commentId]
+  );
   db.release();
-  return res.status(200).json({ message: "Comment Added successfully" });
+  return res.status(200).json({ message: "Comment Added successfully" ,comment: comments[0]});
 };
 
 /**
@@ -29,7 +33,6 @@ const deleteComment = async (req, res) => {
     throw new Error("Post and Comment not found ");
 
   const db = await pool.getConnection();
-
   const [, _] = await db.query(
     "delete from Comments where  commentID = ?, userID = ?",
     [commentID, userID]
