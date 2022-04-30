@@ -17,16 +17,31 @@ const getAllPosts = async (req, res) => {
     [userID]
   );
 
+  const [likes, ___] = await db.query(
+    "select postID from `Like` where userID = ?;",
+    [userID]
+  );
+
   db.release();
 
-  if (bookmarks.length === 0) {
-    return res.status(200).json({ posts });
-  }
+  // if (bookmarks.length === 0 && likes.length === 0) {
+  //   return res.status(200).json({ posts });
+  // }
   posts = posts.reduce((acc, curr) => {
-    const postID = bookmarks.find((bookmark) => {
+    const hasBookmark = bookmarks.find((bookmark) => {
       return curr.postID === bookmark.postID;
     });
-    return [...acc, { ...curr, isBookmarked: postID ? true : false }];
+    const hasLike = likes.find((like) => {
+      return curr.postID === like.postID;
+    });
+    return [
+      ...acc,
+      {
+        ...curr,
+        isBookmarked: hasBookmark ? true : false,
+        isLiked: hasLike ? true : false,
+      },
+    ];
   }, []);
 
   return res.status(200).json({ posts });

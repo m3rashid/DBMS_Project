@@ -1,7 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaHeart, FaBookmark, FaComment } from "react-icons/fa";
-import { addBookmark, removeBookmark } from "../../store/actions/post.action";
+import {
+  addBookmark,
+  removeBookmark,
+  addLike,
+  removeLike,
+} from "../../store/actions/post.action";
 
 import UserTitle from "../atoms/userTitle";
 import { useDispatch } from "react-redux";
@@ -64,11 +69,17 @@ const Card = ({ post, loggedUser, reload }) => {
   const dispatch = useDispatch();
 
   // handle these
-  const liked = false;
-  const [bookmarked, setBookmarked] = React.useState(post.isBookmarked === 1);
+  const [liked, setLiked] = React.useState(post.isLiked);
+  const [bookmarked, setBookmarked] = React.useState(post.isBookmarked);
   const commented = false;
 
-  const handleLike = () => {};
+  const handleLike = () => {
+    liked
+      ? dispatch(removeLike(loggedUser.userID, post.postID))
+      : dispatch(addLike(loggedUser.userID, post.postID));
+    setLiked(!liked);
+    reload();
+  };
   const handleBookmark = () => {
     bookmarked
       ? dispatch(removeBookmark(loggedUser.userID, post.postID))
@@ -107,10 +118,7 @@ const Card = ({ post, loggedUser, reload }) => {
           onClick={handleLike}
         >
           <div className="flex gap-3">
-            <div
-              className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
-              onClick={handleLike}
-            >
+            <div className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md">
               <span
                 className={
                   liked ? "text-red-500" : "text-gray-700 dark:text-gray-300"

@@ -111,3 +111,37 @@ export const removeBookmark = (userID, postID) => (dispatch) => {
       toast.error("Error removing bookmark");
     });
 };
+
+export const addLike = (userID, postID) => (dispatch) => {
+  dispatch(postsLoading());
+  const body = JSON.stringify({ userID, postID });
+  axios
+    .post(`${SERVER_ROOT_URL}/like/add`, body, tokenConfig())
+    .then((res) => {
+      dispatch({
+        type: POST_LOADED,
+        payload: res.data,
+      });
+      toast.info("Liked Post");
+    })
+    .catch((err) => {
+      toast.error("Error adding like");
+    });
+};
+
+export const removeLike = (userID, postID) => (dispatch) => {
+  dispatch(postsLoading());
+  const body = JSON.stringify({ userID, postID });
+  axios
+    .post(`${SERVER_ROOT_URL}/like/remove`, body, tokenConfig())
+    .then((res) => {
+      dispatch({
+        type: POST_LOADED,
+        payload: res.data,
+      });
+      toast.info("Unliked Post");
+    })
+    .catch((err) => {
+      toast.error("Error removing like");
+    });
+};
