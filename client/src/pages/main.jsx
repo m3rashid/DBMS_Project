@@ -8,14 +8,56 @@ const PostCard = React.lazy(() => import("../components/user/postCard"));
 
 const Main = () => {
   const dispatch = useDispatch();
-
+  const auth = useSelector((state) => state.auth);
+  const user = auth.user;
+  const [isBookmarkToggled, setIsBookmarkToggled] = React.useState(false);
+  const reload = () => {
+    setIsBookmarkToggled(!isBookmarkToggled);
+  };
   React.useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+    dispatch(getPosts(user));
+    console.log("posts");
+  }, [dispatch, user, isBookmarkToggled]);
 
-  const posts = useSelector((state) =>
+  let posts = useSelector((state) =>
     Object.values(state.posts.posts).sort((a, b) => b.updatedAt - a.updatedAt)
   );
+
+  //for resolving multiple posts
+  const preCompute = () => {
+    let bookmarkCount = 1;
+    let post = posts[0];
+    for (let i = 1; i < posts.length; i++) {
+      if (posts[i].postID === post.postID) {
+        bookmarkCount++;
+      } else {
+        break;
+      }
+    }
+
+    //for bookmarks to be more than 1 , cross product happens
+    if (bookmarkCount > 1) {
+      const filteredPosts = [];
+      let i, j;
+      for (i = 0; i < posts.length; i += bookmarkCount) {
+        let hasBookmark = false;
+
+        //cross product window
+        for (j = 0; j < bookmarkCount; j++) {
+          if (posts[i + j].isBookmarked === 1) {
+            hasBookmark = true;
+            break;
+          }
+        }
+        //filter out posts which have bookmarks out of all the same posts in cross product
+        if (hasBookmark) filteredPosts.push(posts[i + j]);
+        //if current window has no bookmarks , push 1st post
+        else filteredPosts.push(posts[i]);
+      }
+      posts = filteredPosts;
+    }
+  };
+  preCompute();
 
   return (
     <>
@@ -25,7 +67,14 @@ const Main = () => {
           <RightSidebar fullWidth />
         </div>
         {posts &&
-          posts.map((post) => <PostCard key={post.postID} post={post} />)}
+          posts.map((post) => (
+            <PostCard
+              key={post.postID}
+              post={post}
+              loggedUser={user}
+              reload={reload}
+            />
+          ))}
       </div>
     </>
   );

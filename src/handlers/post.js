@@ -3,10 +3,22 @@ const { v4: uuidv4 } = require("uuid");
 const pool = require("../utils/database");
 
 const getAllPosts = async (req, res) => {
+  const { userID } = req.body;
+  if (!userID) throw new Error("No User ID");
+
   const db = await pool.getConnection();
-  const [posts, _] = await db.query(
-    "select * from Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID order by Post.updatedAt DESC"
+  let response = await db.query(
+    "select *, IF(bookmark.userID = ? AND bookmark.postID = post.postID, true, false) as isBookmarked from Bookmark,Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID order by post.updatedAt DESC;",
+    [userID]
   );
+
+  if (response[0].length === 0) {
+    response = await db.query(
+      "select *,false as isBookmarked from Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID order by Post.updatedAt DESC;",
+      [userID]
+    );
+  }
+  const [posts, _] = response;
   db.release();
   return res.status(200).json({ posts });
 };

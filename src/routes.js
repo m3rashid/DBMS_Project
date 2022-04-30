@@ -19,7 +19,11 @@ const {
   signup,
   getOneOtherUser,
 } = require("./handlers/auth");
-const { addBookmark, removeBookmark } = require("./handlers/bookmark");
+const {
+  addBookmark,
+  removeBookmark,
+  getAllBookmarks,
+} = require("./handlers/bookmark");
 const { getAllChats } = require("./handlers/chat");
 const {
   addComments,
@@ -78,7 +82,7 @@ router.post("/user/update-password", checkAuth, use(updatePassword));
 
 // Post actions
 router.post("/post/fromTopic", checkAuth, use(getPostsByTopic));
-router.get("/post/all", checkAuth, use(getAllPosts));
+router.post("/post/all", checkAuth, use(getAllPosts));
 router.post("/post/one", checkAuth, use(getOnePost));
 router.post("/post/add", checkAuth, use(addPost));
 
@@ -90,6 +94,7 @@ router.post("/comments/delete", checkAuth, use(deleteComment));
 // bookmark actions
 router.post("/bookmark/remove", checkAuth, use(removeBookmark));
 router.post("/bookmark/add", checkAuth, use(addBookmark));
+router.post("/bookmark/all", checkAuth, use(getAllBookmarks));
 
 // chat actions
 router.post("/chats/all", checkAuth, use(getAllChats));

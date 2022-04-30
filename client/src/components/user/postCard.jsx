@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaHeart, FaBookmark, FaComment } from "react-icons/fa";
+import { addBookmark, removeBookmark } from "../../store/actions/post.action";
 
 import UserTitle from "../atoms/userTitle";
+import { useDispatch } from "react-redux";
 
-const Card = ({ post }) => {
+const Card = ({ post, loggedUser, reload }) => {
   const user = {
     userName: post.userName,
     userId: post.userID,
@@ -59,14 +61,21 @@ const Card = ({ post }) => {
     threat: post.threat,
     toxicity: post.toxicity,
   };
+  const dispatch = useDispatch();
 
   // handle these
   const liked = false;
-  const bookmarked = true;
+  const [bookmarked, setBookmarked] = React.useState(post.isBookmarked === 1);
   const commented = false;
 
   const handleLike = () => {};
-  const handleBookmark = () => {};
+  const handleBookmark = () => {
+    bookmarked
+      ? dispatch(removeBookmark(loggedUser.userID, post.postID))
+      : dispatch(addBookmark(loggedUser.userID, post.postID));
+    setBookmarked(!bookmarked);
+    reload();
+  };
   const handleComment = () => {};
 
   return (
@@ -111,7 +120,7 @@ const Card = ({ post }) => {
               </span>
               <p className="dark:text-gray-200">{postDetail.likes}</p>
             </div>
-            <Link to="/comments" >
+            <Link to="/comments">
               <div
                 className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
                 onClick={handleComment}
