@@ -13,7 +13,7 @@ const addComments = async (req, res) => {
     [commentId, text, userId, postId]
   );
   await db.query(
-    "update Post set commentCount = commentCount + 1 where postID = ?",
+    "update Post set commentsCount = commentsCount + 1 where postID = ?",
     [postId]
   );
   const [comments, ___] = await db.query(
