@@ -189,3 +189,4 @@ ADD CONSTRAINT `Like_userID_fkey` FOREIGN KEY (`userID`) REFERENCES `User`(`user
 -- AddForeignKey
 ALTER TABLE `Like`
 ADD CONSTRAINT `Like_postID_fkey` FOREIGN KEY (`postID`) REFERENCES `Post`(`postID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+rename table `like` to likes;

@@ -11,26 +11,21 @@ const getAllPosts = async (req, res) => {
   let [posts, _] = await db.query(
     "select * from Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID order by Post.updatedAt DESC;"
   );
-
   const [bookmarks, __] = await db.query(
-    "select postID from bookmark where userID = ?;",
+    "select postID from Bookmark where userID = ?",
     [userID]
   );
-
   const [likes, ___] = await db.query(
-    "select postID from `Like` where userID = ?;",
+    "select postID from likes where userID = ?",
     [userID]
   );
-
   db.release();
 
   posts = posts.reduce((acc, curr) => {
-    const hasBookmark = bookmarks.find((bookmark) => {
-      return curr.postID === bookmark.postID;
-    });
-    const hasLike = likes.find((like) => {
-      return curr.postID === like.postID;
-    });
+    const hasBookmark = bookmarks.find(
+      (bookmark) => curr.postID === bookmark.postID
+    );
+    const hasLike = likes.find((like) => curr.postID === like.postID);
     return [
       ...acc,
       {
@@ -58,7 +53,7 @@ const getOnePost = async (req, res) => {
     [postId]
   );
   const [comments, ___] = await db.query(
-    "select * from Comments inner join User on Comments.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID",
+    "select * from Comments inner join User on Comments.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID where postID = ?",
     [postId]
   );
   db.release();
