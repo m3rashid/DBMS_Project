@@ -1,7 +1,19 @@
 import React from "react";
 import DOMPurify from "dompurify";
+import { toast } from "react-toastify";
+import axios from "axios";
+
+import {
+  SERVER_ROOT_URL,
+} from "../store/constants";
+
+import { headers } from "../hooks/globals";
+
+const maxBodyLength = 10000;
 
 const usePostDetail = (singlePost, classification) => {
+  const [loading, setLoading] = React.useState(false);
+
   const user = {
     userName: singlePost.userName,
     userId: singlePost.userID,
@@ -45,7 +57,7 @@ const usePostDetail = (singlePost, classification) => {
     commentsCount: singlePost.commentsCount,
     createdAt: singlePost.createdAt,
     updatedAt: singlePost.updatedAt,
-    comments: [],
+    comments: singlePost.comments,
   };
 
   const analysis = {
@@ -65,7 +77,35 @@ const usePostDetail = (singlePost, classification) => {
   const [commentText, setCommentText] = React.useState("");
 
   const handleLikeSubmit = () => {};
-  const handleCommentSubmit = () => {};
+
+  const handleCommentSubmit = async () => {
+    if (commentText.length > maxBodyLength - 50) {
+      toast.error(`Comment cannot be more than ${maxBodyLength} characters`);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        `${SERVER_ROOT_URL}/comments/addComments`,
+        JSON.stringify({
+          text: commentText.replace(/\n/g, "<br/>"),
+          userId: user.userId,
+          postId: postDetail.postID,
+        }),
+        { headers }
+      );
+      const commentRes = await res.data.comment;
+      toast.success("Comment posted successfully");
+      setLoading(false);
+      return commentRes;
+    } catch (err) {
+      setLoading(false);
+      toast.error("Error adding comment");
+    }
+
+    setCommentText("");
+  };
 
   const handleOpenComment = () => {
     setCommentOpen(!commentOpen);
@@ -90,6 +130,7 @@ const usePostDetail = (singlePost, classification) => {
       commentText,
       inputCharLength,
       analysis,
+      loading,
     },
     handleLikeSubmit,
     handleCommentSubmit,

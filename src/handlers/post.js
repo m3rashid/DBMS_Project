@@ -36,10 +36,15 @@ const getOnePost = async (req, res) => {
     "select * from Classification where postID = ?",
     [postId]
   );
+   const [comments, ___] = await db.query(
+     "select * from Comments inner join User on Comments.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID",
+     [postId]
+   );
   db.release();
   return res.status(200).json({
     post: posts[0],
     classification: classification[0],
+    comments: comments,
   });
 };
 

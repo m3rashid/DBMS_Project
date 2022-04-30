@@ -8,7 +8,6 @@ import MobileNav from "./nav/mobileNav";
 import Nav from "./nav/nav";
 import RightSidebar from "./nav/rightSidebar";
 import { HeaderLink } from "./admin/tableHelpers";
-import CommentDetail from "../pages/commentsDetails";
 
 const AdminPost = React.lazy(() => import("../pages/admin/post"));
 const AdminTopic = React.lazy(() => import("../pages/admin/topic"));
