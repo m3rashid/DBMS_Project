@@ -10,8 +10,12 @@ import usePostDetail from "../hooks/usePostDetail";
 import { SERVER_ROOT_URL } from "../store/constants";
 import { headers } from "../hooks/globals";
 import Loader from "../components/loader";
+import { useSelector } from "react-redux";
 
 const PostDetail = () => {
+  const auth = useSelector((state) => state.auth);
+  const loggedUser = auth.user;
+
   const { postId } = useParams();
   const [loading, setLoading] = React.useState(true);
   const [singlePost, setSinglePost] = React.useState({});
@@ -19,8 +23,10 @@ const PostDetail = () => {
   const [allComments, setAllComments] = React.useState([]);
 
   React.useEffect(() => {
+    const userId = loggedUser.userID;
+    const body = JSON.stringify({ postId, userId });
     axios
-      .post(`${SERVER_ROOT_URL}/post/one`, JSON.stringify({ postId }), {
+      .post(`${SERVER_ROOT_URL}/post/one`, body, {
         headers,
       })
       .then((res) => {
@@ -33,7 +39,7 @@ const PostDetail = () => {
         setLoading(false);
         toast.error("Error loading post");
       });
-  }, [postId]);
+  }, [postId, loggedUser]);
 
   const {
     state: {
@@ -41,8 +47,10 @@ const PostDetail = () => {
       avatar,
       topic,
       postDetail,
-      liked,
-      bookmarked,
+      isLiked,
+      Likes,
+      Bookmarked,
+      commentsCount,
       analysis,
       commentOpen,
       commentText,
@@ -53,7 +61,7 @@ const PostDetail = () => {
     handleOpenComment,
     handleBookmark,
     handleCommentChange,
-  } = usePostDetail(singlePost, classification);
+  } = usePostDetail(singlePost, classification, loggedUser);
 
   const iconContainerStyles =
     "flex gap-2 items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2 cursor-pointer";
@@ -108,24 +116,26 @@ const PostDetail = () => {
               <div className={iconContainerStyles} onClick={handleLikeSubmit}>
                 <span
                   className={
-                    liked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
+                    isLiked
+                      ? "text-red-500"
+                      : "text-gray-700 dark:text-gray-300"
                   }
                 >
                   <FaHeart />
                 </span>
-                <p className="dark:text-gray-200">{postDetail.likes}</p>
+                <p className="dark:text-gray-200">{Likes}</p>
               </div>
               <div className={iconContainerStyles} onClick={handleOpenComment}>
                 <span className="text-gray-700 dark:text-gray-300">
                   <FaComment />
                 </span>
-                <p className="dark:text-gray-200">{postDetail.commentsCount}</p>
+                <p className="dark:text-gray-200">{commentsCount}</p>
               </div>
             </div>
             <div className={iconContainerStyles} onClick={handleBookmark}>
               <span
                 className={
-                  bookmarked
+                  Bookmarked
                     ? "text-blue-500"
                     : "text-gray-700 dark:text-gray-300"
                 }
