@@ -11,7 +11,7 @@ import {
 import UserTitle from "../atoms/userTitle";
 import { useDispatch } from "react-redux";
 
-const Card = ({ post, loggedUser, reload }) => {
+const Card = ({ post, loggedUser }) => {
   const user = {
     userName: post.userName,
     userId: post.userID,
@@ -72,19 +72,32 @@ const Card = ({ post, loggedUser, reload }) => {
 
   // handle these
   const commented = false;
+  const [isLiked, setLiked] = React.useState(postDetail.isLiked);
+  const [Likes, setLikes] = React.useState(postDetail.likes);
+  const [Bookmarked, setBookmarked] = React.useState(postDetail.isBookmarked);
+
+  React.useEffect(() => {
+    setLiked(postDetail.isLiked);
+    setLikes(postDetail.likes);
+    setBookmarked(postDetail.isBookmarked);
+  }, [postDetail.isLiked, postDetail.likes, postDetail.isBookmarked]);
 
   const handleLike = () => {
-    postDetail.isLiked
-      ? dispatch(removeLike(loggedUser.userID, post.postID))
-      : dispatch(addLike(loggedUser.userID, post.postID));
+    if (isLiked) {
+      dispatch(removeLike(loggedUser.userID, post.postID));
+      setLikes(Likes - 1);
+    } else {
+      dispatch(addLike(loggedUser.userID, post.postID));
+      setLikes(Likes + 1);
+    }
 
-    reload();
+    setLiked(!isLiked);
   };
   const handleBookmark = () => {
-    postDetail.isBookmarked
+    Bookmarked
       ? dispatch(removeBookmark(loggedUser.userID, post.postID))
       : dispatch(addBookmark(loggedUser.userID, post.postID));
-    reload();
+    setBookmarked(!Bookmarked);
   };
   const handleComment = () => {};
 
@@ -120,14 +133,12 @@ const Card = ({ post, loggedUser, reload }) => {
             >
               <span
                 className={
-                  postDetail.isLiked
-                    ? "text-red-500"
-                    : "text-gray-700 dark:text-gray-300"
+                  isLiked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
                 }
               >
                 <FaHeart size={22} />
               </span>
-              <p className="dark:text-gray-200">{postDetail.likes}</p>
+              <p className="dark:text-gray-200 select-none">{Likes}</p>
             </div>
             <Link to={`/post/${postDetail.postID}`}>
               <div
@@ -143,7 +154,9 @@ const Card = ({ post, loggedUser, reload }) => {
                 >
                   <FaComment size={22} />
                 </span>
-                <p className="dark:text-gray-200">{postDetail.commentsCount}</p>
+                <p className="dark:text-gray-200 select-none">
+                  {postDetail.commentsCount}
+                </p>
               </div>
             </Link>
           </div>
@@ -153,7 +166,7 @@ const Card = ({ post, loggedUser, reload }) => {
           >
             <span
               className={
-                postDetail.isBookmarked
+                Bookmarked
                   ? "text-blue-500"
                   : "text-gray-700 dark:text-gray-300"
               }
