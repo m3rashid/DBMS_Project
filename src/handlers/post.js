@@ -7,19 +7,40 @@ const getAllPosts = async (req, res) => {
   if (!userID) throw new Error("No User ID");
 
   const db = await pool.getConnection();
-  let response = await db.query(
-    "select *, IF(bookmark.userID = ? AND bookmark.postID = post.postID, true, false) as isBookmarked from Bookmark,Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID order by post.updatedAt DESC;",
+
+  let [posts, _] = await db.query(
+    "select * from Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID order by Post.updatedAt DESC;"
+  );
+
+  const [bookmarks, __] = await db.query(
+    "select postID from bookmark where userID = ?;",
     [userID]
   );
 
-  if (response[0].length === 0) {
-    response = await db.query(
-      "select *,false as isBookmarked from Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID order by Post.updatedAt DESC;",
-      [userID]
-    );
-  }
-  const [posts, _] = response;
+  const [likes, ___] = await db.query(
+    "select postID from `Like` where userID = ?;",
+    [userID]
+  );
+
   db.release();
+
+  posts = posts.reduce((acc, curr) => {
+    const hasBookmark = bookmarks.find((bookmark) => {
+      return curr.postID === bookmark.postID;
+    });
+    const hasLike = likes.find((like) => {
+      return curr.postID === like.postID;
+    });
+    return [
+      ...acc,
+      {
+        ...curr,
+        isBookmarked: hasBookmark ? true : false,
+        isLiked: hasLike ? true : false,
+      },
+    ];
+  }, []);
+
   return res.status(200).json({ posts });
 };
 
@@ -36,10 +57,10 @@ const getOnePost = async (req, res) => {
     "select * from Classification where postID = ?",
     [postId]
   );
-   const [comments, ___] = await db.query(
-     "select * from Comments inner join User on Comments.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID",
-     [postId]
-   );
+  const [comments, ___] = await db.query(
+    "select * from Comments inner join User on Comments.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID",
+    [postId]
+  );
   db.release();
   return res.status(200).json({
     post: posts[0],
