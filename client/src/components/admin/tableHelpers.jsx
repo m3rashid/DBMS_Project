@@ -3,6 +3,7 @@ import { useAsyncDebounce } from "react-table";
 import { FaSearch } from "react-icons/fa";
 
 import Input from "../atoms/input";
+import { Link } from "react-router-dom";
 
 export const StatusPill = ({ value }) => {
   const status = value ? value.toLowerCase() : "unknown";
@@ -151,4 +152,12 @@ export const WidgetSingle = ({ data, label }) => {
 
 export const TableHeader = ({ title }) => {
   return <h1 className="text-xl font-bold">{title}</h1>;
+};
+
+export const HeaderLink = ({ to, children }) => {
+  return (
+    <div className="dark:text-gray-50 font-semibold">
+      <Link to={to}>{children}</Link>
+    </div>
+  );
 };

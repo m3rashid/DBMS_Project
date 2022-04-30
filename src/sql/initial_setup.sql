@@ -159,3 +159,34 @@ ADD CONSTRAINT `Bookmark_postID_fkey` FOREIGN KEY (`postID`) REFERENCES `Post`(`
 alter table `User` change reputation userReputation decimal(65, 30) null;
 -- change column name of post table
 alter table `Post` change reputation postReputation decimal(65, 30) null;
+
+-- Create table
+create table Chat (
+  id  varchar(191)  not null,
+  userID  varchar(191) not null,
+  userName  varchar(191) not null,
+  message varchar(255) not null,
+  createdAt  datetime(3) default CURRENT_TIMESTAMP(3) not null,
+  primary key (id)
+);
+--- change name of columns
+alter table comments
+    change createdAt comment_createdAt datetime(3) default CURRENT_TIMESTAMP(3) not null;
+alter table comments
+    change updatedAt comment_upadatedAt datetime(3) default CURRENT_TIMESTAMP(3) not null;
+---
+-- create table
+CREATE TABLE `Like` (
+  `likeID` VARCHAR(191) NOT NULL,
+  `userID` VARCHAR(191) NOT NULL,
+  `postID` VARCHAR(191) NOT NULL,
+  UNIQUE INDEX `Like_key`(`likeID`),
+  PRIMARY KEY (`likeID`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- AddForeignKey
+ALTER TABLE `Like`
+ADD CONSTRAINT `Like_userID_fkey` FOREIGN KEY (`userID`) REFERENCES `User`(`userID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+-- AddForeignKey
+ALTER TABLE `Like`
+ADD CONSTRAINT `Like_postID_fkey` FOREIGN KEY (`postID`) REFERENCES `Post`(`postID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+rename table `like` to likes;

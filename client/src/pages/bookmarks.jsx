@@ -1,19 +1,41 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import PostCard from "../components/user/postCard";
+import { getAllBookmarks } from "../store/actions/post.action";
 
 const Bookmarks = () => {
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+  const user = auth.user;
+  const [isBookmarkToggled, setIsBookmarkToggled] = React.useState(false);
+  const reload = () => {
+    setIsBookmarkToggled(!isBookmarkToggled);
+  };
   React.useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    dispatch(getAllBookmarks(user));
+    console.log("bookmarks");
+  }, [dispatch, user, isBookmarkToggled]);
 
-  const bookmarks = [];
+  const bookmarks = useSelector((state) =>
+    Object.values(state.posts.bookmarks).sort(
+      (a, b) => b.updatedAt - a.updatedAt
+    )
+  );
 
   return (
     <>
       <div className="flex flex-col items-center gap-4  md:w-auto m-[10px]">
         {bookmarks.length > 0 ? (
-          <PostCard />
+          bookmarks.map((bookmark) => (
+            <PostCard
+              key={bookmark.bookmarkID}
+              post={bookmark}
+              loggedUser={user}
+              reload={reload}
+            />
+          ))
         ) : (
           <h3 className="text-center dark:text-gray-200 font-semibold text-2xl">
             No bookmarks found

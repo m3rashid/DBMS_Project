@@ -26,6 +26,11 @@ export const POSTS_LOADING = "POSTS_LOADING";
 export const POSTS_LOADED = "POSTS_LOADED";
 export const POST_LOADED = "POST_LOADED";
 
+export const BOOKMARKS_LOADING = "BOOKMARKS_LOADING";
+export const BOOKMARKS_LOADED = "BOOKMARKS_LOADED";
+export const BOOKMARK_ADDED = "BOOKMARK_ADDED";
+export const BOOKMARK_DELETED = "BOOKMARK_DELETED";
+
 export const ADMIN_LOADING = "ADMIN_LOADING";
 export const ADMIN_LOADED = "ADMIN_LOADED";
 
@@ -35,6 +40,8 @@ export const LIGHT_MODE = "LIGHT_MODE";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
 export const DELETE_TOPIC_SUCCESS = "DELETE_TOPIC_SUCCESS";
 export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
+
+export const UPDATE_PROFILE = "UPDATE_PROFILE";
 
 export const configContentType = {
   headers: {

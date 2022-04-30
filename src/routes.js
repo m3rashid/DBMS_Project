@@ -19,12 +19,18 @@ const {
   signup,
   getOneOtherUser,
 } = require("./handlers/auth");
-const { addBookmark, removeBookmark } = require("./handlers/bookmark");
+const {
+  addBookmark,
+  removeBookmark,
+  getAllBookmarks,
+} = require("./handlers/bookmark");
+const { getAllChats } = require("./handlers/chat");
 const {
   addComments,
   editComment,
-  // deleteComment,
+  deleteComment,
 } = require("./handlers/comments");
+const { addLike, removeLike } = require("./handlers/likes");
 const {
   addPost,
   getAllPosts,
@@ -32,6 +38,11 @@ const {
   getPostsByTopic,
 } = require("./handlers/post");
 const { searchUserAndTopic } = require("./handlers/search");
+const {
+  updateAvatar,
+  updatePassword,
+  updateProfile,
+} = require("./handlers/updateUser");
 const {
   validateAdminLogin,
   validateLogin,
@@ -65,20 +76,33 @@ router.post("/auth/login", use(validateLogin), use(login));
 router.get("/auth/", checkAuth, use(getUser));
 router.post("/auth/other-user", checkAuth, use(getOneOtherUser));
 
+// user actions
+router.post("/user/update-avatar", checkAuth, use(updateAvatar));
+router.post("/user/update-profile", checkAuth, use(updateProfile));
+router.post("/user/update-password", checkAuth, use(updatePassword));
+
 // Post actions
 router.post("/post/fromTopic", checkAuth, use(getPostsByTopic));
-router.get("/post/all", checkAuth, use(getAllPosts));
+router.post("/post/all", checkAuth, use(getAllPosts));
 router.post("/post/one", checkAuth, use(getOnePost));
 router.post("/post/add", checkAuth, use(addPost));
+
+// Like actions
+router.post("/like/add", checkAuth, use(addLike));
+router.post("/like/remove", checkAuth, use(removeLike));
 
 // comment actions
 router.post("/comments/addComments", checkAuth, use(addComments));
 router.post("/comments/edit", checkAuth, use(editComment));
-// router.post("/comments/delete", checkAuth, use(deleteComment));
+router.post("/comments/delete", checkAuth, use(deleteComment));
 
 // bookmark actions
 router.post("/bookmark/remove", checkAuth, use(removeBookmark));
 router.post("/bookmark/add", checkAuth, use(addBookmark));
+router.post("/bookmark/all", checkAuth, use(getAllBookmarks));
+
+// chat actions
+router.post("/chats/all", checkAuth, use(getAllChats));
 
 // search actions
 router.post("/search", use(searchUserAndTopic));
