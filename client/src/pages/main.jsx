@@ -8,12 +8,18 @@ const PostCard = React.lazy(() => import("../components/user/postCard"));
 
 const Main = () => {
   const dispatch = useDispatch();
-
+  const auth = useSelector((state) => state.auth);
+  const user = auth.user;
+  const [isPostToggled, setPostToggled] = React.useState(false);
+  const reload = () => {
+    setPostToggled(!isPostToggled);
+  };
   React.useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+    dispatch(getPosts(user));
+    console.log("posts");
+  }, [dispatch, user, isPostToggled]);
 
-  const posts = useSelector((state) =>
+  let posts = useSelector((state) =>
     Object.values(state.posts.posts).sort((a, b) => b.updatedAt - a.updatedAt)
   );
 
@@ -25,7 +31,14 @@ const Main = () => {
           <RightSidebar fullWidth />
         </div>
         {posts &&
-          posts.map((post) => <PostCard key={post.postID} post={post} />)}
+          posts.map((post) => (
+            <PostCard
+              key={post.postID}
+              post={post}
+              loggedUser={user}
+              reload={reload}
+            />
+          ))}
       </div>
     </>
   );

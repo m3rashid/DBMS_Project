@@ -6,11 +6,15 @@ import {
   // POSTS_LOADING,
   POSTS_LOADED,
   POST_LOADED,
+  BOOKMARKS_LOADED,
+  BOOKMARK_ADDED,
+  BOOKMARK_DELETED,
 } from "../constants";
 
 const initialState = {
   posts: {},
   post: {},
+  bookmarks: {},
 };
 
 const postReducer = (state = initialState, action) => {
@@ -28,6 +32,16 @@ const postReducer = (state = initialState, action) => {
         ...state,
         post: {
           ...action.payload.post,
+        },
+      };
+
+    case BOOKMARKS_LOADED:
+    case BOOKMARK_ADDED:
+    case BOOKMARK_DELETED:
+      return {
+        ...state,
+        bookmarks: {
+          ...action.payload.bookmarks,
         },
       };
 
