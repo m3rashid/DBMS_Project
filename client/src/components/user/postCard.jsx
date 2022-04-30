@@ -120,7 +120,7 @@ const Card = ({ post, loggedUser, reload }) => {
               </span>
               <p className="dark:text-gray-200">{postDetail.likes}</p>
             </div>
-            <Link to="/comments">
+            <Link to={`/post/${postDetail.postID}`}>
               <div
                 className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
                 onClick={handleComment}
