@@ -40,11 +40,11 @@ const getAllPosts = async (req, res) => {
 };
 
 const getOnePost = async (req, res) => {
-  const { postId } = req.body;
+  const { postId, userId } = req.body;
   if (!postId) throw new Error("No post ID");
 
   const db = await pool.getConnection();
-  const [posts, _] = await db.query(
+  let [posts, _] = await db.query(
     "select * from Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID where postID = ?",
     [postId]
   );
@@ -56,7 +56,30 @@ const getOnePost = async (req, res) => {
     "select * from Comments inner join User on Comments.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID where postID = ?",
     [postId]
   );
+
+  const [bookmark, ____] = await db.query(
+    "select count(*) as hasBookmark from Bookmark where userID = ? AND postID = ?",
+    [userId, postId]
+  );
+
+  const [like, _____] = await db.query(
+    "select count(*) as hasLike from likes where userID = ? AND postID = ?",
+    [userId, postId]
+  );
+
   db.release();
+
+  posts = posts.reduce((acc, curr) => {
+    return [
+      ...acc,
+      {
+        ...curr,
+        isBookmarked: bookmark[0].hasBookmark === 1 ? true : false,
+        isLiked: like[0].hasLike === 1 ? true : false,
+      },
+    ];
+  }, []);
+
   return res.status(200).json({
     post: posts[0],
     classification: classification[0],
