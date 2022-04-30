@@ -30,7 +30,7 @@ const {
   editComment,
   deleteComment,
 } = require("./handlers/comments");
-const { addLike, removeLike } = require("./handlers/like");
+const { addLike, removeLike } = require("./handlers/likes");
 const {
   addPost,
   getAllPosts,

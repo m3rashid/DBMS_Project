@@ -5,8 +5,7 @@ const pool = require("../utils/database");
 const removeBookmark = async (req, res) => {
   const { postID, userID } = req.body;
   const db = await pool.getConnection();
-  // await db.query("select * from Bookmark where bookmarkID = ?", [bookmarkId]);
-  await db.query("delete from bookmark where userID = ? AND postID = ?", [
+  await db.query("delete from Bookmark where userID = ? AND postID = ?", [
     userID,
     postID,
   ]);
@@ -35,7 +34,7 @@ const getAllBookmarks = async (req, res) => {
 
   const db = await pool.getConnection();
   const [bookmarks, __] = await db.query(
-    "select  *,true as isBookmarked from bookmark inner join Post on bookmark.postID = Post.postID inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID where bookmark.userID = ? order by post.updatedAt DESC",
+    "select  *,true as isBookmarked from Bookmark inner join Post on Bookmark.postID = Post.postID inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID where Bookmark.userID = ? order by Post.updatedAt DESC",
     [userID]
   );
   db.release();
