@@ -24,9 +24,6 @@ const getAllPosts = async (req, res) => {
 
   db.release();
 
-  // if (bookmarks.length === 0 && likes.length === 0) {
-  //   return res.status(200).json({ posts });
-  // }
   posts = posts.reduce((acc, curr) => {
     const hasBookmark = bookmarks.find((bookmark) => {
       return curr.postID === bookmark.postID;
