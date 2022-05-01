@@ -15,7 +15,7 @@ const Main = () => {
     dispatch(getPosts(user));
   }, [dispatch, user]);
 
-  let posts = useSelector((state) =>
+  const posts = useSelector((state) =>
     Object.values(state.posts.posts).sort((a, b) => b.updatedAt - a.updatedAt)
   );
 
