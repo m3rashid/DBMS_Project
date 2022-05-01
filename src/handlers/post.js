@@ -42,6 +42,7 @@ const getAllPosts = async (req, res) => {
 const getOnePost = async (req, res) => {
   const { postId, userId } = req.body;
   if (!postId) throw new Error("No post ID");
+  if (!userId) throw new Error("No user ID");
 
   const db = await pool.getConnection();
   let [posts, _] = await db.query(
@@ -88,15 +89,42 @@ const getOnePost = async (req, res) => {
 };
 
 const getPostsByTopic = async (req, res) => {
-  const { topicId } = req.body;
+  const { topicId, userId } = req.body;
   if (!topicId) throw new Error("No topic ID");
+  if (!userId) throw new Error("No user ID");
 
   const db = await pool.getConnection();
-  const [posts, _] = await db.query(
-    "select * from Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID where Post.topicID = ? order by Post.updatedAt DESC",
+  let [posts, _] = await db.query(
+    "select * from Post inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID where Post.topicID = ? order by Post.updatedAt DESC;",
     [topicId]
   );
+
+  const [bookmarks, __] = await db.query(
+    "select postID from Bookmark where userID = ?",
+    [userId]
+  );
+  const [likes, ___] = await db.query(
+    "select postID from likes where userID = ?",
+    [userId]
+  );
+
   db.release();
+
+  posts = posts.reduce((acc, curr) => {
+    const hasBookmark = bookmarks.find(
+      (bookmark) => curr.postID === bookmark.postID
+    );
+    const hasLike = likes.find((like) => curr.postID === like.postID);
+    return [
+      ...acc,
+      {
+        ...curr,
+        isBookmarked: hasBookmark ? true : false,
+        isLiked: hasLike ? true : false,
+      },
+    ];
+  }, []);
+
   return res.status(200).json({ posts });
 };
 
