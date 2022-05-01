@@ -16,6 +16,7 @@ const PostDetail = () => {
   const [loading, setLoading] = React.useState(true);
   const [singlePost, setSinglePost] = React.useState({});
   const [classification, setClassification] = React.useState({});
+  const [allComments, setAllComments] = React.useState([]);
 
   React.useEffect(() => {
     axios
@@ -26,6 +27,7 @@ const PostDetail = () => {
         setLoading(false);
         setSinglePost(res.data.post);
         setClassification(res.data.classification);
+        setAllComments(res.data.comments);
       })
       .catch((err) => {
         setLoading(false);
@@ -55,6 +57,14 @@ const PostDetail = () => {
 
   const iconContainerStyles =
     "flex gap-2 items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2 cursor-pointer";
+
+  const handleAddComment = async (e) => {
+    e.preventDefault();
+    const comment = await handleCommentSubmit();
+    setAllComments((prev) => {
+      return [...prev, comment];
+    });
+  };
 
   if (loading) {
     return <Loader />;
@@ -138,15 +148,15 @@ const PostDetail = () => {
                 {inputCharLength ? (
                   <button
                     className="bg-blue-500 text-gray-200 rounded-full px-4 py-2 text-lg font-semibold max-w-[200px]"
-                    onClick={handleCommentSubmit}
+                    onClick={handleAddComment}
                   >
                     Add Comment
                   </button>
                 ) : null}
               </div>
               <div className="flex flex-col gap-2 mt-4 mb-1">
-                {postDetail.comments.map(({ name, comment }, index) => (
-                  <Notif key={index} username={name} text={comment} />
+                {allComments?.map((comment, index) => (
+                  <Notif key={index} comment={comment} />
                 ))}
               </div>
             </div>

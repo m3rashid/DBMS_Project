@@ -1,10 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaHeart, FaBookmark, FaComment } from "react-icons/fa";
+import {
+  addBookmark,
+  removeBookmark,
+  addLike,
+  removeLike,
+} from "../../store/actions/post.action";
 
 import UserTitle from "../atoms/userTitle";
+import { useDispatch } from "react-redux";
 
-const Card = ({ post }) => {
+const Card = ({ post, loggedUser, reload }) => {
   const user = {
     userName: post.userName,
     userId: post.userID,
@@ -48,6 +55,8 @@ const Card = ({ post }) => {
     createdAt: post.createdAt,
     updatedAt: post.updatedAt,
     reputation: post.postReputation,
+    isLiked: post.isLiked,
+    isBookmarked: post.isBookmarked,
   };
 
   const classification = {
@@ -59,14 +68,24 @@ const Card = ({ post }) => {
     threat: post.threat,
     toxicity: post.toxicity,
   };
+  const dispatch = useDispatch();
 
   // handle these
-  const liked = false;
-  const bookmarked = true;
   const commented = false;
 
-  const handleLike = () => {};
-  const handleBookmark = () => {};
+  const handleLike = () => {
+    postDetail.isLiked
+      ? dispatch(removeLike(loggedUser.userID, post.postID))
+      : dispatch(addLike(loggedUser.userID, post.postID));
+
+    reload();
+  };
+  const handleBookmark = () => {
+    postDetail.isBookmarked
+      ? dispatch(removeBookmark(loggedUser.userID, post.postID))
+      : dispatch(addBookmark(loggedUser.userID, post.postID));
+    reload();
+  };
   const handleComment = () => {};
 
   return (
@@ -93,10 +112,7 @@ const Card = ({ post }) => {
             </div>
           </Link>
         </div>
-        <div
-          className="p-3 flex items-center justify-between cursor-pointer"
-          onClick={handleLike}
-        >
+        <div className="p-3 flex items-center justify-between cursor-pointer">
           <div className="flex gap-3">
             <div
               className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
@@ -104,14 +120,16 @@ const Card = ({ post }) => {
             >
               <span
                 className={
-                  liked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
+                  postDetail.isLiked
+                    ? "text-red-500"
+                    : "text-gray-700 dark:text-gray-300"
                 }
               >
                 <FaHeart size={22} />
               </span>
               <p className="dark:text-gray-200">{postDetail.likes}</p>
             </div>
-            <Link to="/comments" >
+            <Link to={`/post/${postDetail.postID}`}>
               <div
                 className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
                 onClick={handleComment}
@@ -135,7 +153,7 @@ const Card = ({ post }) => {
           >
             <span
               className={
-                bookmarked
+                postDetail.isBookmarked
                   ? "text-blue-500"
                   : "text-gray-700 dark:text-gray-300"
               }
