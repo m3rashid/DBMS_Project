@@ -12,7 +12,6 @@ const Bookmarks = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(getAllBookmarks(user));
-    console.log("bookmarks");
   }, [dispatch, user]);
 
   const bookmarks = useSelector((state) =>

@@ -13,7 +13,6 @@ const Main = () => {
  
   React.useEffect(() => {
     dispatch(getPosts(user));
-    console.log("posts");
   }, [dispatch, user]);
 
   let posts = useSelector((state) =>
