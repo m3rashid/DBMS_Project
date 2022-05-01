@@ -36,14 +36,16 @@ const postReducer = (state = initialState, action) => {
       };
 
     case BOOKMARKS_LOADED:
-    case BOOKMARK_ADDED:
-    case BOOKMARK_DELETED:
       return {
         ...state,
         bookmarks: {
           ...action.payload.bookmarks,
         },
       };
+
+    // maybe no use
+    // case BOOKMARK_ADDED:
+    // case BOOKMARK_DELETED:
 
     default:
       return state;
