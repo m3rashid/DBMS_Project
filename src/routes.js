@@ -33,6 +33,7 @@ const {
 const {
   acceptRequest,
   sendRequest,
+  unSendRequest,
   denyRequest,
   blockUser,
   unblockUser,
@@ -105,6 +106,7 @@ router.post("/comments/delete", checkAuth, use(deleteComment));
 
 //friendship actions
 router.post("/friendship/send", checkAuth, use(sendRequest));
+router.post("/friendship/unsend", checkAuth, use(unSendRequest));
 router.post("/friendship/accept", checkAuth, use(acceptRequest));
 router.post("/friendship/deny", checkAuth, use(denyRequest));
 router.post("/friendship/block", checkAuth, use(blockUser));

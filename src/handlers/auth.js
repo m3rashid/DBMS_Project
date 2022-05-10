@@ -154,9 +154,18 @@ const getOneOtherUser = async (req, res) => {
     "select * from Avatar where avatarID = ?",
     [users[0].avatarID]
   );
+
+  let [status, ___] = await db.query(
+    "Select status from Friendship WHERE fromID = ? AND toID = ?",
+    [req.userId, userId]
+  );
+  const friendshipStatus = status.length > 0 ? status[0].status : "";
+
   db.release();
 
-  return res.status(200).json({ user: users[0], avatar: avatars[0] });
+  return res
+    .status(200)
+    .json({ user: users[0], avatar: avatars[0], status: friendshipStatus });
 };
 
 module.exports = {

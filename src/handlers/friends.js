@@ -9,7 +9,7 @@ const acceptRequest = async (req, res) => {
 
   const db = await pool.getConnection();
 
-  const [status] = await db.query(
+  let [status] = await db.query(
     "Select status from Friendship WHERE fromID = ? AND toID = ?",
     [fromID, toID]
   );
@@ -38,6 +38,17 @@ const sendRequest = async (req, res) => {
 
   const db = await pool.getConnection();
 
+  let [status, _] = await db.query(
+    "Select status from Friendship WHERE fromID = ? AND toID = ?",
+    [fromID, toID]
+  );
+  console.log(status);
+  if (status.length > 0 && status[0].status === "REQUESTED") {
+    return res.status(200).json({
+      message: "Friendship Already Sent.",
+    });
+  }
+
   await db.query(
     "INSERT INTO Friendship (friendshipID,fromID,toID,status) VALUES (?, ?, ?, ?)",
     [friendshipID, fromID, toID, 2]
@@ -48,6 +59,23 @@ const sendRequest = async (req, res) => {
   });
 };
 
+const unSendRequest = async (req, res) => {
+  const { fromID, toID } = req.body;
+  if (!fromID) throw new Error("No from ID");
+  if (!toID) throw new Error("No to ID");
+
+  const db = await pool.getConnection();
+
+  await db.query("DELETE FROM Friendship WHERE fromID = ? AND toID = ?", [
+    fromID,
+    toID,
+  ]);
+  db.release();
+  return res.status(200).json({
+    message: "Friendship request unsended successfully.",
+  });
+};
+
 const blockUser = async (req, res) => {
   const { fromID, toID } = req.body;
   if (!fromID) throw new Error("No from ID");
@@ -55,7 +83,7 @@ const blockUser = async (req, res) => {
 
   const db = await pool.getConnection();
 
-  const [status] = await db.query(
+  let [status] = await db.query(
     "Select status from Friendship WHERE fromID = ? AND toID = ?",
     [fromID, toID]
   );
@@ -81,7 +109,7 @@ const unblockUser = async (req, res) => {
 
   const db = await pool.getConnection();
 
-  const [status] = await db.query(
+  let [status] = await db.query(
     "Select status from Friendship WHERE fromID = ? AND toID = ?",
     [fromID, toID]
   );
@@ -107,7 +135,7 @@ const denyRequest = async (req, res) => {
 
   const db = await pool.getConnection();
 
-  const [status] = await db.query(
+  let [status] = await db.query(
     "Select status from Friendship WHERE fromID = ? AND toID = ?",
     [fromID, toID]
   );
@@ -129,6 +157,7 @@ const denyRequest = async (req, res) => {
 module.exports = {
   acceptRequest,
   sendRequest,
+  unSendRequest,
   denyRequest,
   blockUser,
   unblockUser,

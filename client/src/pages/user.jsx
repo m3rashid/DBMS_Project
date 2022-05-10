@@ -20,6 +20,7 @@ const User = () => {
   const auth = useSelector((state) => state.auth);
   const [isMe, setIsMe] = React.useState(null);
   const [otherUser, setOtherUser] = React.useState(null);
+  const [friendshipStatus, setFriendshipStatus] = React.useState("");
 
   const getAnotherUser = async (userId) => {
     try {
@@ -30,6 +31,7 @@ const User = () => {
       );
       const data = await res.data;
       setOtherUser(data);
+      setFriendshipStatus(data.status);
     } catch (err) {
       toast.error(err.message || "Error in getting data");
     }
@@ -134,7 +136,7 @@ const User = () => {
         </>
       ) : (
         <div className={commons}>
-          <FriendActions />
+          <FriendActions user={user} friendshipStatus={friendshipStatus} />
         </div>
       )}
       <div className={commons}>
