@@ -3,8 +3,9 @@ const { v4: uuidv4 } = require("uuid");
 const pool = require("../utils/database");
 
 const acceptRequest = async (req, res) => {
-  const toID = req.body.toID; // dont know from where to get this
-  const fromID = req.body.fromID; // dont know from where to get this
+  const { fromID, toID } = req.body; //but i know from where to get this
+  if (!fromID) throw new Error("No from ID");
+  if (!toID) throw new Error("No to ID");
 
   const db = await pool.getConnection();
 
@@ -13,9 +14,9 @@ const acceptRequest = async (req, res) => {
     [fromID, toID]
   );
 
-  if (status === 1) {
+  if (status === 2) {
     // requested
-    status = 2; // accepted and now friends
+    status = 3; // accepted and now friends
 
     await db.query(
       "update Friendship set status = ? WHERE fromID = ? AND toID = ?",
@@ -31,13 +32,15 @@ const acceptRequest = async (req, res) => {
 
 const sendRequest = async (req, res) => {
   const friendshipID = uuidv4();
-  const fromID = req.userID;
-  const toID = req.body.toID;
+  const { fromID, toID } = req.body;
+  if (!fromID) throw new Error("No from ID");
+  if (!toID) throw new Error("No to ID");
+
   const db = await pool.getConnection();
 
   await db.query(
-    "INSERT INTO Friendship (friendshipID,fromID,toID,status) VALUES (?, ?, ?, ?, ?, ?)",
-    [friendshipID, fromID, toID, 1]
+    "INSERT INTO Friendship (friendshipID,fromID,toID,status) VALUES (?, ?, ?, ?)",
+    [friendshipID, fromID, toID, 2]
   );
   db.release();
   return res.status(200).json({
@@ -46,8 +49,9 @@ const sendRequest = async (req, res) => {
 };
 
 const blockUser = async (req, res) => {
-  const toID = req.body.toID; // dont know from where to get this
-  const fromID = req.body.fromID; // dont know from where to get this
+  const { fromID, toID } = req.body;
+  if (!fromID) throw new Error("No from ID");
+  if (!toID) throw new Error("No to ID");
 
   const db = await pool.getConnection();
 
@@ -56,8 +60,8 @@ const blockUser = async (req, res) => {
     [fromID, toID]
   );
 
-  if (status === 2) {
-    status = 3; // block from one side
+  if (status === 3) {
+    status = 4; // block from one side
     await db.query(
       "update Friendship set status = ? WHERE fromID = ? AND toID = ?",
       [status, fromID, toID]
@@ -71,8 +75,9 @@ const blockUser = async (req, res) => {
 };
 
 const unblockUser = async (req, res) => {
-  const toID = req.body.toID; // dont know from where to get this
-  const fromID = req.body.fromID; // dont know from where to get this
+  const { fromID, toID } = req.body;
+  if (!fromID) throw new Error("No from ID");
+  if (!toID) throw new Error("No to ID");
 
   const db = await pool.getConnection();
 
@@ -81,8 +86,8 @@ const unblockUser = async (req, res) => {
     [fromID, toID]
   );
 
-  if (status === 3) {
-    status = 2; // block from one side
+  if (status === 4) {
+    status = 3; // block from one side
     await db.query(
       "update Friendship set status = ? WHERE fromID = ? AND toID = ?",
       [status, fromID, toID]
@@ -96,8 +101,9 @@ const unblockUser = async (req, res) => {
 };
 
 const denyRequest = async (req, res) => {
-  const toID = req.body.toID; // dont know from where to get this
-  const fromID = req.body.fromID; // dont know from where to get this
+  const { fromID, toID } = req.body;
+  if (!fromID) throw new Error("No from ID");
+  if (!toID) throw new Error("No to ID");
 
   const db = await pool.getConnection();
 
@@ -118,4 +124,12 @@ const denyRequest = async (req, res) => {
     db.release();
     return res.status(400).json({ status: "Something went wrong!" });
   }
+};
+
+module.exports = {
+  acceptRequest,
+  sendRequest,
+  denyRequest,
+  blockUser,
+  unblockUser,
 };
