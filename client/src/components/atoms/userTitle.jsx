@@ -47,12 +47,14 @@ const UserTitle = ({ post, user, avatar, classification }) => {
             className={`absolute right-6 h-8 w-8 rounded-full cursor-pointer ${getToxicityColorCode(
               post.reputation
             )}`}
-            onClick={() => setCOpen(!cOpen)}
+            onMouseEnter={() => setCOpen(true)}
+            onMouseLeave={() => setCOpen(false)}
           ></div>
           {cOpen && (
             <div
               className="absolute bg-gray-300 dark:bg-gray-600 dark:text-white p-3 rounded-md top-10 right-10"
-              onClick={() => setCOpen(!cOpen)}
+              onMouseEnter={() => setCOpen(true)}
+              onMouseLeave={() => setCOpen(false)}
             >
               <table>
                 <tbody>

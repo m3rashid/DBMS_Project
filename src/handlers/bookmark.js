@@ -33,11 +33,27 @@ const getAllBookmarks = async (req, res) => {
   if (!userID) throw new Error("No user ID");
 
   const db = await pool.getConnection();
-  const [bookmarks, __] = await db.query(
+  let [bookmarks, __] = await db.query(
     "select  *,true as isBookmarked from Bookmark inner join Post on Bookmark.postID = Post.postID inner join User on Post.userID = User.userID inner join Avatar on User.avatarID = Avatar.avatarID inner join Topic on Post.topicID = Topic.topicID inner join Classification C on Post.postID = C.postID where Bookmark.userID = ? order by Post.updatedAt DESC",
     [userID]
   );
+  const [likes, ___] = await db.query(
+    "select postID from likes where userID = ?",
+    [userID]
+  );
   db.release();
+
+  bookmarks = bookmarks.reduce((acc, curr) => {
+    const hasLike = likes.find((like) => curr.postID === like.postID);
+    return [
+      ...acc,
+      {
+        ...curr,
+        isLiked: hasLike ? true : false,
+      },
+    ];
+  }, []);
+
   return res.status(200).json({ bookmarks });
 };
 

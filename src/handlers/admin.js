@@ -114,6 +114,8 @@ const deletePost = async (req, res) => {
   await db.query("START TRANSACTION");
   await db.query("delete from Comments where postID = ?", [postID]);
   await db.query("delete from Classification where postID = ?", [postID]);
+  await db.query("delete from Likes where postID = ?", [postID]);
+  await db.query("delete from Bookmark where postID = ?", [postID]);
   await db.query("delete from Post where postID = ?", [postID]);
   const [posts, _] = await db.query("select * from Post");
   await db.query("COMMIT");

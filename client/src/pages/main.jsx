@@ -10,16 +10,12 @@ const Main = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const user = auth.user;
-  const [isPostToggled, setPostToggled] = React.useState(false);
-  const reload = () => {
-    setPostToggled(!isPostToggled);
-  };
+ 
   React.useEffect(() => {
     dispatch(getPosts(user));
-    console.log("posts");
-  }, [dispatch, user, isPostToggled]);
+  }, [dispatch, user]);
 
-  let posts = useSelector((state) =>
+  const posts = useSelector((state) =>
     Object.values(state.posts.posts).sort((a, b) => b.updatedAt - a.updatedAt)
   );
 
@@ -36,7 +32,6 @@ const Main = () => {
               key={post.postID}
               post={post}
               loggedUser={user}
-              reload={reload}
             />
           ))}
       </div>

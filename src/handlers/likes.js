@@ -12,7 +12,7 @@ const addLike = async (req, res) => {
     [likeID, userID, postID]
   );
   await db.query(
-    "update Post set likes = (select count(*) from likes where likes.postID = ? ) where Post.postID = ?;",
+    "update Post set likes = likes + 1 where Post.postID = ?;",
     [postID, postID]
   );
   db.release();
@@ -28,7 +28,7 @@ const removeLike = async (req, res) => {
   ]);
 
   await db.query(
-    "update Post set likes = (select count(*) from likes where likes.postID = ? ) where Post.postID = ?",
+    "update Post set likes = likes - 1 where Post.postID = ?",
     [postID, postID]
   );
 
