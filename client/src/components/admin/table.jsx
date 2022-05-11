@@ -14,9 +14,9 @@ import {
   MdOutlineArrowDropUp,
   MdSort,
 } from "react-icons/md";
+import Select from "react-select";
 
 import { Button, PageButton, GlobalFilter } from "./tableHelpers";
-// import Select from "react-select";
 
 export const Table = ({ columns, data, title }) => {
   const {
@@ -33,7 +33,6 @@ export const Table = ({ columns, data, title }) => {
     nextPage,
     previousPage,
     setPageSize,
-
     state,
     preGlobalFilteredRows,
     setGlobalFilter,
@@ -45,7 +44,9 @@ export const Table = ({ columns, data, title }) => {
     usePagination
   );
 
+  React.useEffect(() => setPageSize(5), [setPageSize]);
   const { pageSize, pageIndex } = state;
+  const handlePageChange = (selected) => setPageSize(selected.value);
 
   return (
     <div className="flex flex-col mt-10 justify-between bg-gray-100 dark:bg-gray-700 rounded-md w-full max-w-[1400px] min-h-[500px]">
@@ -68,14 +69,14 @@ export const Table = ({ columns, data, title }) => {
           )}
         </div>
         <div className="mt-4 flex flex-col w-full">
-          <div className="-my-2 overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
-            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div className="-my-2 overflow-x-auto">
+            <div className="py-2 align-middle inline-block min-w-full">
               <div className="overflow-hidden">
                 <table
                   {...getTableProps()}
-                  className="min-w-full divide-y divide-gray-500 dark:divide-gray-500 bg-lightBgOne"
+                  className="min-w-full divide-y divide-gray-500 dark:divide-gray-500"
                 >
-                  <thead className="bg-gray-900">
+                  <thead className="bg-gray-50 dark:bg-gray-900">
                     {headerGroups.map((headerGroup) => (
                       <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (
@@ -88,7 +89,6 @@ export const Table = ({ columns, data, title }) => {
                           >
                             <div className="flex items-center justify-between">
                               {column.render("Header")}
-                              {/* Add a sort direction indicator */}
                               <span>
                                 {column.isSorted ? (
                                   column.isSortedDesc ? (
@@ -137,30 +137,44 @@ export const Table = ({ columns, data, title }) => {
           </div>
         </div>
       </div>
-      {/* Pagination */}
       <div className="px-5 py-3 flex items-center justify-between">
         <div className="flex-1 flex justify-between sm:hidden">
-          <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          <Button
+            className="dark:text-gray-50 cursor-pointer"
+            onClick={() => previousPage()}
+            disabled={!canPreviousPage}
+          >
             Previous
           </Button>
-          <Button onClick={() => nextPage()} disabled={!canNextPage}>
+          <Button
+            className="dark:text-gray-50 cursor-pointer"
+            onClick={() => nextPage()}
+            disabled={!canNextPage}
+          >
             Next
           </Button>
         </div>
         <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
           <div className="flex gap-x-2 items-baseline">
-            <span className="text-sm text-gray-700 whitespace-nowrap">
+            <span className="text-sm dark:text-gray-50 whitespace-nowrap">
               Page {pageIndex + 1} of {pageOptions.length}
             </span>
-            {/* <Select
-              border={false}
-              options={[5, 10, 20]}
+            <Select
+              name=""
+              options={[5, 10, 15, 20].map((n) => ({ label: n, value: n }))}
               placeholder={`${pageSize} items`}
-              setData={setPageSize}
+              onChange={handlePageChange}
               value={pageSize}
               single={true}
-              suffix="items"
-            /> */}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  border: "none",
+                  minWidth: "150px",
+                }),
+              }}
+              classNamePrefix="bg-gray-200 dark:bg-gray-700 text-black dark:text-white outline-none"
+            />
           </div>
           <div>
             <nav

@@ -19,13 +19,25 @@ const {
   signup,
   getOneOtherUser,
 } = require("./handlers/auth");
-const { addBookmark, removeBookmark } = require("./handlers/bookmark");
+const {
+  addBookmark,
+  removeBookmark,
+  getAllBookmarks,
+} = require("./handlers/bookmark");
 const { getAllChats } = require("./handlers/chat");
 const {
   addComments,
   editComment,
-  // deleteComment,
+  deleteComment,
 } = require("./handlers/comments");
+const {
+  acceptRequest,
+  sendRequest,
+  denyRequest,
+  blockUser,
+  unblockUser,
+} = require("./handlers/friends");
+const { addLike, removeLike } = require("./handlers/likes");
 const {
   addPost,
   getAllPosts,
@@ -78,18 +90,30 @@ router.post("/user/update-password", checkAuth, use(updatePassword));
 
 // Post actions
 router.post("/post/fromTopic", checkAuth, use(getPostsByTopic));
-router.get("/post/all", checkAuth, use(getAllPosts));
+router.post("/post/all", checkAuth, use(getAllPosts));
 router.post("/post/one", checkAuth, use(getOnePost));
 router.post("/post/add", checkAuth, use(addPost));
+
+// Like actions
+router.post("/like/add", checkAuth, use(addLike));
+router.post("/like/remove", checkAuth, use(removeLike));
 
 // comment actions
 router.post("/comments/addComments", checkAuth, use(addComments));
 router.post("/comments/edit", checkAuth, use(editComment));
-// router.post("/comments/delete", checkAuth, use(deleteComment));
+router.post("/comments/delete", checkAuth, use(deleteComment));
+
+//friendship actions
+router.post("/friendship/send", checkAuth, use(sendRequest));
+router.post("/friendship/accept", checkAuth, use(acceptRequest));
+router.post("/friendship/deny", checkAuth, use(denyRequest));
+router.post("/friendship/block", checkAuth, use(blockUser));
+router.post("/friendship/unblock", checkAuth, use(unblockUser));
 
 // bookmark actions
 router.post("/bookmark/remove", checkAuth, use(removeBookmark));
 router.post("/bookmark/add", checkAuth, use(addBookmark));
+router.post("/bookmark/all", checkAuth, use(getAllBookmarks));
 
 // chat actions
 router.post("/chats/all", checkAuth, use(getAllChats));

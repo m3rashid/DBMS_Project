@@ -1,10 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaHeart, FaBookmark } from "react-icons/fa";
+import { FaHeart, FaBookmark, FaComment } from "react-icons/fa";
+import {
+  addBookmark,
+  removeBookmark,
+  addLike,
+  removeLike,
+} from "../../store/actions/post.action";
 
 import UserTitle from "../atoms/userTitle";
+import { useDispatch } from "react-redux";
 
-const Card = ({ post }) => {
+const Card = ({ post, loggedUser }) => {
   const user = {
     userName: post.userName,
     userId: post.userID,
@@ -48,6 +55,8 @@ const Card = ({ post }) => {
     createdAt: post.createdAt,
     updatedAt: post.updatedAt,
     reputation: post.postReputation,
+    isLiked: post.isLiked,
+    isBookmarked: post.isBookmarked,
   };
 
   const classification = {
@@ -59,13 +68,38 @@ const Card = ({ post }) => {
     threat: post.threat,
     toxicity: post.toxicity,
   };
+  const dispatch = useDispatch();
 
   // handle these
-  const liked = false;
-  const bookmarked = true;
+  const commented = false;
+  const [isLiked, setLiked] = React.useState(postDetail.isLiked);
+  const [Likes, setLikes] = React.useState(postDetail.likes);
+  const [Bookmarked, setBookmarked] = React.useState(postDetail.isBookmarked);
 
-  const handleLike = () => {};
-  const handleBookmark = () => {};
+  React.useEffect(() => {
+    setLiked(postDetail.isLiked);
+    setLikes(postDetail.likes);
+    setBookmarked(postDetail.isBookmarked);
+  }, [postDetail.isLiked, postDetail.likes, postDetail.isBookmarked]);
+
+  const handleLike = () => {
+    if (isLiked) {
+      dispatch(removeLike(loggedUser.userID, post.postID));
+      setLikes(Likes - 1);
+    } else {
+      dispatch(addLike(loggedUser.userID, post.postID));
+      setLikes(Likes + 1);
+    }
+
+    setLiked(!isLiked);
+  };
+  const handleBookmark = () => {
+    Bookmarked
+      ? dispatch(removeBookmark(loggedUser.userID, post.postID))
+      : dispatch(addBookmark(loggedUser.userID, post.postID));
+    setBookmarked(!Bookmarked);
+  };
+  const handleComment = () => {};
 
   return (
     <>
@@ -91,19 +125,40 @@ const Card = ({ post }) => {
             </div>
           </Link>
         </div>
-        <div
-          className="p-3 flex items-center justify-between cursor-pointer"
-          onClick={handleLike}
-        >
-          <div className="flex gap-3 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md">
-            <span
-              className={
-                liked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
-              }
+        <div className="p-3 flex items-center justify-between cursor-pointer">
+          <div className="flex gap-3">
+            <div
+              className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
+              onClick={handleLike}
             >
-              <FaHeart size={22} />
-            </span>
-            <p className="dark:text-gray-200">{postDetail.likes}</p>
+              <span
+                className={
+                  isLiked ? "text-red-500" : "text-gray-700 dark:text-gray-300"
+                }
+              >
+                <FaHeart size={22} />
+              </span>
+              <p className="dark:text-gray-200 select-none">{Likes}</p>
+            </div>
+            <Link to={`/post/${postDetail.postID}`}>
+              <div
+                className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
+                onClick={handleComment}
+              >
+                <span
+                  className={
+                    commented
+                      ? "text-blue-500"
+                      : "text-gray-700 dark:text-gray-300"
+                  }
+                >
+                  <FaComment size={22} />
+                </span>
+                <p className="dark:text-gray-200 select-none">
+                  {postDetail.commentsCount}
+                </p>
+              </div>
+            </Link>
           </div>
           <div
             className="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
@@ -111,7 +166,7 @@ const Card = ({ post }) => {
           >
             <span
               className={
-                bookmarked
+                Bookmarked
                   ? "text-blue-500"
                   : "text-gray-700 dark:text-gray-300"
               }

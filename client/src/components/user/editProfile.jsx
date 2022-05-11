@@ -42,6 +42,7 @@ const EditProfileDetails = () => {
       toast.warn("Insufficient data provided");
       return;
     }
+    if (profile.dob === '') profile.dob = null;
     const t3 = toast.loading("Updating profile ... ");
     try {
       const body = JSON.stringify({ profile });
@@ -118,6 +119,7 @@ const EditProfileDetails = () => {
                 border: "none",
               }),
             }}
+            className="w-full ml-[1.35rem]"
             classNamePrefix="bg-gray-200 dark:bg-gray-700 text-black dark:text-white outline-none"
             options={genderOptions}
             value={profile.gender}

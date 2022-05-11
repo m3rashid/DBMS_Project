@@ -8,10 +8,12 @@ const PostCard = React.lazy(() => import("../components/user/postCard"));
 
 const Main = () => {
   const dispatch = useDispatch();
-
+  const auth = useSelector((state) => state.auth);
+  const user = auth.user;
+ 
   React.useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+    dispatch(getPosts(user));
+  }, [dispatch, user]);
 
   const posts = useSelector((state) =>
     Object.values(state.posts.posts).sort((a, b) => b.updatedAt - a.updatedAt)
@@ -25,7 +27,13 @@ const Main = () => {
           <RightSidebar fullWidth />
         </div>
         {posts &&
-          posts.map((post) => <PostCard key={post.postID} post={post} />)}
+          posts.map((post) => (
+            <PostCard
+              key={post.postID}
+              post={post}
+              loggedUser={user}
+            />
+          ))}
       </div>
     </>
   );

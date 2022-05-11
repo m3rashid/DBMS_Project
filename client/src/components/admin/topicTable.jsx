@@ -1,14 +1,19 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
 import useTopic from "../../hooks/useTopic";
 import { Table } from "./table";
-import Button from "../atoms/Button";
+import Dialog from "./dialog";
+import { getTopics } from "../../store/actions/auth.action";
 
 const TopicTable = () => {
-  const { deleteTopic } = useTopic();
+  const { deleteTopic, updateTopic } = useTopic();
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(getTopics());
+  }, [dispatch]);
+
   const topics = useSelector((state) => state.auth.topics);
   const columns = React.useMemo(
     () => [
@@ -16,6 +21,11 @@ const TopicTable = () => {
         Header: "Topic",
         accessor: "name",
         Cell: ({ cell }) => <>{cell.row.original.name}</>,
+      },
+      {
+        Header: "No. of Posts",
+        accessor: "postCount",
+        Cell: ({ cell }) => <>{cell.row.original.postCount}</>,
       },
       {
         Header: "Created",
@@ -35,28 +45,29 @@ const TopicTable = () => {
         Header: "Actions",
         accessor: "",
         Cell: ({ cell }) => (
-          <ActionButtons topicID={cell.row.original.topicID} />
+          <ActionButtons
+            topicName={cell.row.original.name}
+            topicID={cell.row.original.topicID}
+          />
         ),
       },
     ],
     []
   );
 
-  const ActionButtons = ({ topicID }) => (
+  const ActionButtons = ({ topicName, topicID }) => (
     <div className="flex gap-2 items-center">
-      <Button
-        Icon={<FaTrash />}
-        label="Delete"
-        classes="bg-red-500"
-        onClick={() => {
-          deleteTopic(topicID);
-        }}
+      <Dialog
+        isDeleteDialog={true}
+        title="Delete Topic"
+        content="Are you sure you want to delete this topic?"
+        onConfirm={() => deleteTopic(topicID)}
       />
-      <Button
-        Icon={<FaEdit />}
-        label="Edit"
-        classes="bg-blue-500"
-        onClick={() => {}}
+      <Dialog
+        isDeleteDialog={false}
+        title="Edit Topic"
+        content={topicName}
+        onConfirm={(newTopicName) => updateTopic(newTopicName, topicID)}
       />
     </div>
   );
