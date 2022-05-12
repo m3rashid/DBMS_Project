@@ -88,7 +88,6 @@ export const addBookmark = (userID, postID) => (dispatch) => {
         type: BOOKMARK_ADDED,
         payload: res.data,
       });
-      toast.info("Bookmark added");
     })
     .catch((err) => {
       toast.error("Error adding bookmark");
@@ -105,7 +104,6 @@ export const removeBookmark = (userID, postID) => (dispatch) => {
         type: BOOKMARK_DELETED,
         payload: res.data,
       });
-      toast.info("Bookmark removed");
     })
     .catch((err) => {
       toast.error("Error removing bookmark");
@@ -122,7 +120,6 @@ export const addLike = (userID, postID) => (dispatch) => {
         type: POST_LOADED,
         payload: res.data,
       });
-      toast.info("Liked Post");
     })
     .catch((err) => {
       toast.error("Error adding like");
@@ -139,7 +136,6 @@ export const removeLike = (userID, postID) => (dispatch) => {
         type: POST_LOADED,
         payload: res.data,
       });
-      toast.info("Unliked Post");
     })
     .catch((err) => {
       toast.error("Error removing like");
