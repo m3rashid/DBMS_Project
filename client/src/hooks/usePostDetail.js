@@ -87,6 +87,7 @@ const usePostDetail = (singlePost, classification, loggedUser) => {
   const [commentsCount, setCommentsCount] = React.useState(
     postDetail.commentsCount
   );
+  const [addCommentLoading, setAddCommentLoading] = React.useState(false);
 
   React.useEffect(() => {
     setLiked(postDetail.isLiked);
@@ -118,7 +119,7 @@ const usePostDetail = (singlePost, classification, loggedUser) => {
     }
 
     try {
-      setLoading(true);
+      setAddCommentLoading(true);
       const res = await axios.post(
         `${SERVER_ROOT_URL}/comments/addComments`,
         JSON.stringify({
@@ -129,16 +130,12 @@ const usePostDetail = (singlePost, classification, loggedUser) => {
         { headers }
       );
       const commentRes = await res.data.comment;
-      toast.success("Comment posted successfully");
-      setCommentText("");
       setCommentsCount(commentsCount + 1);
-      setLoading(false);
       return commentRes;
     } catch (err) {
-      setLoading(false);
       toast.error("Error adding comment");
     }
-
+    setAddCommentLoading(false);
     setCommentText("");
   };
 
@@ -174,6 +171,7 @@ const usePostDetail = (singlePost, classification, loggedUser) => {
       inputCharLength,
       analysis,
       loading,
+      addCommentLoading,
     },
     handleLikeSubmit,
     handleCommentSubmit,
