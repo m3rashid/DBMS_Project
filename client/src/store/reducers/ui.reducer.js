@@ -25,18 +25,14 @@ const UiReducer = (state = initialState, action) => {
       window.localStorage.theme = "dark";
       document.documentElement.classList.add("dark");
       toast.success("Dark mode set");
-      return {
-        ...state,
-        theme: "dark",
-      };
+      return { ...state, theme: "dark" };
+
     case LIGHT_MODE:
       window.localStorage.theme = "light";
       document.documentElement.classList.remove("dark");
       toast.success("Light mode set");
-      return {
-        ...state,
-        theme: "light",
-      };
+      return { ...state, theme: "light" };
+
     default:
       return state;
   }
