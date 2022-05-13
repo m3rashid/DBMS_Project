@@ -1,18 +1,13 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import moment from "moment";
 
 import useTopic from "../../hooks/useTopic";
 import { Table } from "./table";
 import Dialog from "./dialog";
-import { getTopics } from "../../store/actions/auth.action";
 
 const TopicTable = () => {
   const { deleteTopic, updateTopic } = useTopic();
-  const dispatch = useDispatch();
-  React.useEffect(() => {
-    dispatch(getTopics());
-  }, [dispatch]);
 
   const topics = useSelector((state) => state.auth.topics);
   const columns = React.useMemo(

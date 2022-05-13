@@ -1,12 +1,14 @@
 import React from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 import {
   DELETE_TOPIC_SUCCESS,
   SERVER_ROOT_URL,
   tokenConfig,
 } from "../store/constants";
 import { useDispatch } from "react-redux";
+import { getTopics } from "../store/actions/auth.action";
 
 const useTopic = () => {
   const dispatch = useDispatch();
@@ -21,10 +23,8 @@ const useTopic = () => {
         body,
         tokenConfig()
       );
-      dispatch({
-        type: DELETE_TOPIC_SUCCESS,
-        payload: res.data,
-      });
+      dispatch({ type: DELETE_TOPIC_SUCCESS, payload: res.data });
+      dispatch(getTopics());
       setTimeout(() => {
         toast.update(topicToast, {
           render: "Successfully deleted Topic",

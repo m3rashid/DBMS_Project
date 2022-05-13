@@ -17,8 +17,6 @@ import {
 const maxBodyLength = 10000;
 
 const usePostDetail = (singlePost, classification, loggedUser) => {
-  const [loading, setLoading] = React.useState(false);
-
   const user = {
     userName: singlePost.userName,
     userId: singlePost.userID,
@@ -82,7 +80,7 @@ const usePostDetail = (singlePost, classification, loggedUser) => {
   const [isLiked, setLiked] = React.useState(postDetail.isLiked);
   const [Likes, setLikes] = React.useState(postDetail.likes);
   const [Bookmarked, setBookmarked] = React.useState(postDetail.isBookmarked);
-  const [commentOpen, setCommentOpen] = React.useState(false);
+  const [commentOpen, setCommentOpen] = React.useState(true);
   const [commentText, setCommentText] = React.useState("");
   const [commentsCount, setCommentsCount] = React.useState(
     postDetail.commentsCount
@@ -170,7 +168,6 @@ const usePostDetail = (singlePost, classification, loggedUser) => {
       commentText,
       inputCharLength,
       analysis,
-      loading,
       addCommentLoading,
     },
     handleLikeSubmit,

@@ -30,10 +30,7 @@ const useLogin = () => {
         body,
         configContentType
       );
-      dispatch({
-        type: ADMIN_LOGIN_SUCCESS,
-        payload: res.data,
-      });
+      dispatch({ type: ADMIN_LOGIN_SUCCESS, payload: res.data });
       setTimeout(() => {
         toast.update(loginToast, {
           render: "Successfully logged in",
@@ -62,10 +59,7 @@ const useLogin = () => {
         body,
         configContentType
       );
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: res.data,
-      });
+      dispatch({ type: LOGIN_SUCCESS, payload: res.data });
       setTimeout(() => {
         toast.update(loginToast, {
           render: `Hey ${res.data.user.firstName}, Good to have you back 😃`,
@@ -91,29 +85,21 @@ const useLogin = () => {
     } else {
       adminLogin();
     }
-    setCredentials({
-      username: "",
-      password: "",
-      isAdmin: false,
-    });
+    setCredentials({ username: "", password: "", isAdmin: false });
   };
 
   const handleChange = (e) => {
-    setCredentials((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    setCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const toggleAdmin = () => {
-    setCredentials((prev) => ({
-      ...prev,
-      isAdmin: !credentials.isAdmin,
-    }));
+    setCredentials((prev) => ({ ...prev, isAdmin: !credentials.isAdmin }));
   };
 
   return {
-    state: { credentials },
+    state: {
+      credentials,
+    },
     handleChange,
     toggleAdmin,
     handleLogin,

@@ -9,11 +9,7 @@ const reducers = combineReducers({
   auth: authReducer,
   posts: postReducer,
   ui: UiReducer,
-  // avatar: AvatarReducer,
 });
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
-
 export default store;

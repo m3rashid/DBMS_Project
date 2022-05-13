@@ -18,11 +18,7 @@ const usePost = () => {
   const [loading, setLoading] = React.useState(false);
   const theme = useSelector((state) => state.ui.theme);
   const { topics, avatar, user } = useSelector((state) => state.auth);
-  const [text, setText] = React.useState({
-    title: "",
-    body: "",
-    topicId: "",
-  });
+  const [text, setText] = React.useState({ title: "", body: "", topicId: "" });
   const maxTitleLength = 170;
   const maxBodyLength = 10000;
 
@@ -83,18 +79,12 @@ const usePost = () => {
         { headers }
       );
       toast.success("Post added successfully");
-      dispatch(getPosts());
-      setLoading(false);
+      dispatch(getPosts(user));
     } catch (err) {
-      setLoading(false);
       toast.error("Error creating post");
     }
-
-    setText({
-      title: "",
-      body: "",
-      topicId: "",
-    });
+    setLoading(false);
+    setText({ title: "", body: "", topicId: "" });
   };
 
   const deletePost = async (postID) => {
@@ -106,10 +96,7 @@ const usePost = () => {
         body,
         tokenConfig()
       );
-      dispatch({
-        type: DELETE_POST_SUCCESS,
-        payload: res.data,
-      });
+      dispatch({ type: DELETE_POST_SUCCESS, payload: res.data });
       setTimeout(() => {
         toast.update(postToast, {
           render: "Successfully deleted Post",

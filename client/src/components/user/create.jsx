@@ -49,10 +49,7 @@ const CreatePost = () => {
                   {!loading && (
                     <Select
                       styles={{
-                        control: (base) => ({
-                          ...base,
-                          border: "none",
-                        }),
+                        control: (base) => ({ ...base, border: "none" }),
                       }}
                       className=""
                       classNamePrefix="bg-gray-200 dark:bg-gray-700 text-black dark:text-white outline-none"

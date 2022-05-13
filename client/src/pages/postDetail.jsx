@@ -144,7 +144,7 @@ const PostDetail = () => {
             </div>
           </div>
           {commentOpen ? (
-            <div className="bg-gray-200 dark:bg-gray-800 max-h-[800px] overflow-auto p-2 rounded-b-md">
+            <div className="bg-gray-200 dark:bg-gray-800 max-h-[500px] overflow-auto p-2 rounded-b-md">
               <div className="flex flex-col gap-2 items-end mb-2">
                 <textarea
                   style={{ whiteSpace: "pre-wrap" }}
