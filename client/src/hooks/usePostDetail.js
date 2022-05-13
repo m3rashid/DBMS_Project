@@ -116,6 +116,7 @@ const usePostDetail = (singlePost, classification, loggedUser) => {
       return;
     }
 
+    let commentRes
     try {
       setAddCommentLoading(true);
       const res = await axios.post(
@@ -127,14 +128,15 @@ const usePostDetail = (singlePost, classification, loggedUser) => {
         }),
         { headers }
       );
-      const commentRes = await res.data.comment;
+      commentRes = await res.data.comment;
       setCommentsCount(commentsCount + 1);
-      return commentRes;
     } catch (err) {
       toast.error("Error adding comment");
     }
     setAddCommentLoading(false);
     setCommentText("");
+
+    return commentRes
   };
 
   const handleOpenComment = () => {

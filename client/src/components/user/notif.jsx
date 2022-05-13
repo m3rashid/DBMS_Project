@@ -4,7 +4,7 @@ import Avatar from "react-nice-avatar";
 import Loader from "../loader";
 
 const Notif = ({ comment }) => {
-  console.log(comment);
+ // console.log(comment);
   if (!comment.avatarID) {
     return <Loader />;
   }
