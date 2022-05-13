@@ -31,9 +31,11 @@ const {
   deleteComment,
 } = require("./handlers/comments");
 const {
-  acceptRequest,
   sendRequest,
+  unSendRequest,
+  acceptRequest,
   denyRequest,
+  unFriend,
   blockUser,
   unblockUser,
 } = require("./handlers/friends");
@@ -105,8 +107,10 @@ router.post("/comments/delete", checkAuth, use(deleteComment));
 
 //friendship actions
 router.post("/friendship/send", checkAuth, use(sendRequest));
+router.post("/friendship/unsend", checkAuth, use(unSendRequest));
 router.post("/friendship/accept", checkAuth, use(acceptRequest));
 router.post("/friendship/deny", checkAuth, use(denyRequest));
+router.post("/friendship/unfriend", checkAuth, use(unFriend));
 router.post("/friendship/block", checkAuth, use(blockUser));
 router.post("/friendship/unblock", checkAuth, use(unblockUser));
 

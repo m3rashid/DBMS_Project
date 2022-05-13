@@ -65,7 +65,7 @@ const PostDetail = () => {
   } = usePostDetail(singlePost, classification, loggedUser);
 
   const iconContainerStyles =
-    "flex gap-2 items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2 cursor-pointer";
+    "select-none flex gap-2 items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2 cursor-pointer";
 
   const handleAddComment = async (e) => {
     e.preventDefault();

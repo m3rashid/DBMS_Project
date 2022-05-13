@@ -154,9 +154,36 @@ const getOneOtherUser = async (req, res) => {
     "select * from Avatar where avatarID = ?",
     [users[0].avatarID]
   );
+
+  const [status, ___] = await db.query(
+    "Select status from Friendship WHERE fromID = ? AND toID = ?",
+    [req.userId, userId]
+  );
+
+  const [upcoming, ____] = await db.query(
+    "Select status from Friendship WHERE fromID = ? AND toID = ?",
+    [userId, req.userId]
+  );
+
+  let friendshipStatus;
+
+  if (status.length > 0) {
+    friendshipStatus = status[0].status;
+    if (friendshipStatus === "REQUESTED") {
+      friendshipStatus = "REQUESTED_TO";
+    }
+  } else if (upcoming.length > 0) {
+    friendshipStatus = upcoming[0].status;
+    if (friendshipStatus === "REQUESTED") {
+      friendshipStatus = "REQUESTED_BY";
+    }
+  } else friendshipStatus = "STRANGERS";
+
   db.release();
 
-  return res.status(200).json({ user: users[0], avatar: avatars[0] });
+  return res
+    .status(200)
+    .json({ user: users[0], avatar: avatars[0], status: friendshipStatus });
 };
 
 module.exports = {
