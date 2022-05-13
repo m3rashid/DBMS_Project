@@ -9,8 +9,8 @@ const { chatHandler } = require("./src/handlers/chat");
 
 const corsOrigin =
   process.env.NODE_ENV === "PROD"
-      ? "http://localhost:3000"
-    : "https://jmi-connect.netlify.app"
+    ? "https://jmi-connect.netlify.app"
+    : "http://localhost:3000";
 
 const app = express();
 const server = http.createServer(app);

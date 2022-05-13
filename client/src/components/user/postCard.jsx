@@ -11,7 +11,7 @@ import {
 import UserTitle from "../atoms/userTitle";
 import { useDispatch } from "react-redux";
 
-const Card = ({ post, loggedUser }) => {
+const Card = ({ post, loggedUser, reload }) => {
   const user = {
     userName: post.userName,
     userId: post.userID,
@@ -98,6 +98,7 @@ const Card = ({ post, loggedUser }) => {
       ? dispatch(removeBookmark(loggedUser.userID, post.postID))
       : dispatch(addBookmark(loggedUser.userID, post.postID));
     setBookmarked(!Bookmarked);
+    reload();
   };
   const handleComment = () => {};
 
@@ -128,7 +129,7 @@ const Card = ({ post, loggedUser }) => {
         <div className="p-3 flex items-center justify-between cursor-pointer">
           <div className="flex gap-3">
             <div
-              className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
+              className="select-none flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
               onClick={handleLike}
             >
               <span
@@ -142,7 +143,7 @@ const Card = ({ post, loggedUser }) => {
             </div>
             <Link to={`/post/${postDetail.postID}`}>
               <div
-                className="flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
+                className="select-none flex gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
                 onClick={handleComment}
               >
                 <span
@@ -161,7 +162,7 @@ const Card = ({ post, loggedUser }) => {
             </Link>
           </div>
           <div
-            className="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
+            className="select-none cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-md"
             onClick={handleBookmark}
           >
             <span
