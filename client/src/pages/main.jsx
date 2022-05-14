@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import Loader from "../components/loader";
+import Loader from "../components/loader";
 
 import { getPosts } from "../store/actions/post.action";
 const RightSidebar = React.lazy(() => import("../components/nav/rightSidebar"));
@@ -10,7 +10,7 @@ const PostCard = React.lazy(() => import("../components/user/postCard"));
 const Main = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-  // const loading = useSelector((state) => state.posts.postsLoading);
+  const loading = useSelector((state) => state.posts.postsLoading);
   const user = auth.user;
 
   React.useEffect(() => {
@@ -29,15 +29,14 @@ const Main = () => {
           <RightSidebar fullWidth />
         </div>
 
-        {posts &&
+        {loading ? (
+          <Loader />
+        ) : (
+          posts &&
           posts.map((post) => (
-            <PostCard
-              key={post.postID}
-              post={post}
-              loggedUser={user}
-              reload={()=>{}}
-            />
-          ))}
+            <PostCard key={post.postID} post={post} loggedUser={user} />
+          ))
+        )}
       </div>
     </>
   );

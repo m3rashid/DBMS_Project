@@ -169,7 +169,7 @@ const PostDetail = () => {
                   <Loader />
                 ) : (
                   allComments?.map((comment, index) => (
-                    <Notif key={index} comment={comment} />
+                    <Notif key={index} notif={comment} />
                   ))
                 )}
               </div>
