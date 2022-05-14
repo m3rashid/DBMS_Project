@@ -4,6 +4,8 @@ import {
   BOOKMARKS_LOADED,
   BOOKMARKS_LOADING,
   POSTS_LOADING,
+  ADD_LIKE,
+  REMOVE_LIKE,
 } from "../constants";
 
 const initialState = {
@@ -38,6 +40,16 @@ const postReducer = (state = initialState, action) => {
       return { ...state, bookmarksLoading: true };
     case POSTS_LOADING:
       return { ...state, postsLoading: true };
+
+    case ADD_LIKE:
+    case REMOVE_LIKE:
+      const posts = Object.values(state.posts).map((post) =>
+        post.postID === action.payload.postID
+          ? { ...post, isLiked: !post.isLiked }
+          : post
+      );
+      return { ...state, posts };
+
     default:
       return state;
   }

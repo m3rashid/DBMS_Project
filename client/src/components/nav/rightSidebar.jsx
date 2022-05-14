@@ -15,10 +15,7 @@ const RightSidebar = ({ fullWidth }) => {
         }`}
       >
         {!topics ? (
-          <>
-            <Loader />
-            Loading Topics . . .
-          </>
+          <Loader />
         ) : (
           <div
             className={`h-[100%] ${

@@ -43,6 +43,9 @@ export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
 
 export const UPDATE_PROFILE = "UPDATE_PROFILE";
 
+export const ADD_LIKE = "ADD_LIKE";
+export const REMOVE_LIKE = "REMOVE_LIKE";
+
 export const configContentType = {
   headers: { "Content-type": "application/json" },
 };
