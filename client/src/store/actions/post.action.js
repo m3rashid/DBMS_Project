@@ -4,13 +4,14 @@ import { toast } from "react-toastify";
 import {
   POSTS_LOADING,
   POSTS_LOADED,
-  POST_LOADED,
   BOOKMARKS_LOADING,
   BOOKMARKS_LOADED,
   BOOKMARK_ADDED,
   BOOKMARK_DELETED,
   SERVER_ROOT_URL,
   tokenConfig,
+  ADD_LIKE,
+  REMOVE_LIKE,
 } from "../constants";
 
 export const postsLoading = () => ({ type: POSTS_LOADING });
@@ -57,19 +58,20 @@ export const removeBookmark = (userID, postID) => (dispatch) => {
 };
 
 export const addLike = (userID, postID) => (dispatch) => {
-  dispatch(postsLoading());
   const body = JSON.stringify({ userID, postID });
   axios
     .post(`${SERVER_ROOT_URL}/like/add`, body, tokenConfig())
-    .then((res) => dispatch({ type: POST_LOADED, payload: res.data }))
+    .then((res) => dispatch({ type: ADD_LIKE, payload: { postID } }))
     .catch((err) => toast.error("Error adding like"));
 };
 
 export const removeLike = (userID, postID) => (dispatch) => {
-  dispatch(postsLoading());
   const body = JSON.stringify({ userID, postID });
   axios
     .post(`${SERVER_ROOT_URL}/like/remove`, body, tokenConfig())
-    .then((res) => dispatch({ type: POST_LOADED, payload: res.data }))
-    .catch((err) => toast.error("Error removing like"));
+    .then((res) => dispatch({ type: REMOVE_LIKE, payload: { postID } }))
+    .catch((err) => {
+      console.log(err);
+      toast.error("Error removing like");
+    });
 };
