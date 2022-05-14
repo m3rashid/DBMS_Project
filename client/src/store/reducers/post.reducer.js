@@ -42,10 +42,17 @@ const postReducer = (state = initialState, action) => {
       return { ...state, postsLoading: true };
 
     case ADD_LIKE:
+      const allPosts = Object.values(state.posts).map((post) =>
+          post.postID === action.payload.postID
+              ? { ...post, isLiked: true, likes: post.likes + 1 }
+              : post
+      );
+      return { ...state, allPosts };
+
     case REMOVE_LIKE:
       const posts = Object.values(state.posts).map((post) =>
         post.postID === action.payload.postID
-          ? { ...post, isLiked: !post.isLiked }
+          ? { ...post, isLiked: false, likes: post.likes - 1 }
           : post
       );
       return { ...state, posts };
