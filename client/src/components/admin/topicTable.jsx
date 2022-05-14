@@ -18,11 +18,6 @@ const TopicTable = () => {
         Cell: ({ cell }) => <>{cell.row.original.name}</>,
       },
       {
-        Header: "No. of Posts",
-        accessor: "postCount",
-        Cell: ({ cell }) => <>{cell.row.original.postCount}</>,
-      },
-      {
         Header: "Created",
         accessor: "createdAt",
         Cell: ({ cell }) => (

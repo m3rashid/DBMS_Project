@@ -40,9 +40,12 @@ const deleteUser = async (req, res) => {
 
 const getTopics = async (req, res) => {
   const db = await pool.getConnection();
-  const [topics, ___] = await db.query(
-    "select t.*,count(*) as postCount from Topic t inner join Post p on t.topicID = p.topicID group by t.name"
-  );
+  // const [topics, ___] = await db.query(
+  //   "select t.*,count(*) as postCount from Topic t inner join Post p on t.topicID = p.topicID group by t.name"
+  // );
+   const [topics, ___] = await db.query(
+     "select * from topic"
+   );
   db.release();
 
   return res.status(200).json({ topics });
@@ -58,9 +61,10 @@ const createTopic = async (req, res) => {
     topicId,
     topicName,
   ]);
-  const [topics, _] = await db.query(
-    "select t.*,count(*) as postCount from topic t inner join post p on t.topicID = p.topicID group by t.name"
-  );
+  // const [topics, _] = await db.query(
+  //   "select t.*,count(*) as postCount from topic t inner join post p on t.topicID = p.topicID group by t.name"
+  // );
+   const [topics, ___] = await db.query("select * from topic");
   db.release();
 
   return res.status(200).json({
@@ -78,9 +82,12 @@ const updateTopic = async (req, res) => {
     "update Topic set name = ?, updatedAt = CURRENT_TIMESTAMP(3) where topicID = ?",
     [topicName, topicID]
   );
-  const [topics, _] = await db.query(
-    "select t.*,count(*) as postCount from topic t inner join post p on t.topicID = p.topicID group by t.name"
-  );
+  // const [topics, _] = await db.query(
+  //   "select t.*,count(*) as postCount from topic t inner join post p on t.topicID = p.topicID group by t.name"
+  // );
+   const [topics, ___] = await db.query(
+     "select * from topic"
+   );
   db.release();
 
   return res.status(200).json({
@@ -95,9 +102,12 @@ const deleteTopic = async (req, res) => {
   const db = await pool.getConnection();
 
   await db.query("delete from Topic where topicID = ?", [topicID]);
-  const [topics, _] = await db.query(
-    "select t.*,count(*) as postCount from topic t inner join post p on t.topicID = p.topicID group by t.name"
-  );
+  // const [topics, _] = await db.query(
+  //   "select t.*,count(*) as postCount from topic t inner join post p on t.topicID = p.topicID group by t.name"
+  // );
+   const [topics, ___] = await db.query(
+     "select * from topic"
+   );
   db.release();
 
   return res.status(200).json({
