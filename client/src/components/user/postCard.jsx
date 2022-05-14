@@ -98,7 +98,7 @@ const Card = ({ post, loggedUser, reload }) => {
       ? dispatch(removeBookmark(loggedUser.userID, post.postID))
       : dispatch(addBookmark(loggedUser.userID, post.postID));
     setBookmarked(!Bookmarked);
-    reload();
+    reload && reload();
   };
   const handleComment = () => {};
 
