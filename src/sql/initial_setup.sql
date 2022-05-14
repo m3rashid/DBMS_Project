@@ -190,3 +190,7 @@ ADD CONSTRAINT `Like_userID_fkey` FOREIGN KEY (`userID`) REFERENCES `User`(`user
 ALTER TABLE `Like`
 ADD CONSTRAINT `Like_postID_fkey` FOREIGN KEY (`postID`) REFERENCES `Post`(`postID`) ON DELETE RESTRICT ON UPDATE CASCADE;
 rename table `like` to likes;
+alter table friendship
+    change createdAt comment_createdAt datetime(3) default CURRENT_TIMESTAMP(3) not null;
+alter table friendship
+    change updatedAt comment_updatedAt datetime(3) default CURRENT_TIMESTAMP(3) not null;
