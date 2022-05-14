@@ -1,15 +1,10 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getTopics } from "../../store/actions/auth.action";
+import Loader from "../loader";
 
 const RightSidebar = ({ fullWidth }) => {
-  const dispatch = useDispatch();
-  React.useEffect(() => {
-    dispatch(getTopics());
-  }, [dispatch]);
-
   const topics = useSelector((state) => state.auth.topics);
 
   return (
@@ -20,7 +15,10 @@ const RightSidebar = ({ fullWidth }) => {
         }`}
       >
         {!topics ? (
-          "Loading Topics . . . "
+          <>
+            <Loader />
+            Loading Topics . . .
+          </>
         ) : (
           <div
             className={`h-[100%] ${

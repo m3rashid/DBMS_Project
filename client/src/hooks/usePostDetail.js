@@ -17,8 +17,6 @@ import {
 const maxBodyLength = 10000;
 
 const usePostDetail = (singlePost, classification, loggedUser) => {
-  const [loading, setLoading] = React.useState(false);
-
   const user = {
     userName: singlePost.userName,
     userId: singlePost.userID,
@@ -82,11 +80,12 @@ const usePostDetail = (singlePost, classification, loggedUser) => {
   const [isLiked, setLiked] = React.useState(postDetail.isLiked);
   const [Likes, setLikes] = React.useState(postDetail.likes);
   const [Bookmarked, setBookmarked] = React.useState(postDetail.isBookmarked);
-  const [commentOpen, setCommentOpen] = React.useState(false);
+  const [commentOpen, setCommentOpen] = React.useState(true);
   const [commentText, setCommentText] = React.useState("");
   const [commentsCount, setCommentsCount] = React.useState(
     postDetail.commentsCount
   );
+  const [addCommentLoading, setAddCommentLoading] = React.useState(false);
 
   React.useEffect(() => {
     setLiked(postDetail.isLiked);
@@ -117,8 +116,9 @@ const usePostDetail = (singlePost, classification, loggedUser) => {
       return;
     }
 
+    let commentRes
     try {
-      setLoading(true);
+      setAddCommentLoading(true);
       const res = await axios.post(
         `${SERVER_ROOT_URL}/comments/addComments`,
         JSON.stringify({
@@ -128,18 +128,15 @@ const usePostDetail = (singlePost, classification, loggedUser) => {
         }),
         { headers }
       );
-      const commentRes = await res.data.comment;
-      toast.success("Comment posted successfully");
-      setCommentText("");
+      commentRes = await res.data.comment;
       setCommentsCount(commentsCount + 1);
-      setLoading(false);
-      return commentRes;
     } catch (err) {
-      setLoading(false);
       toast.error("Error adding comment");
     }
-
+    setAddCommentLoading(false);
     setCommentText("");
+
+    return commentRes
   };
 
   const handleOpenComment = () => {
@@ -173,7 +170,7 @@ const usePostDetail = (singlePost, classification, loggedUser) => {
       commentText,
       inputCharLength,
       analysis,
-      loading,
+      addCommentLoading,
     },
     handleLikeSubmit,
     handleCommentSubmit,

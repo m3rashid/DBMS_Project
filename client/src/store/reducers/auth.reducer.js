@@ -24,7 +24,6 @@ const initialState = {
   isAuthUser: false,
   isAuthAdmin: false,
   token: "",
-  // token: localStorage.getItem("connect-token"),
   isLoading: false,
   user: null,
   avatar: null,
@@ -36,30 +35,15 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case DELETE_USER_SUCCESS:
-      return {
-        ...state,
-        users: action.payload.users,
-      };
-
+      return { ...state, users: action.payload.users };
     case DELETE_POST_SUCCESS:
-      return {
-        ...state,
-        posts: action.payload.posts,
-      };
-
+      return { ...state, posts: action.payload.posts };
     case DELETE_TOPIC_SUCCESS:
-      return {
-        ...state,
-        topics: action.payload.topics,
-      };
+      return { ...state, topics: action.payload.topics };
 
     case USER_LOADING:
     case ADMIN_LOADING:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
+      return { ...state, isLoading: true };
     case USER_LOADED:
       return {
         ...state,
@@ -68,7 +52,6 @@ const authReducer = (state = initialState, action) => {
         isAuthAdmin: false,
         isLoading: false,
       };
-
     case ADMIN_LOADED:
       return {
         ...state,
@@ -85,9 +68,7 @@ const authReducer = (state = initialState, action) => {
     case ADMIN_LOGIN_FAIL:
       localStorage.removeItem("connect-token");
       localStorage.removeItem("lastLogin");
-      return {
-        ...initialState,
-      };
+      return { ...initialState, topics: state.topics, posts: state.posts };
 
     case LOGIN_SUCCESS:
       localStorage.setItem("connect-token", action.payload.token);
@@ -114,34 +95,15 @@ const authReducer = (state = initialState, action) => {
       };
 
     case REGISTER_SUCCESS:
-      return {
-        ...state,
-      };
-
+      return { ...state };
     case TOPIC_GOT:
-      return {
-        ...state,
-        topics: action.payload,
-      };
-
+      return { ...state, topics: action.payload };
     case TOPIC_GOT_FAIL:
-      return {
-        ...state,
-      };
+      return { ...state };
     case AVATAR_CHANGE:
-      return {
-        ...state,
-        avatar: action.payload,
-      };
+      return { ...state, avatar: action.payload };
     case UPDATE_PROFILE:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          ...action.payload,
-        },
-      };
-
+      return { ...state, user: { ...state.user, ...action.payload } };
     default:
       return state;
   }

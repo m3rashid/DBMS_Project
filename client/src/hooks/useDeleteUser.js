@@ -20,14 +20,8 @@ const useDeleteUser = () => {
         body,
         tokenConfig()
       );
-      dispatch({
-        type: DELETE_USER_SUCCESS,
-        payload: res.data,
-      });
-      dispatch({
-        type: DELETE_POST_SUCCESS,
-        payload: res.data,
-      });
+      dispatch({ type: DELETE_USER_SUCCESS, payload: res.data });
+      dispatch({ type: DELETE_POST_SUCCESS, payload: res.data });
       setTimeout(() => {
         toast.update(userToast, {
           render: "Successfully deleted User",
@@ -46,7 +40,9 @@ const useDeleteUser = () => {
     }
   };
 
-  return { deleteUser };
+  return {
+    deleteUser,
+  };
 };
 
 export default useDeleteUser;

@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { loadUser } from "./store/actions/auth.action";
+import { getTopics, loadUser } from "./store/actions/auth.action";
 import { AdminPage, LoginPage, UserPage } from "./components/routes";
 
 const App = () => {
@@ -16,6 +16,7 @@ const App = () => {
 
   React.useEffect(() => {
     dispatch(loadUser());
+    dispatch(getTopics());
   }, [dispatch]);
 
   return (

@@ -1,20 +1,17 @@
 import {
-  // ADD_POST_SUCCESS,
-  // ADD_POST_FAIL,
-  // DELETE_POST_SUCCESS,
-  // DELETE_POST_FAIL,
-  // POSTS_LOADING,
   POSTS_LOADED,
   POST_LOADED,
   BOOKMARKS_LOADED,
-  BOOKMARK_ADDED,
-  BOOKMARK_DELETED,
+  BOOKMARKS_LOADING,
+  POSTS_LOADING,
 } from "../constants";
 
 const initialState = {
   posts: {},
   post: {},
   bookmarks: {},
+  bookmarksLoading: false,
+  postsLoading: false,
 };
 
 const postReducer = (state = initialState, action) => {
@@ -22,31 +19,25 @@ const postReducer = (state = initialState, action) => {
     case POSTS_LOADED:
       return {
         ...state,
-        posts: {
-          ...action.payload.posts,
-        },
+        postsLoading: false,
+        posts: { ...action.payload.posts },
       };
-
     case POST_LOADED:
       return {
         ...state,
-        post: {
-          ...action.payload.post,
-        },
+        postsLoading: false,
+        post: { ...action.payload.post },
       };
-
     case BOOKMARKS_LOADED:
       return {
         ...state,
-        bookmarks: {
-          ...action.payload.bookmarks,
-        },
+        bookmarksLoading: false,
+        bookmarks: { ...action.payload.bookmarks },
       };
-
-    // maybe no use
-    // case BOOKMARK_ADDED:
-    // case BOOKMARK_DELETED:
-
+    case BOOKMARKS_LOADING:
+      return { ...state, bookmarksLoading: true };
+    case POSTS_LOADING:
+      return { ...state, postsLoading: true };
     default:
       return state;
   }

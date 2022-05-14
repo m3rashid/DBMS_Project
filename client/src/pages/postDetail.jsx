@@ -55,6 +55,7 @@ const PostDetail = () => {
       commentOpen,
       commentText,
       inputCharLength,
+      addCommentLoading,
     },
     handleLikeSubmit,
     handleCommentSubmit,
@@ -64,14 +65,12 @@ const PostDetail = () => {
   } = usePostDetail(singlePost, classification, loggedUser);
 
   const iconContainerStyles =
-    "flex gap-2 items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2 cursor-pointer";
+    "select-none flex gap-2 items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2 cursor-pointer";
 
   const handleAddComment = async (e) => {
     e.preventDefault();
     const comment = await handleCommentSubmit();
-    setAllComments((prev) => {
-      return [...prev, comment];
-    });
+    setAllComments((prev) => [...prev, comment]);
   };
 
   if (loading) {
@@ -159,15 +158,20 @@ const PostDetail = () => {
                   <button
                     className="bg-blue-500 text-gray-200 rounded-full px-4 py-2 text-lg font-semibold max-w-[200px]"
                     onClick={handleAddComment}
+                    disabled={addCommentLoading}
                   >
                     Add Comment
                   </button>
                 ) : null}
               </div>
               <div className="flex flex-col gap-2 mt-4 mb-1">
-                {allComments?.map((comment, index) => (
-                  <Notif key={index} comment={comment} />
-                ))}
+                {addCommentLoading ? (
+                  <Loader />
+                ) : (
+                  allComments?.map((comment, index) => (
+                    <Notif key={index} notif={comment} />
+                  ))
+                )}
               </div>
             </div>
           ) : null}
