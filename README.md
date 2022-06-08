@@ -1,5 +1,5 @@
 <h2 align="center">Database Management systems Project</h2>
-<h3 align="center">Social Media App</h3>
+<h3 align="center">JMI CONNECT - Social media app</h3>
 
 <br>
 
